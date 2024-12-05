@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: tiktok_ads
+    description: TikTok execution data
+    loader: Fivetran
+    database: quip-etl-data
+    tables:
+      - name: campaign_report_hourly
+      - name: campaign_history
+      - name: ad_report_hourly
+      - name: ad_history
+      - name: adgroup_history

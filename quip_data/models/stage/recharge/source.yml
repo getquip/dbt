@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+    - name: recharge
+      database: quip-etl-data # change to quip-dw-raw after https://getquip.atlassian.net/browse/DATA-2423
+      tables:
+        - name: order
+        - name: order_line_item
+        - name: charge
+        - name: charge_line_item
+        - name: subscription_history
+        - name: subscription
+        - name: customer

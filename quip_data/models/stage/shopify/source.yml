@@ -1,0 +1,54 @@
+version: 2
+
+sources:
+  - name: shopify
+    database: quip-etl-data # change to quip-dw-raw after https://getquip.atlassian.net/browse/DATA-2423
+    schema: shopify
+    tables:
+      - name: order
+        description: "This table contains order data from Shopify."
+
+      - name: order_line
+        description: "This table contains the line item data for each order in Shopify."
+
+      - name: customer
+        description: "This table contains customer data from Shopify."
+
+      - name: product
+        description: "This table contains product data from Shopify."
+
+      - name: product_variant
+        description: "This table contains the variants of products in Shopify."
+
+      - name: fulfillment
+        description: "This table contains fulfillment data from Shopify."
+
+      - name: inventory_level
+        description: "This table contains inventory levels for products in Shopify."
+
+      - name: shipping_address
+        description: "This table contains shipping address data for orders in Shopify."
+
+      - name: refund
+        description: "This table contains refund data for Shopify orders."
+
+      - name: discount_code
+        description: "This table contains discount code data for Shopify orders."
+
+      - name: transaction
+        description: "This table contains transaction data related to Shopify orders."
+
+      - name: metafield
+      - name: discount_application
+      - name: order_discount_code
+      - name: gift_card
+      - name: order_tag
+      - name: order_shipping_line
+      - name: discount_allocation
+      - name: fulfillment_event
+      - name: order_shipping_tax_line
+      - name: customer_tag
+      - name: order_line_refund
+      - name: order_note_attribute
+      - name: order_risk
+      
