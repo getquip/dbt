@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+    - name: bingads
+      description: Data offloaded by Fivetran related to campaign level ad spend for Bing
+      loader: Fivetran
+      database: quip-etl-data
+      tables:
+        - name: campaign_performance_daily_report
+        - name: campaign_history

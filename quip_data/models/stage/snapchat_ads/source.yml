@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: snapchat_ads
+    description: Data offloaded by Fivetran related to campaign-level ad spend for Snapchat
+    loader: Fivetran
+    database: quip-etl-data
+    tables:
+      - name: ad_squad_hourly_report
+      - name: ad_squad_history
+      - name: campaign_history

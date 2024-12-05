@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: stripe
+    loader: fivetran
+    database: quip-etl-data # change to quip-dw-raw after https://getquip.atlassian.net/browse/DATA-2423
+    tables:
+    freshness: # default freshness
+      warn_after: {count: 2, period: hour}
+      error_after: {count: 24, period: hour}
+    loaded_at_field: _fivetran_synced
+    tables:
+      - name: charge
+      - name: card
+      - name: dispute
+      - name: balance_transaction
+      - name: refund

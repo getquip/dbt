@@ -1,0 +1,9 @@
+version: 2
+
+macros:
+  - name: generate_schema_name
+    description: >
+      The purpose of this macro is to dynamically generate dataset names in Bigquery for developers. For example, model stage/shopify/stg_shopify__model will appear in BQ in the following path: quip-dw-stage.developername_shopify.stg_shopify__model
+  - name: generate_database_name
+    description: >
+      The purpose of this macro is to dynamically generate database names based on the dbt target. If the target is prod, the database name will be quip-dw-stage. If the target is dev, the database name will be quip-dw-stage-dev.

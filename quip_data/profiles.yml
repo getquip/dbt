@@ -1,0 +1,10 @@
+bigquery:
+    target: dev # This sets the default target when one is not specified in the dbt command
+    outputs:
+      dev:
+        type: bigquery
+        method: oauth
+        project: quip-dw-mart-dev # The project value determines which project is billed.
+        dataset: "{{ env_var('DBT_GCP_BQ_DATASET') }}" # this should be the developer's name
+        threads: 4
+        timeout_seconds: 1200

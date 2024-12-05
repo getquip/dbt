@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+    - name: outbrain
+      description: Data offloaded by Fivetran related to campaign level ad spend for Outbrain
+      loader: Fivetran
+      database: quip-etl-data
+      tables:
+        - name: campaign_report
+        - name: campaign_history
