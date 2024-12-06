@@ -17,7 +17,7 @@ sources:
       - name: collection_product
       - name: company
       - name: company_contact
-      - name: country
+      - name: LOWER(country) AS country
       - name: customer
       - name: customer_address
       - name: customer_segment
@@ -57,7 +57,7 @@ sources:
       - name: payout
       - name: price_rule
       - name: price_rule_ent_collection
-      - name: price_rule_ent_country
+      - name: price_rule_ent_LOWER(country) AS country
       - name: price_rule_ent_product
       - name: price_rule_ent_variant
       - name: price_rule_prereq_collection

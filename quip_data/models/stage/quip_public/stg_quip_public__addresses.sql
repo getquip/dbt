@@ -9,15 +9,15 @@ WITH source AS (
         , addressable_id
         -- timestamps
         , _fivetran_deleted AS is_source_deleted
-        , _fivetran_synced AS synced_at
+        , _fivetran_synced AS source_synced_at
         , created_at
         , updated_at
 
         , address_type
         , addressable_type
         , care_of
-        , city
-        , country
+        , LOWER(city) AS city
+        , LOWER(country) AS country
         , name
         , phone
         , postal_code

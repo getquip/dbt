@@ -3,7 +3,7 @@ WITH source AS (
 )
 
 SELECT
-    _fivetran_synced AS synced_at
+    _fivetran_synced AS source_synced_at
     _fivetran_deleted AS is_source_deleted
     , * EXCEPT(_fivetran_synced, _fivetran_deleted)
 FROM source

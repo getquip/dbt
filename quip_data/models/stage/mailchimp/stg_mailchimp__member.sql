@@ -3,6 +3,6 @@ WITH source AS (
 )
 
 SELECT
-    _fivetran_synced AS synced_at
+    _fivetran_synced AS source_synced_at
     , * EXCEPT(_fivetran_synced)
 FROM source
