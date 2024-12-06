@@ -1,0 +1,10 @@
+[0m14:56:29  Encountered an error:
+Compilation Error
+  dbt found two sources with the name "tiktok_ads_ad_history".
+  
+  Since these resources have the same name, dbt will be unable to find the correct resource
+  when looking for source("tiktok_ads", "ad_history").
+  
+  To fix this, change the name of one of these resources:
+  - source.quip_data.tiktok_ads.ad_history (models/stage/tiktok_ads/_sources.yml)
+  - source.quip_data.tiktok_ads.ad_history (models/stage/tiktok_ads/source.yml)

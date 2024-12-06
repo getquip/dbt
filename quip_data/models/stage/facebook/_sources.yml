@@ -1,0 +1,5 @@
+[0m14:58:43  Encountered an error:
+Parsing Error
+  Error reading quip_data: stage/pinterest_ads/_sources.yml - Runtime Error
+    unacceptable character #x001b: control characters are not allowed
+      in "<unicode string>", position 0

@@ -32,7 +32,7 @@ Being in the correct directory ensures that dbt can locate all required configur
 
 ---
 
-## Development
+## Development Environment
 
 ### Target (`dev`)  
 The `dev` target is configured to provide developers with isolated environments to build and test dbt models without affecting production data. This target appends `-dev` to BigQuery (BQ) project names, ensuring a clear separation between development and production environments.  
@@ -61,6 +61,9 @@ The destination databases in BigQuery align with the transformation layers and t
 
 This structure mirrors the folder organization in the dbt project and ensures a seamless transition from development to production.
 
+## Development Tips
+
+- [dbt codegen](https://hub.getdbt.com/dbt-labs/codegen/latest/) package is helpful for generating sources, yml files, etc.
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)

@@ -1,9 +1,0 @@
-version: 2
-
-sources:
-  - name: taboola
-    description: Data offloaded by Fivetran related to campaign-level ad spend for Taboola
-    loader: Fivetran
-    database: quip-etl-data
-    tables:
-      - name: content_provider_platform_report
