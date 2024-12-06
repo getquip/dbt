@@ -64,6 +64,15 @@ This structure mirrors the folder organization in the dbt project and ensures a 
 ## Development Tips
 
 - [dbt codegen](https://hub.getdbt.com/dbt-labs/codegen/latest/) package is helpful for generating sources, yml files, etc.
+```zsh
+# Recommended:
+
+## Generate _sources yml
+$ dbt --quiet run-operation generate_source --args '{"schema_name": "SCHEMA_NAME", "database_name": "SOURCE_DATABASE"}' > models/stage/SCHEMA_NAME/_sources.yml
+
+## Generate stage yml
+$ dbt --quiet run-operation generate_model_yaml --args '{"model_names": ["MODEL_NAME"]}' > models/TRANSFORMATION_LAYER/SCHEMA_NAME/schemas/MODEL_NAME.yml
+```
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
@@ -71,3 +80,5 @@ This structure mirrors the folder organization in the dbt project and ensures a 
 - Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+

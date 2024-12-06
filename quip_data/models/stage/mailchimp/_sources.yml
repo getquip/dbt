@@ -1,10 +1,22 @@
-[0m14:56:29  Encountered an error:
-Compilation Error
-  dbt found two sources with the name "tiktok_ads_ad_history".
-  
-  Since these resources have the same name, dbt will be unable to find the correct resource
-  when looking for source("tiktok_ads", "ad_history").
-  
-  To fix this, change the name of one of these resources:
-  - source.quip_data.tiktok_ads.ad_history (models/stage/tiktok_ads/_sources.yml)
-  - source.quip_data.tiktok_ads.ad_history (models/stage/tiktok_ads/source.yml)
+version: 2
+
+sources:
+  - name: mailchimp
+    database: quip-etl-data
+    tables:
+      - name: automation
+      - name: automation_email
+      - name: automation_recipient
+      - name: automation_recipient_activity
+      - name: campaign
+      - name: campaign_recipient
+      - name: campaign_recipient_activity
+      - name: campaign_variate_combination
+      - name: fivetran_audit
+      - name: list
+      - name: member
+      - name: segment
+      - name: segment_member
+      - name: unsubscribe
+
+

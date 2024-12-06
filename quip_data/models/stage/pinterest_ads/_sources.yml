@@ -1,5 +1,0 @@
-[0m14:57:44  Encountered an error:
-Parsing Error
-  Error reading quip_data: stage/shopify/_sources.yml - Runtime Error
-    unacceptable character #x001b: control characters are not allowed
-      in "<unicode string>", position 0

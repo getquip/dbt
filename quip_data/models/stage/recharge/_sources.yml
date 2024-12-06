@@ -1,5 +1,24 @@
-[0m14:57:30  Encountered an error:
-Parsing Error
-  Error reading quip_data: stage/shopify/_sources.yml - Runtime Error
-    unacceptable character #x001b: control characters are not allowed
-      in "<unicode string>", position 0
+version: 2
+
+sources:
+  - name: recharge
+    database: quip-etl-data
+    tables:
+      - name: address
+      - name: address_discounts
+      - name: charge
+      - name: charge_discount
+      - name: charge_line_item
+      - name: charge_order_attribute
+      - name: charge_shipping_line
+      - name: charge_tax_line
+      - name: customer
+      - name: discount
+      - name: one_time_product
+      - name: order
+      - name: order_line_item
+      - name: payment_method
+      - name: plan
+      - name: subscription
+      - name: subscription_history
+      - name: utm_tag

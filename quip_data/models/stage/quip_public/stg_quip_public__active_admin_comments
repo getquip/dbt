@@ -1,0 +1,26 @@
+WITH source AS (
+    SELECT * FROM {{ source("quip_public", "active_admin_comments") }}
+)
+
+, renamed AS (
+    SELECT 
+        -- ids
+        id
+        , resource_id
+        , author_id
+        
+        -- timestamps
+        , _fivetran_deleted AS is_source_deleted
+        , _fivetran_synced AS synced_at
+        , created_at
+        , updated_at
+
+        , author_type
+        , resource_type
+        , body
+        , namespace
+    FROM source
+)
+
+SELECT * FROM renamed
+WHERE NOT is_source_deleted

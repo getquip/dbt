@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: stg_recharge__customer
+    description: ""
+    columns:
+      - name: id
+        data_type: int64
+        description: ""
+
+      - name: _fivetran_deleted
+        data_type: boolean
+        description: ""
+
+      - name: _fivetran_synced
+        data_type: timestamp
+        description: ""
+
+      - name: created_at
+        data_type: timestamp
+        description: ""
+
+      - name: email
+        data_type: string
+        description: ""
+
+      - name: external_customer_id_ecommerce
+        data_type: string
+        description: ""
+
+      - name: first_charge_processed_at
+        data_type: timestamp
+        description: ""
+
+      - name: first_name
+        data_type: string
+        description: ""
+
+      - name: has_payment_method_in_dunning
+        data_type: boolean
+        description: ""
+
+      - name: has_valid_payment_method
+        data_type: boolean
+        description: ""
+
+      - name: hash
+        data_type: string
+        description: ""
+
+      - name: is_deleted
+        data_type: boolean
+        description: ""
+
+      - name: last_name
+        data_type: string
+        description: ""
+
+      - name: subscriptions_active_count
+        data_type: int64
+        description: ""
+
+      - name: subscriptions_total_count
+        data_type: int64
+        description: ""
+
+      - name: tax_exempt
+        data_type: boolean
+        description: ""
+
+      - name: updated_at
+        data_type: timestamp
+        description: ""
+
