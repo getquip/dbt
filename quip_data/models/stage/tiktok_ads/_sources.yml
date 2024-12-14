@@ -1,0 +1,33 @@
+version: 2
+
+sources:
+  - name: tiktok_ads
+    database: quip-etl-data
+    tables:
+      - name: ad_age_gender_report
+      - name: ad_LOWER(country) AS country_report
+      - name: ad_history
+      - name: ad_language_report
+      - name: ad_platform_report
+      - name: ad_report_daily
+      - name: ad_report_hourly
+      - name: ad_report_lifetime
+      - name: adgroup_history
+      - name: adgroup_report_daily
+      - name: adgroup_report_hourly
+      - name: adgroup_report_lifetime
+      - name: advertiser
+      - name: campaign_age_gender_report
+      - name: campaign_LOWER(country) AS country_report
+      - name: campaign_history
+      - name: campaign_language_report
+      - name: campaign_platform_report
+      - name: campaign_report_daily
+      - name: campaign_report_hourly
+      - name: campaign_report_lifetime
+      - name: fivetran_audit
+      - name: image_history
+      - name: pixel
+      - name: pixel_event
+      - name: pixel_statistic
+      - name: video_history

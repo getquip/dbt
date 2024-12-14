@@ -21,6 +21,8 @@ Being in the correct directory ensures that dbt can locate all required configur
 
 ## Transformation Layers  
 
+We are utilizing dbt best practices, which means we separate the stages of the transformation process into their respective layers. Read more [here](https://www.getdbt.com/analytics-engineering/modular-data-modeling-technique).
+
 1. **Stage Layer**  
    The stage layer is responsible for bringing raw source data into the dbt project. Here, we apply light transformations such as renaming columns, standardizing data types, and cleaning up raw values. This layer ensures that the data is in a consistent and usable format for further processing.  
 
@@ -32,7 +34,7 @@ Being in the correct directory ensures that dbt can locate all required configur
 
 ---
 
-## Development
+## Development Environment
 
 ### Target (`dev`)  
 The `dev` target is configured to provide developers with isolated environments to build and test dbt models without affecting production data. This target appends `-dev` to BigQuery (BQ) project names, ensuring a clear separation between development and production environments.  
@@ -61,6 +63,18 @@ The destination databases in BigQuery align with the transformation layers and t
 
 This structure mirrors the folder organization in the dbt project and ensures a seamless transition from development to production.
 
+## Development Tips
+
+- [dbt codegen](https://hub.getdbt.com/dbt-labs/codegen/latest/) package is helpful for generating sources, yml files, etc.
+```zsh
+# Recommended:
+
+## Generate _sources yml
+$ dbt --quiet run-operation generate_source --args '{"schema_name": "SCHEMA_NAME", "database_name": "SOURCE_DATABASE"}' > models/stage/SCHEMA_NAME/_sources.yml
+
+## Generate stage yml
+$ dbt --quiet run-operation generate_model_yaml --args '{"model_names": ["MODEL_NAME"]}' > models/TRANSFORMATION_LAYER/SCHEMA_NAME/schemas/MODEL_NAME.yml
+```
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
@@ -68,3 +82,5 @@ This structure mirrors the folder organization in the dbt project and ensures a 
 - Join the [chat](https://community.getdbt.com/) on Slack for live discussions and support
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+

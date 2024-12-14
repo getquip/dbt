@@ -1,0 +1,61 @@
+version: 2
+
+tables:
+  - name: stg_shopify__orders
+    description: ""
+    columns:
+      - name: order_id
+        description: "Unique identifier for the order."
+        data_type: integer
+
+      - name: email
+        description: "Email address of the customer who placed the order."
+        data_type: string
+
+      - name: closed_at
+        description: "Date and time when the order was closed. Null if open."
+        data_type: timestamp
+
+      - name: created_at
+        description: "Date and time when the order was created."
+        data_type: timestamp
+
+      - name: updated_at
+        description: "Date and time when the order was last updated."
+        data_type: timestamp
+
+      - name: total_price
+        description: "Total price of the order."
+        data_type: decimal
+
+      - name: currency
+        description: "Currency of the transaction."
+        data_type: string
+
+      - name: user_id
+        description: "Unique identifier for the customer"
+        data_type: integer
+
+      - name: payment_status
+        description: "Status of the financial transactions associated with the order."
+        data_type: string
+
+      - name: fulfillment_status
+        description: "Status of the fulfillment process for the order."
+        data_type: string
+
+      - name: line_items
+        description: "JSON array of line items in the order."
+        data_type: json
+
+      - name: shipping_address
+        description: "JSON object representing the shipping address."
+        data_type: json
+
+      - name: billing_address
+        description: "JSON object representing the billing address."
+        data_type: json
+
+      - name: order_number
+        description: "Order number assigned by Shopify."
+        data_type: integer

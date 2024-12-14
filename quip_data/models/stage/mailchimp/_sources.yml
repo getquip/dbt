@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: mailchimp
+    database: quip-etl-data
+    tables:
+      - name: automation
+      - name: automation_email
+      - name: automation_recipient
+      - name: automation_recipient_activity
+      - name: campaign
+      - name: campaign_recipient
+      - name: campaign_recipient_activity
+      - name: campaign_variate_combination
+      - name: fivetran_audit
+      - name: list
+      - name: member
+      - name: segment
+      - name: segment_member
+      - name: unsubscribe
+
+

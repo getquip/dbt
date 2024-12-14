@@ -1,5 +1,5 @@
 WITH source AS (
-    SELECT * FROM {{ source('shopify', 'transaction') }}
+    SELECT * FROM {{ source('mailchimp', 'member') }}
 )
 
 SELECT
