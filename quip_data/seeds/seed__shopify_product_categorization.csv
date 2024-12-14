@@ -1,0 +1,267 @@
+sku,component_master_category,component_master_subcategory,component_category,component_color,component_material,component_consumer,component_edition,component_version,component_has_revenue,component_is_smart,component_is_refillable_product
+700-00250,gift,gift_voucher,gift_voucher,,,,,,true,false,false
+700-00251,gift,gift_voucher,gift_voucher,,,,,,true,false,false
+700-00252,gift,gift_voucher,gift_voucher,,,,,,true,false,false
+830-00003,brush,accessory,travel_cover,,,,,,true,false,false
+830-00025,brush,accessory,travel_cover,,,,,,true,false,false
+830-00097,brush,accessory,travel_cover,yellow,,,,,true,false,false
+830-00132,brush,accessory,travel_cover,pink,,,All Pink,,true,false,false
+830-00155,brush,accessory,travel_cover,pink,,,All Pink,,true,false,false
+830-00228,brush,accessory,travel_cover,white,,,,,true,false,false
+830-00229,brush,accessory,travel_cover,black,,,All Black,,true,false,false
+830-00230,brush,accessory,travel_cover,pink,,,All Pink,,true,false,false
+830-00231,brush,accessory,travel_cover,ocean_blue,,,,,true,false,false
+830-00232,brush,accessory,travel_cover,sky_blue,,,,,true,false,false
+830-00269,brush,accessory,travel_cover,green,,,GITD,,true,false,false
+830-00270,brush,accessory,travel_cover,pink,,,GITD,,true,false,false
+830-00272,brush,accessory,travel_cover,blue,,,GITD,,true,false,false
+830-00273,brush,accessory,travel_cover,purple,,,GITD,,true,false,false
+900-00005,brush,brush,brush,copper,metal,adult,,,true,false,false
+900-00005-R,brush,brush,brush,copper,metal,adult,,,true,false,false
+900-00006,brush,brush,brush,gold,metal,adult,,,true,false,false
+900-00007,brush,brush,brush,silver,metal,adult,,,true,false,false
+900-00007-R,brush,brush,brush,silver,metal,adult,,,true,false,false
+900-00008,brush,brush,brush,slate,metal,adult,,,true,false,false
+900-00009,brush,brush,brush_refill,white,,adult,,original,true,false,true
+900-00014,brush,brush,brush,blue,plastic,adult,,,true,false,false
+900-00014-R,brush,brush,brush,blue,plastic,adult,,,true,false,false
+900-00015,brush,brush,brush,green,plastic,adult,,,true,false,false
+900-00015-R,brush,brush,brush,green,plastic,adult,,,true,false,false
+900-00024,brush,brush,brush,black,metal,adult,All Black,,true,false,false
+900-00028,brush,brush,brush,white,plastic,adult,,,true,false,false
+900-00029,brush,brush,brush,pink,metal,adult,,,true,false,false
+900-00030,brush,brush,brush,green,metal,adult,,,true,false,false
+900-00031,brush,brush,brush,red,metal,adult,(RED),,true,false,false
+900-00033,paste,paste,paste,,,adult,,,true,false,true
+900-00034,paste,paste,paste,,,adult,travel,,true,false,true
+900-00038,brush,brush,brush_refill,white,,kids,,original,true,false,true
+900-00039,brush,brush,brush,green,plastic,kids,,,true,false,false
+900-00040,brush,brush,brush,blue,plastic,kids,,,true,false,false
+900-00041,brush,brush,brush,purple,plastic,kids,,,true,false,false
+900-00042,brush,brush,brush,pink,plastic,kids,,,true,false,false
+900-00046,brush,brush,brush_refill,black,,adult,All Black,original,true,false,true
+900-00049,brush,brush,brush,purple,metal,adult,,,true,false,false
+900-00050,paste,paste,paste,,,kids,,,true,false,true
+900-00051,paste,paste,paste,,,kids,travel,,true,false,true
+900-00071,paste,paste,paste,black,,adult,All Black,,true,false,true
+900-00073,brush,brush,brush,dark_aqua,metal,adult,,,true,false,false
+900-00074,brush,brush,brush,light_aqua,metal,adult,,,true,false,false
+900-00078,floss,strand,strand_refill,,,,,,true,false,true
+900-00086,floss,strand,strand,silver,metal,,,,true,false,false
+900-00087,floss,strand,strand,gold,metal,,,,true,false,false
+900-00088,floss,strand,strand,slate,metal,,,,true,false,false
+900-00089,floss,strand,strand,copper,metal,,,,true,false,false
+900-00091,floss,strand,strand,gray,plastic,,,,true,false,false
+900-00094,accessory,solar_charger,solar_charger,,,,,,true,false,false
+900-00096,accessory,dopp,dopp,black,,,,,true,false,false
+900-00097,accessory,dopp,dopp,gray,,,,,true,false,false
+900-00098,accessory,dopp,dopp,copper,,,,,true,false,false
+900-00099,accessory,dopp,dopp,green,,,,,true,false,false
+900-00102,brush,brush,brush_refill,white,,adult,,original,true,false,true
+900-00109,brush,brush,brush_refill,black,,adult,All Black,original,true,false,true
+900-00110,brush,brush,brush_refill,white,,kids,,original,true,false,true
+900-00111,floss,floss_pick,floss_pick,gold,metal,,,,true,false,false
+900-00112,floss,floss_pick,floss_pick,silver,metal,,,,true,false,false
+900-00113,floss,floss_pick,floss_pick,slate,metal,,,,true,false,false
+900-00114,floss,floss_pick,floss_pick,copper,metal,,,,true,false,false
+900-00115,floss,floss_pick,floss_pick,white,plastic,,,,true,false,false
+900-00120,brush,motor,motor,,,,smart,,true,true,false
+900-00121,brush,brush,brush_refill,white,,adult,,ultra_soft,true,false,true
+900-00122,mouthwash,mouthwash,mouthwash_refill,,,,,,true,false,true
+900-00123,floss,floss_pick,floss_pick_refill,,,,,original,true,false,true
+900-00127,brush,brush,brush,black,metal,adult,All Black,,true,true,false
+900-00128,brush,brush,brush,white,plastic,adult,All White,,true,true,false
+900-00129,brush,brush,brush,yellow,plastic,kids,All Yellow,,true,true,false
+900-00131,consumables,gum,gum_refill,,,,,nine_pack,true,false,true
+900-00133-R,brush,brush,brush,magenta,plastic,adult,,,true,false,false
+900-00133,brush,brush,brush,magenta,plastic,adult,,,true,false,false
+900-00135,floss,strand,strand,black,metal,,All Black,,true,false,false
+900-00137,brush,brush,brush,pink,plastic,kids,,,true,false,false
+900-00138,brush,brush,brush,purple,plastic,kids,,,true,false,false
+900-00139,brush,brush,brush,green,plastic,kids,,,true,false,false
+900-00140,brush,brush,brush,blue,plastic,kids,,,true,false,false
+900-00141,brush,brush,brush_refill,yellow,,kids,All Yellow,original,true,false,true
+900-00142,brush,brush,brush_refill,white,,adult,All White,original,true,false,true
+900-00144,brush,brush,brush,pink,metal,adult,All Pink,,true,false,false
+900-00145,brush,brush,brush_refill,pink,,adult,All Pink,original,true,false,true
+900-00146,floss,strand,strand_refill,,,,,,true,false,true
+900-00148,paste,paste,paste,,,adult,,,true,false,true
+900-00149,paste,paste,paste,,,kids,,,true,false,true
+900-00150,floss,strand,strand,white,plastic,,,,true,false,false
+900-00160,mouthwash,mouthwash,mouthwash,white,plastic,,,,true,false,false
+900-00161,floss,floss_pick,floss_pick,black,metal,,All Black,,true,false,false
+900-00163,mouthwash,mouthwash,mouthwash,silver,metal,,,,true,false,false
+900-00164,mouthwash,mouthwash,mouthwash,gold,metal,,,,true,false,false
+900-00165,mouthwash,mouthwash,mouthwash,copper,metal,,,,true,false,false
+900-00166,mouthwash,mouthwash,mouthwash,slate,metal,,,,true,false,false
+900-00167,mouthwash,mouthwash,mouthwash,black,metal,,All Black,,true,false,false
+900-00169,consumables,gum,consumable_dispenser,slate,metal,,,,true,false,false
+900-00170,consumables,gum,consumable_dispenser,silver,metal,,,,true,false,false
+900-00171,consumables,gum,consumable_dispenser,copper,metal,,,,true,false,false
+900-00172,consumables,gum,consumable_dispenser,gold,metal,,,,true,false,false
+900-00173,consumables,gum,consumable_dispenser,black,metal,,All Black,,true,false,false
+900-00174,consumables,gum,consumable_dispenser,white,plastic,,All White,,true,false,false
+900-00175,accessory,tote_bag,tote_bag,,,,,,true,false,false
+900-00176,brush,brush,brush,pink,metal,adult,All Pink,,true,true,false
+900-00177,paste,paste,paste,white,,adult,All White,,true,false,true
+900-00180,brush,brush,brush_refill,pink,,adult,All Pink,original,true,false,true
+900-00181,floss,floss_pick,floss_pick_refill,,,,,glide,true,false,true
+900-00185,brush,brush,brush_refill,black,,adult,All Black,ultra_soft,true,false,true
+900-00190,paste,paste,paste,,,adult,,,true,false,true
+900-00191,paste,paste,paste,,,kids,,,true,false,true
+900-00201,brush,brush,brush,gray__green,plastic,adult,,multi_pack,true,false,false
+900-00202,brush,brush,brush,indigo,metal,adult,,,true,false,false
+900-00203,brush,brush,brush,ruby,metal,adult,,,true,false,false
+900-00204,aligner,aligner,aligner_case,silver,metal,,,,true,false,false
+900-00206,aligner,aligner,aligner_case,slate,metal,,,,true,false,false
+900-00207,aligner,aligner,aligner_case,copper,metal,,,,true,false,false
+900-00210,floss,floss_pick,floss_pick,pink,metal,,All Pink,,true,false,false
+900-00211,consumables,gum,consumable_dispenser,pink,metal,,All Pink,,true,false,false
+900-00212,mouthwash,mouthwash,mouthwash,pink,metal,,All Pink,,true,false,false
+900-00213,floss,strand,strand_refill,,,,,,true,false,true
+900-00214,floss,strand,strand_refill,,,,,glide,true,false,true
+900-00216,floss,floss_pick,floss_pick_refill,,,,,glide,true,false,true
+900-00217,brush,brush,brush,orange,plastic,kids,,,true,false,false
+900-00229,floss,water_flosser,water_flosser,black,metal,,All Black,,true,false,false
+900-00230,floss,water_flosser,water_flosser,slate,metal,,,,true,false,false
+900-00231,floss,water_flosser,water_flosser,copper,metal,,,,true,false,false
+900-00232,floss,water_flosser,water_flosser,white,plastic,,,,true,false,false
+900-00233,brush,brush,brush,black,metal,adult,All Black,rechargeable,true,true,false
+900-00234,brush,brush,brush,pink,metal,adult,All Pink,rechargeable,true,true,false
+900-00235,brush,brush,brush,sky_blue,plastic,adult,,rechargeable,true,true,false
+900-00236,brush,brush,brush,ocean_blue,plastic,adult,,rechargeable,true,true,false
+900-00237,brush,brush,brush,midnight_blue,plastic,adult,,rechargeable,true,false,false
+900-00244,brush,brush,brush,pride,metal,adult,,,true,false,false
+900-00251,floss,water_flosser,water_flosser,blue,plastic,,,,true,false,false
+900-00253,floss,strand,strand,black,metal,,All Black,,true,false,false
+900-00263,floss,floss_pick,floss_pick,white,plastic,,,glide,true,false,false
+900-00271,floss,floss_pick,floss_pick,gold,metal,,,glide,true,false,false
+900-00272,floss,floss_pick,floss_pick,silver,metal,,,glide,true,false,false
+900-00273,floss,floss_pick,floss_pick,slate,metal,,,glide,true,false,false
+900-00274,floss,floss_pick,floss_pick,copper,metal,,,glide,true,false,false
+900-00275,floss,floss_pick,floss_pick,black,metal,,All Black,glide,true,false,false
+900-00276,floss,strand,strand,silver,metal,,,glide,true,false,false
+900-00277,floss,strand,strand,gold,metal,,,glide,true,false,false
+900-00278,floss,strand,strand,slate,metal,,,glide,true,false,false
+900-00279,floss,strand,strand,copper,metal,,,glide,true,false,false
+900-00280,floss,strand,strand,black,metal,,All Black,glide,true,false,false
+900-00281,floss,strand,strand,white,plastic,,,glide,true,false,false
+900-00283,floss,water_flosser,water_flosser_refill,clear,,,,,true,false,true
+900-00284,floss,water_flosser,water_flosser_refill,black,,,All Black,,true,false,true
+900-00285,brush,accessory,charging_cable,,,,,,true,false,false
+900-00286,brush,brush,brush_refill,sky_blue,,adult,,original,true,false,true
+900-00287,brush,brush,brush_refill,ocean_blue,,adult,,original,true,false,true
+900-00288,floss,floss_pick,floss_pick,pink,metal,,All Pink,glide,true,false,false
+900-00290-R,brush,brush,brush,lavender,plastic,adult,,,true,false,false
+900-00290,brush,brush,brush,lavender,plastic,adult,,,true,false,false
+900-00291,brush,brush,brush,quip_green,metal,adult,Birthday,,true,false,false
+900-00292,brush,brush,brush,black__pink,metal,adult,Remix,rechargeable,true,true,false
+900-00293,brush,brush,brush,sky_blue__black,metal,adult,Remix,rechargeable,true,true,false
+900-00294,brush,brush,brush,pink__midnight_blue,plastic,adult,Remix,rechargeable,true,true,false
+900-00295,brush,brush,brush,ocean_blue__sky_blue,plastic,adult,Remix,rechargeable,true,true,false
+900-00315,accessory,plush_toy,plush_toy,,,,,,true,false,false
+900-00318,consumables,gum,consumable_dispenser,pride,metal,,,,true,false,false
+900-00319,floss,floss_pick,floss_pick,pride,metal,adult,,,true,false,false
+900-00322,brush,brush,brush,pride,metal,adult,,rechargeable,true,true,false
+900-00323,floss,water_flosser,water_flosser,midnight,plastic,,,,true,false,false
+900-00324,consumables,mint,mint_refill,,,,,nine_pack,true,false,true
+900-00325,brush,brush,brush,charcoal,plastic,adult,,,true,false,false
+900-00326,consumables,mint,consumable_dispenser,slate,metal,,,,true,false,false
+900-00327,consumables,mint,consumable_dispenser,silver,metal,,,,true,false,false
+900-00328,consumables,mint,consumable_dispenser,copper,metal,,,,true,false,false
+900-00329,consumables,mint,consumable_dispenser,gold,metal,,,,true,false,false
+900-00330,consumables,mint,consumable_dispenser,black,metal,,All Black,,true,false,false
+900-00331,consumables,mint,consumable_dispenser,white,plastic,,All White,,true,false,false
+900-00332,consumables,mint,consumable_dispenser,pink,metal,,All Pink,,true,false,false
+900-00333,brush,brush,brush,black,metal,adult,Shantell Martin,rechargeable,true,true,false
+900-00334,consumables,dispenser,consumable_dispenser,black,metal,,Shantell Martin,,true,false,false
+900-00338,consumables,gum,gum_refill,,,,,three_pack,true,false,true
+900-00339,consumables,mint,mint_refill,,,,,three_pack,true,false,true
+900-00342,brush,brush,brush,green,plastic,kids,GITD,,true,false,false
+900-00343,brush,brush,brush,pink,plastic,kids,GITD,,true,false,false
+900-00348,consumables,mint,consumable_dispenser,pride,metal,,,,true,false,false
+900-00350,brush,brush,brush,sunset,metal,adult,,,true,false,false
+900-00360,brush,brush,brush_refill,white,,kids,All White,original,true,false,true
+900-00361,whitening_and_guards,whitening_and_guards,impression_kit,,,,,,true,false,false
+900-00362,whitening_and_guards,whitening,whitening_tray,,,,,,true,false,false
+900-00362R,whitening_and_guards,whitening,whitening_tray,,,,,,true,false,false
+900-00363,whitening_and_guards,whitening,whitening_gel,,,,,day,true,false,true
+900-00363R,whitening_and_guards,whitening,whitening_gel,,,,,day,true,false,true
+900-00364,whitening_and_guards,whitening,whitening_gel,,,,,night,true,false,true
+900-00364R,whitening_and_guards,whitening,whitening_gel,,,,,night,true,false,true
+900-00365,whitening_and_guards,guards,night_guard,,,,,hard,true,false,true
+900-00365R,whitening_and_guards,guards,night_guard,,,,,hard,true,false,true
+900-00366,brush,brush,brush,blue,plastic,kids,GITD,,true,false,false
+900-00367,brush,brush,brush,purple,plastic,kids,GITD,,true,false,false
+900-00368,whitening_and_guards,guards,night_guard,,,,,hard_soft,true,false,true
+900-00368R,whitening_and_guards,guards,night_guard,,,,,hard_soft,true,false,true
+900-00369,brush,brush,brush,pink,plastic,adult,GITD,,true,false,false
+900-00370,brush,brush,brush,blue,plastic,adult,GITD,,true,false,false
+900-00371,brush,brush,brush,purple,plastic,adult,GITD,,true,false,false
+900-00372,brush,brush,brush,green,plastic,adult,GITD,,true,false,false
+900-00375,whitening_and_guards,guards,sports_guard,white,,,,,true,false,true
+900-00375R,whitening_and_guards,guards,sports_guard,,,,,,true,false,true
+900-00376,whitening_and_guards,guards,sports_guard,red,,,,,true,false,true
+900-00376R,whitening_and_guards,guards,sports_guard,,,,,,true,false,true
+900-00377,whitening_and_guards,guards,sports_guard,blue,,,,,true,false,true
+900-00377R,whitening_and_guards,guards,sports_guard,,,,,,true,false,true
+910-00011,brush,motor,motor,,,,,,true,true,false
+910-00023,floss,floss_pick,floss_pick,black,metal,,All Black,glide,true,false,false
+920-00029,brush,brush,brush,turquoise,metal,adult,,,true,false,false
+920-00077,brush,brush,brush,pink,metal,adult,All Pink,,true,false,false
+920-00078,brush,brush,brush,black,metal,adult,All Black,,true,true,false
+920-00079,brush,brush,brush,white,plastic,adult,All White,,true,true,false
+920-00080,brush,brush,brush,yellow,plastic,kids,,,true,true,false
+920-00130,brush,brush,brush,pink,metal,adult,All Pink,,true,true,false
+920-00144,brush,brush,brush,black,metal,adult,All Black,,true,true,false
+920-00176,brush,brush,brush,indigo,metal,adult,,,true,false,false
+920-00177,brush,brush,brush,ruby,metal,adult,,,true,false,false
+920-00185,brush,brush,brush,green and grey,plastic,adult,,,true,false,false
+920-00197,brush,brush,brush,ocean_blue,plastic,adult,,,true,true,false
+920-00217,floss,floss_pick,floss_pick_refill,,,,,glide,true,false,true
+920-00219,floss,floss_pick,floss_pick,white,plastic,,,glide,true,false,false
+920-00227,floss,floss_pick,floss_pick,slate,metal,,,glide,true,false,false
+920-00229,floss,floss_pick,floss_pick,copper,metal,,,glide,true,false,false
+920-00236,floss,strand,strand,slate,metal,,,glide,true,false,false
+920-00238,floss,strand,strand,copper,metal,,,glide,true,false,false
+920-00240,floss,strand,strand,white,plastic,,,glide,true,false,false
+920-00248,paste,paste,paste,,,,travel,,true,false,true
+920-00252,brush,brush,brush,charcoal,plastic,adult,,,true,false,false
+920-00263,brush,brush,brush,green,plastic,,GITD,,true,false,false
+920-00264,brush,brush,brush,pink,plastic,,GITD,,true,false,false
+920-00268,brush,brush,brush,blue,plastic,,GITD,,true,false,false
+930-00026,floss,floss_pick,floss_pick,copper,metal,,,,true,false,false
+930-00027,floss,floss_pick,floss_pick,silver,metal,,,,true,false,false
+930-00028,floss,floss_pick,floss_pick,gold,metal,,,,true,false,false
+930-00029,floss,floss_pick,floss_pick,slate,metal,,,,true,false,false
+900-00257,floss,strand,strand,copper,metal,,,,true,false,false
+900-00401,brush,brush,brush,silver,metal,adult,oscillating,rechargeable,true,false,false
+900-00402,brush,brush,brush,blue,metal,adult,oscillating,rechargeable,true,false,false
+900-00403,brush,brush,brush,gray,metal,adult,oscillating,rechargeable,true,false,false
+900-00404,brush,brush,brush,black,metal,adult,oscillating,rechargeable,true,false,false
+900-00407,brush,brush,brush_refill,black,,adult,oscillating,,true,false,true
+900-00408,brush,brush,brush_refill,white,,adult,oscillating,,true,false,true
+930-00001,brush,brush,brush,copper,metal,adult,,,true,false,false
+930-00003,brush,brush,brush,slate,metal,adult,,,true,false,false
+930-00004,brush,brush,brush,silver,metal,adult,,,true,false,false
+930-00005,brush,brush,brush,blue,plastic,kids,,,true,false,false
+930-00007,brush,brush,brush,pink,plastic,kids,,,true,false,false
+930-00009,floss,strand,strand,slate,metal,,,glide,true,false,false
+930-00042,floss,water_flosser,water_flosser,slate,metal,,,,true,false,false
+930-00043,floss,water_flosser,water_flosser,white,plastic,,,,true,false,false
+930-00044,brush,brush,brush,silver,metal,adult,,,true,false,false
+930-00045,consumables,gum,gum_refill,,,,,nine_pack,true,false,true
+930-00046,consumables,mint,mint_refill,,,,,nine_pack,true,false,true
+930-00047,brush,brush,brush,black,metal,adult,All Black,rechargeable,true,true,false
+930-00048,brush,brush,brush,pink,metal,adult,All Pink,rechargeable,true,true,false
+930-00049,brush,brush,brush,ocean_blue,plastic,adult,,rechargeable,true,true,false
+930-00148-D,paste,paste,paste,,,adult,,,true,false,true
+930-00149-D,paste,paste,paste,,,kids,,,true,false,true
+930-00052,brush,brush,brush,white_black,metal,adult,oscillating,rechargeable,true,false,false
+900-00420,brush,brush,brush,dusk,metal,adult,,,true,false,false
+900-00421,brush,brush,brush,twilight,metal,adult,,,true,false,false
+900-00351,brush,brush,brush,sage,plastic,adult,,,true,false,false
+900-00451,brush,brush,brush,wonder,plastic,kids,,,true,false,false
+900-00452,brush,brush,brush,spark,plastic,kids,,,true,false,false
+900-00453,brush,brush,brush,dream,plastic,kids,,,true,false,false
+900-00454,brush,brush,brush,thrive,plastic,kids,,,true,false,false

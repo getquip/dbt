@@ -7,3 +7,6 @@ macros:
   - name: generate_database_name
     description: >
       The purpose of this macro is to dynamically generate database names based on the dbt target. If the target is prod, the database name will be quip-dw-stage. If the target is dev, the database name will be quip-dw-stage-dev.
+  - name: generate_hashed_pii_fields
+    description: >
+      The purpose of this macro is to hash PII fields in a dataset. This is useful for GDPR compliance. 

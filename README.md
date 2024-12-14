@@ -29,3 +29,33 @@ This dbt project is designed to transform raw data into actionable insights. By 
    ```  
 
 ---  
+
+### Instructions on how to set DBT_GCP_BQ_DATASET:
+
+
+   To make this change persistent across terminal sessions, you need to update your `~/.zsh_profile` or `~/.zshrc` file (whichever file is sourced by your shell).
+
+   1. Open the appropriate file in a text editor:
+
+   ```zsh
+   nano ~/.zsh_profile
+   ```
+   2. Update `DBT_GCP_BQ_DATASET` to `your_name`. Then save the file and confirm changes.
+
+   3. After updating the file, run the following command to apply the changes.
+
+   ```zsh
+   source ~/.zsh_profile
+   ```
+
+   Or
+
+   ```zsh
+   source ~/.zshrc
+   ```
+
+4. To confirm that the variable has been updated, run:
+
+   ```zsh
+   echo $DBT_GCP_BQ_DATASET
+   ```

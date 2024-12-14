@@ -21,6 +21,8 @@ Being in the correct directory ensures that dbt can locate all required configur
 
 ## Transformation Layers  
 
+We are utilizing dbt best practices, which means we separate the stages of the transformation process into their respective layers. Read more [here](https://www.getdbt.com/analytics-engineering/modular-data-modeling-technique).
+
 1. **Stage Layer**  
    The stage layer is responsible for bringing raw source data into the dbt project. Here, we apply light transformations such as renaming columns, standardizing data types, and cleaning up raw values. This layer ensures that the data is in a consistent and usable format for further processing.  
 
