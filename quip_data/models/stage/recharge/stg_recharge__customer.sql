@@ -5,7 +5,7 @@ WITH source AS (
 , renamed AS (
     SELECT
         id AS shopify_customer_id -- is this correct?
-        , _fivetran_deleted AS is_source_deleted
+        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
         , _fivetran_synced AS source_synced_at
         , created_at
         , email

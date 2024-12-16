@@ -21,15 +21,13 @@ SELECT -- shopify
 
     -- for users pre-shopify, `created_at` represents the migration to shopify
     , IF(customers.legacy_quip_user_id IS NULL, customers.created_at, legacy_users.created_at) AS created_at
-    , IF(customers.legacy_quip_user_id IS NOT NULL, customers.created_at, NULL) AS migrated_to_shopify_at
+    , IF(customers.legacy_quip_user_id IS NULL, NULL, customers.created_at) AS migrated_to_shopify_at
     , customers.updated_at
     
     , customers.email
     , customers.email_hashed
     , customers.phone
     , customers.phone_hashed
-    , customers.first_name
-    , customers.last_name
 
     , customers.email_marketing_consent_opt_in_level
     , customers.email_marketing_consent_state
@@ -60,8 +58,6 @@ SELECT -- legacy quip *should only union on full refresh
     , NULL AS email_hashed
     , legacy_users.phone
     , NULL AS phone_hashed
-    , legacy_users.first_name
-    , legacy_users.last_name
 
     , NULL AS email_marketing_consent_opt_in_level
     , NULL AS email_marketing_consent_state

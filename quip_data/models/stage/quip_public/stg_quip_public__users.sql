@@ -11,7 +11,7 @@ WITH source AS (
         , external_id
 
         -- timestamps
-        , _fivetran_deleted AS is_source_deleted
+        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
         , _fivetran_synced AS source_synced_at
         , SAFE_CAST(created_at AS TIMESTAMP) AS created_at
         , SAFE_CAST(updated_at AS TIMESTAMP) AS updated_at

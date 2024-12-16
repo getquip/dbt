@@ -8,7 +8,7 @@ WITH source AS (
         id	INTEGER	
         , addressable_id
         -- timestamps
-        , _fivetran_deleted AS is_source_deleted
+        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
         , _fivetran_synced AS source_synced_at
         , created_at
         , updated_at
