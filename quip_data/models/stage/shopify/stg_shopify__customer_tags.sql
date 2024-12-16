@@ -4,7 +4,7 @@ WITH source AS (
 
 SELECT
     -- ids
-    customer_id AS user_id
+    customer_id AS shopify_user_id
 
     -- timestamps
     , _fivetran_synced AS source_synced_at

@@ -2,17 +2,24 @@ WITH source AS (
     SELECT * FROM {{ source('shopify', 'customer') }}
 )
 
+, metafield AS (
+    SELECT * FROM {{ ref('stg_shopify__metafields') }}
+)
+-------------------------------------------------------
+----------------- FINISH REFERENCES -------------------
+-------------------------------------------------------
 , renamed AS (
     SELECT
         -- ids
-        id AS user_id
+        id AS shopify_user_id
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
         , _fivetran_deleted AS is_source_deleted
-        , created_at
-        , updated_at
-        , email_marketing_consent_consent_updated_at
+		-- convert to UTC timestamp
+	, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(created_at AS STRING)) AS created_at
+	, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(updated_at AS STRING)) AS updated_at
+        , PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(email_marketing_consent_consent_updated_at AS STRING)) AS email_marketing_consent_consent_updated_at
 
         -- bools
         , verified_email AS is_verified_email	
@@ -34,8 +41,7 @@ WITH source AS (
         , last_name
         , currency			
         , LOWER(email_marketing_consent_opt_in_level) AS email_marketing_consent_opt_in_level			
-        , LOWER(email_marketing_consent_state) AS email_marketing_consent_state			
-        , metafield			
+        , LOWER(email_marketing_consent_state) AS email_marketing_consent_state					
         , multipass_identifier			
         , note			
         , LOWER(state) AS state			
@@ -44,5 +50,12 @@ WITH source AS (
     FROM source
 )
 
-SELECT * FROM renamed
+SELECT 
+    renamed.* 
+    , SAFE_CAST(metafield.value AS INTEGER) as legacy_quip_user_id
+FROM renamed
+LEFT JOIN metafield
+    ON renamed.shopify_user_id = metafield.resource_id
+    AND metafield.resource_table_name = 'customer'
+    AND metafield.key = 'user_id'
 WHERE NOT is_source_deleted

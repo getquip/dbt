@@ -11,17 +11,18 @@ WITH source AS (
         , company_id	
         , company_location_id	
         , app_id	
-        , customer_id AS user_id
+        , customer_id AS shopify_user_id
         , location_id	
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
         , _fivetran_deleted AS is_source_deleted
-        , created_at	
-        , updated_at	
-        , cancelled_at	
-        , closed_at	
-        , processed_at	
+		-- convert to UTC timestamp
+	, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(created_at AS STRING)) AS created_at
+	, PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(updated_at AS STRING)) AS updated_at
+        , PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(cancelled_at AS STRING)) AS cancelled_at	
+        , PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(closed_at AS STRING)) AS closed_at	
+        , PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%S%Ez', CAST(processed_at AS STRING)) AS processed_at	
 
         -- strings 
         , billing_address_address_1	

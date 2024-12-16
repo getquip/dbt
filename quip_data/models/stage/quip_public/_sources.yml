@@ -3,6 +3,7 @@ version: 2
 sources:
   - name: quip_public
     database: quip-data-dwh-prod
+    loader: fivetran
     tables:
       - name: achievements
       - name: active_admin_comments

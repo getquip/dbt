@@ -3,6 +3,7 @@ version: 2
 sources:
   - name: shopify
     database: quip-etl-data
+    loader: fivetran
     tables:
       - name: abandoned_applied_discount
       - name: abandoned_checkout
@@ -17,7 +18,6 @@ sources:
       - name: collection_product
       - name: company
       - name: company_contact
-      - name: LOWER(country) AS country
       - name: customer
       - name: customer_address
       - name: customer_segment
@@ -38,7 +38,6 @@ sources:
       - name: fulfillment_order_line
       - name: fulfillment_order_line_item
       - name: gift_card
-      - name: int_shopify__customer_email_rollup
       - name: inventory_item
       - name: inventory_level
       - name: location
@@ -57,7 +56,6 @@ sources:
       - name: payout
       - name: price_rule
       - name: price_rule_ent_collection
-      - name: price_rule_ent_LOWER(country) AS country
       - name: price_rule_ent_product
       - name: price_rule_ent_variant
       - name: price_rule_prereq_collection
@@ -72,19 +70,6 @@ sources:
       - name: province
       - name: refund
       - name: shop
-      - name: shopify__calendar
-      - name: shopify__customer_cohorts
-      - name: shopify__customer_email_cohorts
-      - name: shopify__customer_emails
-      - name: shopify__customers
-      - name: shopify__daily_shop
-      - name: shopify__discounts
-      - name: shopify__inventory_levels
-      - name: shopify__order_lines
-      - name: shopify__orders
-      - name: shopify__orders__order_line_aggregates
-      - name: shopify__products
-      - name: shopify__transactions
       - name: tax_line
       - name: tender_transaction
       - name: transaction

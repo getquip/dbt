@@ -5,16 +5,16 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id
+        id AS legacy_quip_user_id
         , cart_id
-        , invited_by_id	
+        , invited_by_id	AS invited_by_quip_user_id
         , external_id
 
         -- timestamps
-        , fivetran_deleted AS is_source_deleted
-        , _fivetran_synced AS source_source_synced_at
-        , created_at
-        , updated_at	
+        , _fivetran_deleted AS is_source_deleted
+        , _fivetran_synced AS source_synced_at
+        , SAFE_CAST(created_at AS TIMESTAMP) AS created_at
+        , SAFE_CAST(updated_at AS TIMESTAMP) AS updated_at
         , confirmation_sent_at
         , confirmed_at
         , current_sign_in_at
@@ -25,6 +25,10 @@ WITH source AS (
         , remember_created_at	
 
 
+         , {{ generate_hashed_pii_fields([
+            'email'
+            , 'phone'
+            ]) }}
         , LOWER(city) AS city
         , LOWER(country) AS country
         , flags
@@ -33,20 +37,19 @@ WITH source AS (
         , confirmation_token		
         , current_sign_in_ip			
         , customer_facing_agent_name			
-        , delivery_instructions			
-        , email	
-        , group
+        , delivery_instructions	
+        , `group`
         , landing_url						
         , last_sign_in_ip			
-        , name			
-        , phone			
+        , `name` AS first_name
+        , `name` AS last_name
         , postal_code
         , referring_url					
         , reset_password_sent_at			
         , reset_password_token			
         , LOWER(role) AS role			
         , shipping_name	
-        , state			
+        , `state`		
         , street_address			
         , street_address_unit			
         , stripe_customer_id			
@@ -63,8 +66,7 @@ WITH source AS (
         , smart_brush_user	AS is_smart_brush_user
         , should_receive_emails	AS is_subscribed_to_emails
         , needs_to_readd_a_payment_method
-        , milestones
-        , needs_to_readd_a_payment_method			
+        , milestones	
         , registration_origin	
 
         -- ints
@@ -77,3 +79,6 @@ WITH source AS (
         , invitations_count
     FROM source
 )
+
+SELECT * FROM renamed
+WHERE NOT is_source_deleted
