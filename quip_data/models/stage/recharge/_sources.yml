@@ -2,23 +2,10 @@ version: 2
 
 sources:
   - name: recharge
-    database: quip-etl-data
+    database: quip-dw-raw-dev # update to prod
+    loader: Airflow # add link to DAG
     tables:
-      - name: address
-      - name: address_discounts
-      - name: charge
-      - name: charge_discount
-      - name: charge_line_item
-      - name: charge_order_attribute
-      - name: charge_shipping_line
-      - name: charge_tax_line
+      - name: events
+      - name: credit_accounts
+      - name: credit_adjustments
       - name: customer
-      - name: discount
-      - name: one_time_product
-      - name: order
-      - name: order_line_item
-      - name: payment_method
-      - name: plan
-      - name: subscription
-      - name: subscription_history
-      - name: utm_tag
