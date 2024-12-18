@@ -1,3 +1,12 @@
+{{ config(
+    partition_by={
+      "field": "updated_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=["resource_table_name", "type", "key", "metafield_id"]
+)}}
+
 WITH source AS (
 	SELECT * FROM {{ source('shopify', 'metafield') }}
 )

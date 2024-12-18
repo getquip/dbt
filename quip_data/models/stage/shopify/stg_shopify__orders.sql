@@ -42,9 +42,7 @@ WITH source AS (
         , billing_address_zip	
         , browser_ip	
         , cancel_reason	
-        , cart_token	
         , checkout_id	
-        , checkout_token	
         , client_details_user_agent	
         , currency	
         , order_status_url	
@@ -86,37 +84,36 @@ WITH source AS (
         , landing_site_ref	
         , name	
         , note	
-        , note_attributes	
-        , token	
+        , note_attributes
         , total_discounts_set	
         , total_line_items_price_set	
         , total_price_set	
         , total_shipping_price_set	
-        , total_tax_set
+        , total_tax_set 
 
         -- bools
         , buyer_accepts_marketing	
-        , confirmed	
-        , taxes_included	
-        , test	
+        , confirmed	AS is_confirmed_inventory
+        , taxes_included
+        , cancelled_at IS NOT NULL AS is_cancelled
 
         -- floats
         , current_subtotal_price	
         , current_total_discounts	
-        , current_total_price	
-        , current_total_tax	
-        , subtotal_price	
-        , total_discounts	
-        , total_line_items_price	
-        , total_price	
-        , total_tax	
+        , current_total_price 
+        , current_total_tax	AS tax_at_checkout
+        , subtotal_price AS subtotal_price_at_checkout
+        , total_line_items_price AS product_total_price	
+        , total_price AS total_price_at_checkout
+        , total_tax	AS current_tax_paid -- excludes refunded taxes
         , total_tip_received	
 
         -- ints
+        -- docs say that this value is not updated if items are removed from the order
         , total_weight AS total_weight_grams
-        , total_weight/ 453.592 AS total_weight_lbs
-        , number	
+        , total_weight/ 453.592 AS total_weight_lbs	
     FROM source
+    WHERE NOT test
 
 )
 

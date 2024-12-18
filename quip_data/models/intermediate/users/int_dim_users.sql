@@ -1,3 +1,12 @@
+{{ config(
+    partition_by={
+      "field": "created_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_quip_user_id", "shopify_user_id"]
+)}}
+
 WITH
 
 shopify_customers AS (
@@ -55,9 +64,9 @@ SELECT -- legacy quip *should only union on full refresh
     , legacy_users.updated_at
 
     , legacy_users.email
-    , NULL AS email_hashed
+    , email_hashed
     , legacy_users.phone
-    , NULL AS phone_hashed
+    , phone_hashed
 
     , NULL AS email_marketing_consent_opt_in_level
     , NULL AS email_marketing_consent_state
@@ -65,6 +74,6 @@ SELECT -- legacy quip *should only union on full refresh
     -- bools
     , FALSE AS is_suspected_reseller
     , FALSE AS is_tax_exempt
-    , is_verified AS is_verified_email
+    , FALSE AS is_verified_email
 FROM legacy_users
 WHERE legacy_quip_user_id NOT IN (SELECT legacy_quip_user_id FROM shopify_customers)

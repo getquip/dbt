@@ -1,3 +1,17 @@
+{{ config(
+    partition_by={
+      "field": "updated_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "email_marketing_consent_opt_in_level", 
+        "is_verified_email", 
+        "is_tax_exempt", 
+        "shopify_user_id"
+    ]
+)}}
+
 WITH source AS (
     SELECT * FROM {{ source('shopify', 'customer') }}
 )

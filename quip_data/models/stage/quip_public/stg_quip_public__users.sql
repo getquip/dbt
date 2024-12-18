@@ -1,3 +1,17 @@
+{{ config(
+    partition_by={
+      "field": "source_synced_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "email",
+        "phone",
+        "user_type", 
+        "legacy_quip_user_id"
+    ]
+)}}
+
 WITH source AS (
     SELECT * FROM {{ source("quip_public", "users") }}
 )
@@ -59,10 +73,8 @@ WITH source AS (
         , invitation_token
 
         -- bools
-        , is_verified
-        , is_internally_verified
         , is_active
-        , signed_up_on_shopify AS is_shopify_user
+        
         , smart_brush_user	AS is_smart_brush_user
         , should_receive_emails	AS is_subscribed_to_emails
         , needs_to_readd_a_payment_method
@@ -74,9 +86,14 @@ WITH source AS (
         , quip_credit
         , sign_in_count		
         , referral_count
-        , verification_status	-- what is this?
         , invitation_limit	
         , invitations_count
+
+        -- DEPRECATED or NOT USED fields
+        --, signed_up_on_shopify -- This is used by ENG in the mobile app. DO NOT USE for data purposes
+        --, verification_status
+        --, is_verified
+        --, is_internally_verified
     FROM source
 )
 
