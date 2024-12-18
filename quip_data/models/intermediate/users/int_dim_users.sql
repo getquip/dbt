@@ -4,7 +4,7 @@
       "data_type": "timestamp",
       "granularity": "day"
     },
-	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_quip_user_id", "shopify_user_id"]
+	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_quip_user_id", "shopify_customer_id"]
 )}}
 
 WITH
@@ -25,7 +25,7 @@ shopify_customers AS (
 -------------------------------------------------------
 
 SELECT -- shopify
-    customers.shopify_user_id
+    customers.shopify_customer_id
     , customers.legacy_quip_user_id
 
     -- for users pre-shopify, `created_at` represents the migration to shopify
@@ -42,12 +42,12 @@ SELECT -- shopify
     , customers.email_marketing_consent_state
 
     -- bools
-    , tags.shopify_user_id IS NOT NULL AS is_suspected_reseller
+    , tags.shopify_customer_id IS NOT NULL AS is_suspected_reseller
     , customers.is_tax_exempt
     , customers.is_verified_email
 FROM shopify_customers AS customers
 LEFT JOIN shopify_customer_tag AS tags
-    ON customers.shopify_user_id = tags.shopify_user_id
+    ON customers.shopify_customer_id = tags.shopify_customer_id
     AND tags.tag = 'suspected_reseller'
 LEFT JOIN legacy_users
     ON customers.legacy_quip_user_id = legacy_users.legacy_quip_user_id
@@ -56,7 +56,7 @@ LEFT JOIN legacy_users
 UNION ALL 
 
 SELECT -- legacy quip *should only union on full refresh
-    NULL AS shopify_user_id
+    NULL AS shopify_customer_id
     , legacy_users.legacy_quip_user_id
 
     , legacy_users.created_at

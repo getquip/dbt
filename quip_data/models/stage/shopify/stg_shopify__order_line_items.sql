@@ -5,7 +5,7 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id	
+        id AS line_item_id
         ,  order_id	
 
         -- timestamps
@@ -28,7 +28,7 @@ WITH source AS (
         
         -- ints
         , fulfillable_quantity	
-        , grams	
+        , grams	/ 453.592 AS weight_per_unit_lbs	
         , index	
         , product_id	
         , quantity	

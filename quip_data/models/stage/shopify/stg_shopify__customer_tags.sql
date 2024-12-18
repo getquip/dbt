@@ -6,7 +6,7 @@
     },
 	cluster_by=[
         "tag", 
-        "shopify_user_id"
+        "shopify_customer_id"
     ]
 )}}
 
@@ -16,7 +16,7 @@ WITH source AS (
 
 SELECT
     -- ids
-    customer_id AS shopify_user_id
+    customer_id AS shopify_customer_id
 
     -- timestamps
     , _fivetran_synced AS source_synced_at

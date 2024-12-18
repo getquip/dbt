@@ -1,3 +1,16 @@
+{{ config(
+    partition_by={
+      "field": "updated_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+		"payment_status", 
+		"fulfillment_status", 
+		"shopify_customer_id", 
+		"order_id"]
+)}}
+
 WITH source AS (
     SELECT * FROM {{ source('shopify', 'order') }}
 )
@@ -11,7 +24,7 @@ WITH source AS (
         , company_id	
         , company_location_id	
         , app_id	
-        , customer_id AS shopify_user_id
+        , customer_id AS shopify_customer_id
         , location_id	
 
         -- timestamps

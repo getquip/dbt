@@ -8,7 +8,7 @@
         "email_marketing_consent_opt_in_level", 
         "is_verified_email", 
         "is_tax_exempt", 
-        "shopify_user_id"
+        "shopify_customer_id"
     ]
 )}}
 
@@ -25,7 +25,7 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id AS shopify_user_id
+        id AS shopify_customer_id
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
@@ -69,7 +69,7 @@ SELECT
     , SAFE_CAST(metafield.value AS INTEGER) as legacy_quip_user_id
 FROM renamed
 LEFT JOIN metafield
-    ON renamed.shopify_user_id = metafield.resource_id
+    ON renamed.shopify_customer_id = metafield.resource_id
     AND metafield.resource_table_name = 'customer'
     AND metafield.key = 'user_id'
 WHERE NOT is_source_deleted

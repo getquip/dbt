@@ -10,7 +10,7 @@ orders AS (
 SELECT
     -- ids
     order_id
-    , shopify_user_id
+    , shopify_customer_id
     -- timestamps
     , created_at
     , updated_at

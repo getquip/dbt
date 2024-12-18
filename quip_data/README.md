@@ -1,4 +1,5 @@
-Welcome to your new dbt project!
+# dbt
+This dbt project is designed to transform raw data into actionable insights. By leveraging modular SQL and robust transformations, it ensures data consistency, quality, and readiness for analytics.
 
 ## Getting Started
 
@@ -32,6 +33,7 @@ We are utilizing dbt best practices, which means we separate the stages of the t
 3. **Mart Layer**  
    The mart layer contains the final transformed data, optimized for analysis and reporting. These models are structured to serve end-user needs, focusing on performance, readability, and ease of access. This layer often aligns with specific business domains or use cases.  
 
+Read up on the naming conventions!
 ---
 
 ## Development Environment
@@ -54,14 +56,14 @@ Example:
 
 <developer_name> is configured in `profiles.yml` as `DBT_GCP_BQ_DATASET`.
 
-[Instructions on how to set DBT_GCP_BQ_DATASET](https://github.com/getquip/dbt/tree/main/Instructions-on-how-to-set-DBT_GCP_BQ_DATASET)
+[Instructions on how to set DBT_GCP_BQ_DATASET](https://github.com/getquip/dbt/tree/main?tab=readme-ov-file#instructions-on-how-to-set-dbt_gcp_bq_dataset)
 
 ### Alignment of Destination Databases with Transformation Layers  
-The destination databases in BigQuery align with the transformation layers and their corresponding folder structures:  
-- **Stage Layer**: Data is written to schemas or datasets prefixed with `stg_`.  
-- **Intermediate Layer**: Data is written to schemas or datasets prefixed with `int_`.  
+The destination databases in BigQuery align with the transformation layers and their corresponding folder structures. This ensures a seamless transition from development to production.  
+- **Stage Layer**: Models in the `stage` folder will land in the `quip-dw-stage` project, `-dev` if in development mode.
+- **Intermediate Layer**: Models in the `intermediate` folder will land in the `quip-dw-intermediate` project, `-dev` if in development mode.
+- **Mart Layer**: Models in the `mart` folder will land in the `quip-dw-mart` project, `-dev` if in development mode.
 
-This structure mirrors the folder organization in the dbt project and ensures a seamless transition from development to production.
 
 ## Development Tips
 
@@ -75,6 +77,32 @@ $ dbt --quiet run-operation generate_source --args '{"schema_name": "SCHEMA_NAME
 ## Generate stage yml
 $ dbt --quiet run-operation generate_model_yaml --args '{"model_names": ["MODEL_NAME"]}' > models/TRANSFORMATION_LAYER/SCHEMA_NAME/schemas/MODEL_NAME.yml
 ```
+
+## Naming Conventions
+**Stage Layer** :
+- Datasets/folders are named after the data source
+- Models are named with a `stg_DATASET_NAME__` prefix
+- Models are named as close as possible to the source table name. Small changes like pluralization are ok.
+- Examples:
+   - `shopify.customer` --> `stg_shopify__customers`
+   - `quip_public.orders` --> `stg_shopify__customers`
+
+2. **Intermediate Layer** 
+- Datasets/folders are named after the reporting entity. Entities are what we report on, regardless of data source.
+- Models are named with a `int_` prefix, followed by `dim__` or `fct__` based on [Kimball's dimensional modeling](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/) followed by the entity and optionally, a more granular entity.
+- Examples:
+   - `int_dim_orders` : a model with order level qualtitative attributes
+   - `int_dim_orders__line_items`: a model with order's line item level qualitative attributes
+   - `int_fct_orders__cogs`: a model with order level quantitative attributes, specifically cost of goods
+
+3. **Mart Layer**  
+- Standard Datasets are general, normalized tables
+   - `dims_` entity dims at the widest detail
+   - `facts` entity facts at the widest detail
+- Reporting Datasets are denormalized tables for specific departments
+   - `marketing`
+   - `finance`
+   - `quip` - organization wide use cases
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
