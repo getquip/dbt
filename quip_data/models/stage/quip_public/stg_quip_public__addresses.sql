@@ -1,3 +1,17 @@
+{{ config(
+    partition_by={
+      "field": "source_synced_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "email",
+        "phone",
+        "user_type", 
+        "legacy_quip_user_id"
+    ]
+)}}
+
 WITH source AS (
     SELECT * FROM {{ source('quip_public', 'addresses') }}
 )
