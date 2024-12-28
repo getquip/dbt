@@ -10,7 +10,7 @@
 )}}
 
 WITH source AS (
-	SELECT * FROM {{ source('shopify', 'product_tags') }}
+	SELECT * FROM {{ source('shopify', 'product_tag') }}
 )
 
 SELECT

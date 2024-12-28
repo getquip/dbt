@@ -37,6 +37,8 @@ models:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
+      quip_piblic:
+        +schema: quip_public
       shopify:
         +schema: shopify
       recharge:
@@ -47,6 +49,8 @@ models:
         node_color: "#1577ef"
       users:
         +schema: users
+      orders:
+        +schema: orders
     mart:
       +database: quip-dw-mart
       +schema: mart

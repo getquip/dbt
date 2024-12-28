@@ -1,5 +1,5 @@
-# dbt
-This dbt project is designed to transform raw data into actionable insights. By leveraging modular SQL and robust transformations, it ensures data consistency, quality, and readiness for analytics.
+# About
+This repo is for all things related to dbt.
 
 ## Getting Started  
 

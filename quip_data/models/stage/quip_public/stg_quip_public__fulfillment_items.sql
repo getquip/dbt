@@ -33,6 +33,7 @@ WITH source AS (
 		, sku
 		, unit_ounces / 16 AS unit_lbs
 		, unit_price
+		, FALSE AS is_added_by_fulfillment_app
 	FROM source
 )
 
@@ -55,6 +56,7 @@ WITH source AS (
 		, JSON_EXTRACT_SCALAR(supplement, '$.sku') AS sku
 		, NULL AS unit_lbs -- need to fill in intermediate layer
 		, NULL AS unit_price -- need to fill in intermediate layer
+		, TRUE AS is_added_by_fulfillment_app
 	FROM renamed
 	, UNNEST(JSON_EXTRACT_ARRAY(metadata, '$.supplements')) AS supplement
 	WHERE NOT is_source_deleted
