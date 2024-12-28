@@ -14,3 +14,5 @@ SELECT
 	, type AS credit_applied_by
 	, updated_at 
 FROM source
+-- dedupe
+QUALIFY ROW_NUMBER() OVER(PARTITION BY id ORDER BY updated_at DESC) = 1

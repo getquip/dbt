@@ -2,10 +2,13 @@ version: 2
 
 sources:
   - name: recharge
-    database: quip-dw-raw-dev # update to prod
+    database: quip-dw-raw
     loader: Airflow # add link to DAG
     tables:
       - name: events
       - name: credit_accounts
       - name: credit_adjustments
-      - name: customer
+      - name: customers
+      - name: charges
+      - name: discounts
+      - name: subscriptions

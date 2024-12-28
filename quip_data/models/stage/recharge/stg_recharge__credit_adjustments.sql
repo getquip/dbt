@@ -16,3 +16,5 @@ SELECT
 	, LOWER(created_by.identifier) AS created_by_identifier
 	, created_by.type AS created_by_type
 FROM source
+-- dedupe
+QUALIFY ROW_NUMBER() OVER(PARTITION BY id ORDER BY updated_at DESC) = 1
