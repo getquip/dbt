@@ -5,9 +5,9 @@
       "granularity": "day"
     },
 	cluster_by=[
-        "email",
+        "address_type",
         "phone",
-        "user_type", 
+        "postal_code_last_four", 
         "legacy_quip_user_id"
     ]
 )}}
@@ -19,8 +19,8 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id	INTEGER	
-        , addressable_id
+        id	AS legacy_quip_user_id	
+        , addressable_id --?
         -- timestamps
         , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
         , _fivetran_synced AS source_synced_at
