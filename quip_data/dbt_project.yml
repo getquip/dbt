@@ -37,6 +37,8 @@ models:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
+      alloy:
+        +schema: alloy
       quip_piblic:
         +schema: quip_public
       shopify:
