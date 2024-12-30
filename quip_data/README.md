@@ -104,6 +104,9 @@ $ dbt --quiet run-operation generate_model_yaml --args '{"model_names": ["MODEL_
    - `finance`
    - `quip` - organization wide use cases
 
+## Cost Optimization
+- make a model incremental when its >5GiBs to process
+- use `insert_overwrite` when the data is not updating in place
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
 - Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers

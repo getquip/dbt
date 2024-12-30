@@ -4,7 +4,11 @@
       "data_type": "timestamp",
       "granularity": "day"
     },
-	cluster_by=["resource_table_name", "type", "key", "metafield_id"]
+	cluster_by=[
+		"resource_table_name", 
+		"type", 
+		"key", 
+		"metafield_id"]
 )}}
 
 WITH source AS (

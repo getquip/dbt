@@ -55,6 +55,14 @@ models:
       +database: quip-dw-mart
       +schema: mart
       node:color: "#fcba03"
+      dims:
+        +schema: dims
+      facts:
+        +schema: facts
+      marketing:
+        +schema: marketing
+      quip:
+        +schema: quip
 
 # Configuring seeds
 # Full documentation: https://docs.getdbt.com/docs/configuring-seeds
