@@ -53,6 +53,10 @@ models:
         +schema: users
       orders:
         +schema: orders
+      subscriptions:
+        +schema: subscriptions
+      products:
+        +schema: products
     mart:
       +database: quip-dw-mart
       +schema: mart
