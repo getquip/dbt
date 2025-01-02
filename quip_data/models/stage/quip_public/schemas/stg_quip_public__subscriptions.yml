@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: stg_quip_public__subscriptions
+    description: |
+		Legacy table for subscriptions. In this table, a subscription can have many products 
+		and an order can only have 1 subscription.
+    columns:
+      - name: legacy_quip_subscription_id
+        data_type: int64
+        description: ""
+			- name: first_order_id
+				data_type: int64
+				description: "{{ doc('first_order_id')}}"

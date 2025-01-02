@@ -30,7 +30,7 @@ WITH source AS (
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
-        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
+        , COALESCE(is_source_deleted) AS is_source_deleted
 		-- convert to UTC timestamp
 	    , created_at
 	    , updated_at
@@ -53,7 +53,6 @@ WITH source AS (
         , name	
         , note	
         , note_attributes
-
         
         -- utm etc
         , landing_site_base_url	

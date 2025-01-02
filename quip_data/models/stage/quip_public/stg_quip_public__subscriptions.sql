@@ -9,7 +9,7 @@ WITH source AS (
 
 		, id AS legacy_quip_subscription_id
 		, user_id AS legacy_quip_user_id
-		, order_id AS latest_order_id
+		, order_id AS first_order_id -- this is the order that created the subscription
 		, SAFE_CAST(created_at AS TIMESTAMP) AS created_at
 		, SAFE_CAST(updated_at AS TIMESTAMP) AS updated_at
 		, status

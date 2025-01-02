@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: int_dim_subscriptions
+    description: |
+		Consolidated table for subscriptions.
+    columns:
+      - name: legacy_quip_subscription_id
+        data_type: int64
+        description: ""
+			- name: first_order_id
+				data_type: int64
+				description: "{{ doc('first_order_id')}}"
