@@ -1,7 +1,7 @@
 SELECT
   "legacy" AS version
   , subscription_id
-  , user_id AS customer_id
+  , user_id AS shopify_customer_id
   , DATE(created_at) AS created_date
   , DATE(canceled_at) AS canceled_date
   , address_id
@@ -14,7 +14,7 @@ UNION ALL
 SELECT
   "WIP" AS version
   , subscription_id
-  , COALESCE(shopify_customer_id, recharge_customer_id, legacy_customer_id) AS customer_id
+  , shopify_customer_id
   , DATE(created_at) AS created_at
   , DATE(cancelled_at) AS cancelled_at
   , address_id
