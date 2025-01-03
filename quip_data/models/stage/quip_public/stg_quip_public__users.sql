@@ -8,7 +8,7 @@
         "email",
         "phone",
         "user_type", 
-        "legacy_quip_user_id"
+        "legacy_customer_id"
     ]
 )}}
 
@@ -19,7 +19,7 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id AS legacy_quip_user_id
+        id AS legacy_customer_id
         , cart_id
         , invited_by_id	AS invited_by_quip_user_id
         , external_id

@@ -30,10 +30,10 @@ SELECT
 	, SAFE_CAST(
 		IF(property.name = 'legacy_subscriptions_id', property.value, NULL)
 		AS INTEGER
-		) AS legacy_quip_subscription_id
+		) AS legacy_subscription_id
 
 FROM source
-, UNNEST(properties) AS property
+LEFT JOIN UNNEST(properties) AS property
 -- dedupe
 QUALIFY ROW_NUMBER() OVER(PARTITION BY id ORDER BY updated_at DESC) = 1
 

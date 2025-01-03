@@ -66,7 +66,7 @@ WITH source AS (
 
 SELECT 
     renamed.* 
-    , SAFE_CAST(metafield.value AS INTEGER) as legacy_quip_user_id
+    , SAFE_CAST(metafield.value AS INTEGER) as legacy_customer_id
 FROM renamed
 LEFT JOIN metafield
     ON renamed.shopify_customer_id = metafield.resource_id

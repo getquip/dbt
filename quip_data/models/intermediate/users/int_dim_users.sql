@@ -4,7 +4,7 @@
       "data_type": "timestamp",
       "granularity": "day"
     },
-	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_quip_user_id", "shopify_customer_id"]
+	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_customer_id", "shopify_customer_id"]
 )}}
 
 WITH
@@ -26,11 +26,11 @@ shopify_customers AS (
 
 SELECT -- shopify
     customers.shopify_customer_id
-    , customers.legacy_quip_user_id
+    , customers.legacy_customer_id
 
     -- for users pre-shopify, `created_at` represents the migration to shopify
-    , IF(customers.legacy_quip_user_id IS NULL, customers.created_at, legacy_users.created_at) AS created_at
-    , IF(customers.legacy_quip_user_id IS NULL, NULL, customers.created_at) AS migrated_to_shopify_at
+    , IF(customers.legacy_customer_id IS NULL, customers.created_at, legacy_users.created_at) AS created_at
+    , IF(customers.legacy_customer_id IS NULL, NULL, customers.created_at) AS migrated_to_shopify_at
     , customers.updated_at
     
     , customers.email
@@ -50,14 +50,14 @@ LEFT JOIN shopify_customer_tag AS tags
     ON customers.shopify_customer_id = tags.shopify_customer_id
     AND tags.tag = 'suspected_reseller'
 LEFT JOIN legacy_users
-    ON customers.legacy_quip_user_id = legacy_users.legacy_quip_user_id
+    ON customers.legacy_customer_id = legacy_users.legacy_customer_id
 
 
 UNION ALL 
 
 SELECT -- legacy quip *should only union on full refresh
     NULL AS shopify_customer_id
-    , legacy_users.legacy_quip_user_id
+    , legacy_users.legacy_customer_id
 
     , legacy_users.created_at
     , NULL AS migrated_to_shopify_at
@@ -76,4 +76,4 @@ SELECT -- legacy quip *should only union on full refresh
     , FALSE AS is_tax_exempt
     , FALSE AS is_verified_email
 FROM legacy_users
-WHERE legacy_quip_user_id NOT IN (SELECT legacy_quip_user_id FROM shopify_customers)
+WHERE legacy_customer_id NOT IN (SELECT legacy_customer_id FROM shopify_customers)

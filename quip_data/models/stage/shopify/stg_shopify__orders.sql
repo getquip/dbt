@@ -14,41 +14,41 @@
 WITH source AS (
     SELECT * FROM {{ source('shopify', 'order') }}
 )
+/*
+NOTE: some fields are purposely excluded from this model. They are either:
+- redundant (e.g. total_price_set is a nested field that contains the same information as total_price)
+- possibly stale (e.g. total_weight does not update if items are removed from the order)
+- deprecated (e.g. total_discounts)
+
+Confirm with the API docs before adding any of these fields back in.
+https://shopify.dev/docs/api/admin-rest/2024-10/resources/order#resource-object
+*/
 
 , renamed AS (
     SELECT
         -- ids
         id AS shopify_order_id
-        , order_number	
         , user_id AS agent_id
         , checkout_id	
         , company_id	
         , company_location_id	
         , app_id	
         , SAFE_CAST(customer_id AS INTEGER) AS shopify_customer_id
-        , location_id	
 
-        -- timestamps
         , _fivetran_synced AS source_synced_at
-        , COALESCE(is_source_deleted) AS is_source_deleted
-		-- convert to UTC timestamp
+        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
 	    , created_at
 	    , updated_at
-        , closed_at	
         , processed_at
 
         -- strings 
-        , client_details_user_agent	
-        , currency	
-        , order_status_url	
-        , payment_gateway_names	
+        , client_details_user_agent
         , presentment_currency	
         , reference	
         , source_identifier	
         , source_name	
         , source_url	
         , customer_locale	
-        , email	
         , fulfillment_status	
         , name	
         , note	
@@ -62,42 +62,28 @@ WITH source AS (
         , device_id	
 
         -- bools
-        , buyer_accepts_marketing	
         , confirmed	AS is_confirmed_inventory
-        , taxes_included
+        , test AS is_test
 
         -- cancellations
-        , cancelled_at	
-        , cancelled_at IS NOT NULL AS is_cancelled
+        , cancelled_at
         , cancel_reason	
 
         -- payments
-        , current_subtotal_price	
-        , current_total_discounts	
-        , current_total_price 
-        , current_total_tax	AS tax_at_checkout
-        , subtotal_price_set	
-        , current_subtotal_price_set	
-        , current_total_discounts_set	
-        , current_total_duties_set	
-        , current_total_price_set	
-        , current_total_tax_set	
-        , subtotal_price AS subtotal_price_at_checkout
-        , total_line_items_price AS product_total_price	
-        , total_price AS total_price_at_checkout
-        , total_tax	AS current_tax_paid -- excludes refunded taxes
-        , total_tip_received	
-        , total_discounts_set	
-        , total_line_items_price_set	
-        , total_price_set	
-        , total_shipping_price_set	
-        , total_tax_set 
-        , original_total_duties_set	
+        , payment_gateway_names	
+        , currency
         , financial_status	AS payment_status
-
-        -- ints
-        -- docs say that this value is not updated if items are removed from the order
-        , total_weight AS total_weight_grams
+        , total_tip_received	
+        ---- metrics at checkout
+        , current_total_tax	AS total_tax_at_checkout -- naming convention is confusing, but confirmed in the docs
+        , IF(taxes_included, subtotal_price - current_total_tax, subtotal_price) AS subtotal_price_at_checkout
+        , total_line_items_price AS total_product_price_at_checkout
+        , total_price AS total_price_at_checkout
+        ---- metrics at current time: this reflects the amount after any edits/refunds
+        , current_total_discounts
+        , current_total_price
+        , current_subtotal_price
+        , total_tax	AS current_total_tax
 
         -- address
         , shipping_address_address_1	
@@ -131,15 +117,11 @@ WITH source AS (
         , billing_address_province_code	
         , billing_address_zip	
     FROM source
-    WHERE NOT test
-
 )
 
 SELECT 
     * 
-
     -- order attributes
-    , IF(payment_status = 'paid' AND fulfillment_status = 'fulfilled', TRUE, FALSE) AS is_completed_order
-    , total_weight_grams/ 453.592 AS total_weight_lbs	
+    , IF(fulfillment_status = 'fulfilled', TRUE, FALSE) AS is_completed_order
 FROM renamed
 WHERE NOT is_source_deleted

@@ -8,7 +8,7 @@
         "address_type",
         "phone",
         "postal_code_last_four", 
-        "legacy_quip_user_id"
+        "legacy_customer_id"
     ]
 )}}
 
@@ -19,7 +19,7 @@ WITH source AS (
 , renamed AS (
     SELECT
         -- ids
-        id	AS legacy_quip_user_id	
+        id	AS legacy_customer_id	
         , addressable_id --?
         -- timestamps
         , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted

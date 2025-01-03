@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: stg_quip_public__fulfillment_items
+    description: |
+      This table contains the full list of line items for each fulfillment order. This differentiates from Shopify's
+      order line items in that these items are exhaustive and include all sub-items that are part of a parent item,
+      including supplement items.

@@ -28,6 +28,7 @@ SELECT
 	subscriptions.subscription_id
 	, subscriptions.recharge_customer_id
 	, customers.shopify_customer_id
+	, legacy_subscriptions.legacy_customer_id
 	, subscriptions.address_id
 	-- cancellations
 	, COALESCE(legacy_subscriptions.created_at, subscriptions.created_at) AS created_at
@@ -38,9 +39,26 @@ SELECT
 
 FROM subscriptions
 LEFT JOIN legacy_subscriptions
-	ON subscriptions.legacy_quip_subscription_id = legacy_subscriptions.legacy_quip_subscription_id
+	ON subscriptions.legacy_subscription_id = legacy_subscriptions.legacy_subscription_id
 LEFT JOIN customers
 	ON subscriptions.recharge_customer_id = customers.recharge_customer_id
+
+UNION ALL
+
+SELECT
+	-- ids
+	legacy_subscriptions.legacy_subscription_id AS subscription_id
+	, NULL AS recharge_customer_id
+	, NULL AS shopify_customer_id
+	, legacy_customer_id
+	, address_id
+	-- cancellations
+	, created_at
+	, cancelled_at
+	, CAST(status AS STRING) AS status
+	, quantity
+FROM legacy_subscriptions
+WHERE legacy_subscription_id NOT IN (SELECT legacy_subscription_id FROM subscriptions)
 
 -- attributed order channel
 -- attributed retail partner
