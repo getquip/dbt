@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: int_fct_orders
+    description: |
+      Consolidated table for orders.
+    columns:
+      - name: order_status
+        data_type: string
+        description: "{{ doc('order_status')}}"

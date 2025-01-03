@@ -5,9 +5,9 @@ WITH source AS (
 SELECT 
   id AS charge_id
   , items.purchase_item_id AS line_item_id
-  , items.external_product_id
+  , items.external_product_id.ecommerce AS shopify_product_id
   , items.purchase_item_type
-  , items.external_variant_id
+  , items.external_variant_id.ecommerce AS shopify_product_variant_id
   , items.grams AS weight_per_unit_grams
   , items.handle
   , items.images
@@ -21,10 +21,10 @@ SELECT
   , items.tax_due
   , items.tax_lines
   , items.taxable AS is_taxable
-  , items.title
+  , LOWER(items.title) AS title
   , items.total_price
   , items.unit_price
-  , items.variant_title
+  , LOWER(items.variant_title) AS variant_title
   , items.taxable_amount
 FROM source
 , UNNEST(line_items) AS items

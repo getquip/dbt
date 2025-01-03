@@ -29,7 +29,7 @@ WITH source AS (
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
-        , COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
+        , COALESCE(is_source_deleted) AS is_source_deleted
 		-- convert to UTC timestamp
 	    , created_at
 	    , updated_at
@@ -66,7 +66,7 @@ WITH source AS (
 
 SELECT 
     renamed.* 
-    , SAFE_CAST(metafield.value AS INTEGER) as legacy_quip_user_id
+    , SAFE_CAST(metafield.value AS INTEGER) as legacy_customer_id
 FROM renamed
 LEFT JOIN metafield
     ON renamed.shopify_customer_id = metafield.resource_id

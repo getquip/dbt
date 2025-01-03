@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: stg_quip_public__fulfillment_requests
+    description: |
+      This table contains Shopify fulfillment requests. Each request is associated with a fulfillment order
+      and contains details of the order from the customer perspective. Once the request is received, it is
+      processed via Quip's middleware in AWS and then sent for fulfillment.
