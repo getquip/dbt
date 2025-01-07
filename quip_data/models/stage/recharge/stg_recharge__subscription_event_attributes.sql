@@ -12,8 +12,8 @@ SELECT
 
 	, event_at
 	, items.attribute AS field_name
-	, items.previous_value
-	, items.value AS current_value
+	, LOWER(items.previous_value) AS previous_value
+	, LOWER(items.value) AS current_value
 FROM source
 , UNNEST(updated_attributes) AS items
 WHERE object_type = 'subscription'
