@@ -4,11 +4,12 @@ WITH source AS (
 
 , renamed AS (
 	SELECT
-		_fivetran_deleted AS is_source_deleted
+		COALESCE(_fivetran_deleted, FALSE) AS is_source_deleted
 		, _fivetran_synced AS source_synced_at
 
 		, id AS legacy_subscription_id
 		, user_id AS legacy_customer_id
+		, product_id AS legacy_subscription_item_id
 		, address_id
 		, order_id AS first_order_id -- this is the order that created the subscription
 		, SAFE_CAST(created_at AS TIMESTAMP) AS created_at

@@ -1,7 +1,3 @@
-
-# Name your project! Project names should contain only lowercase characters
-# and underscores. A good package name should reflect your organization's
-# name or the intended use of these models
 name: 'quip_data'
 version: '1.0.0'
 
@@ -18,7 +14,7 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-clean-targets:         # directories to be removed by `dbt clean`
+clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
@@ -29,35 +25,35 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Config indicated by + and applies to all files under models/example/
 models:
   quip_data: # these configs apply to all layers
-    +persists_docs: # This persists our documentiation on BQ UI
+    +persists_docs: # This persists our documentation on BQ UI
       relation: true
       columns: true
     +materialized: table
-    stage:
+    stage: # these configs apply to the stage layer
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
       alloy:
         +schema: alloy
-      quip_piblic:
+      quip_public:
         +schema: quip_public
-      shopify:
-        +schema: shopify
       recharge:
         +schema: recharge
-    intermediate:
+      shopify:
+        +schema: shopify
+    intermediate: # these configs apply to the intermediate layer
       +database: quip-dw-intermediate
       +docs:
         node_color: "#1577ef"
-      users:
-        +schema: users
       orders:
         +schema: orders
-      subscriptions:
-        +schema: subscriptions
       products:
         +schema: products
-    mart:
+      subscriptions:
+        +schema: subscriptions
+      users:
+        +schema: users
+    mart: # these configs apply to the mart layer
       +database: quip-dw-mart
       +schema: mart
       node:color: "#fcba03"

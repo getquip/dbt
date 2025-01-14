@@ -1,3 +1,6 @@
+/*
+These subscriptions excliude subsciptions to AAA batteries. 
+*/
 WITH
 
 subscriptions AS (
@@ -42,6 +45,7 @@ LEFT JOIN legacy_subscriptions
 	ON subscriptions.legacy_subscription_id = legacy_subscriptions.legacy_subscription_id
 LEFT JOIN customers
 	ON subscriptions.recharge_customer_id = customers.recharge_customer_id
+WHERE subscriptions.product_title != 'quip aaa battery'
 
 UNION ALL
 
