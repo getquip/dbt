@@ -14,7 +14,7 @@ models:
         data_type: string
         description: ""
 
-      - name: created_date
+      - name: created_on
         data_type: date
         description: ""
 
