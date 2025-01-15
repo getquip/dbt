@@ -5,7 +5,7 @@ WITH source AS (
 SELECT DISTINCT
   house_bill_number
   , master_bill_number
-  , PARSE_DATE('%Y%m%d', created_at) AS created_date
+  , PARSE_DATE('%Y%m%d', created_at) AS created_on
   , TRIM(LOWER(transportation_method)) AS transportation_method
   , co_load_bill_of_lading
   , container_id

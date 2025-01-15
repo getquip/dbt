@@ -14,15 +14,15 @@ models:
         data_type: string
         description: ""
 
-      - name: sku
-        data_type: string
-        description: ""
-
       - name: cartons
         data_type: int64
         description: ""
 
       - name: quantity
         data_type: int64
+        description: ""
+
+      - name: sku
+        data_type: string
         description: ""
 

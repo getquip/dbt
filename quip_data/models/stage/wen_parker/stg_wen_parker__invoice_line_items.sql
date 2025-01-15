@@ -15,5 +15,5 @@ SELECT DISTINCT
   , charge_code
   , charge_name
   , invoice_currency
-  , invoice_amount
+  , CAST(REPLACE(REPLACE(invoice_amount, ',',''), '$','') AS FLOAT64) AS invoice_amount
 FROM source
