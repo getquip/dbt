@@ -3,8 +3,8 @@ version: 2
 models:
   - name: stg_wen_parker__invoice_line_items
     description: ""
-    tags:
-      - daily
+    config:
+      tags: ['daily']
     columns:
       - name: invoice_number
         data_type: string

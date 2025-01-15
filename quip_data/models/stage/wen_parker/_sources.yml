@@ -4,6 +4,11 @@ sources:
   - name: wen_parker
     database: quip-dw-raw
     loader: Airflow # https://9e6d57501d3d455b965fdfc0234f1e74-dot-us-central1.composer.googleusercontent.com/dags/get__wen_parker/grid
+    description: |
+      - This source contains data from Wen Parker Logistics.
+      - Data is loaded daily via SFTP - files are dropped around 6am EST.
+      - Each file contains data from the last 90 days. To dedupe, it is best to get data from the most
+      recent file.
     tables:
       - name: invoice_line_items
       - name: shipment_details

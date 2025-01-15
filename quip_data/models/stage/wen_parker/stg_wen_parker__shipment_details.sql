@@ -5,15 +5,15 @@ WITH source AS (
 SELECT DISTINCT
   house_bill_number
   , master_bill_number
-  , PARSE_DATE('%Y%m%d', created_at) AS created_date
+  , PARSE_DATE('%Y%m%d', created_at) AS created_on
   , TRIM(LOWER(transportation_method)) AS transportation_method
   , co_load_bill_of_lading
   , container_id
   , vendor
   , origin_port_code
   , destination_port_code
-  , CAST(gross_weight AS FLOAT64) AS gross_weight
-  , CAST(chargeable_weight AS FLOAT64) AS chargeable_weight
+  , CAST(gross_weight AS FLOAT64) AS gross_weight_kg
+  , CAST(chargeable_weight AS FLOAT64) AS chargeable_weight_kg
   , CAST(units AS INTEGER) AS units
   , CAST(cubic_meters AS FLOAT64) AS cubic_meters
   , CAST(cartons AS INTEGER) AS cartons
