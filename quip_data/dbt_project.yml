@@ -33,18 +33,22 @@ models:
       relation: true
       columns: true
     +materialized: table
+
     stage:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
       alloy:
         +schema: alloy
-      quip_piblic:
+      quip_public:
         +schema: quip_public
       shopify:
         +schema: shopify
       recharge:
         +schema: recharge
+      wen_parker:
+        +schema: wen_parker
+
     intermediate:
       +database: quip-dw-intermediate
       +docs:
@@ -57,6 +61,7 @@ models:
         +schema: subscriptions
       products:
         +schema: products
+    
     mart:
       +database: quip-dw-mart
       +schema: mart

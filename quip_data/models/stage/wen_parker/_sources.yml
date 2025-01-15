@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: wen_parker
+    database: quip-dw-raw
+    loader: Airflow # https://9e6d57501d3d455b965fdfc0234f1e74-dot-us-central1.composer.googleusercontent.com/dags/get__wen_parker/grid
+    tables:
+      - name: invoice_line_items
+      - name: shipment_details
+      - name: shipment_item_details
+      - name: tariff_details
