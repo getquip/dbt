@@ -3,8 +3,8 @@ version: 2
 models:
   - name: stg_wen_parker__shipment_item_details
     description: ""
-    tags:
-      - daily
+    config:
+      tags: ['daily']
     columns:
       - name: house_bill_number
         data_type: string
