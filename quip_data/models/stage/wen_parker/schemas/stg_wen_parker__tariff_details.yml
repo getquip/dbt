@@ -16,10 +16,6 @@ models:
         data_type: string
         description: ""
 
-      - name: line_item_description
-        data_type: string
-        description: ""
-
       - name: total_tariff_duty
         data_type: float64
         description: ""

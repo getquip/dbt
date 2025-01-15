@@ -6,6 +6,12 @@ models:
     config:
       tags: ['daily']
     columns:
+      - name: shipment_item_id
+        data_type: string
+        description: ""
+        tests:
+          - unique
+
       - name: house_bill_number
         data_type: string
         description: ""
