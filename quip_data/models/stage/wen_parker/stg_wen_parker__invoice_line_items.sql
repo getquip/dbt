@@ -16,8 +16,8 @@ WITH source AS (
     , payer_name
     , TRIM(LOWER(shipment_type)) AS shipment_type
     , house_bill_number
-    , charge_code
-    , charge_name
+    , TRIM(LOWER(charge_code)) AS charge_code
+    , TRIM(LOWER(charge_name)) AS charge_name
     , invoice_currency
     , CAST(REPLACE(REPLACE(invoice_amount, ',',''), '$','') AS FLOAT64) AS invoice_amount
     , source_synced_at
