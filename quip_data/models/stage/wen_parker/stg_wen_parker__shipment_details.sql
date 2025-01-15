@@ -12,8 +12,8 @@ SELECT DISTINCT
   , vendor
   , origin_port_code
   , destination_port_code
-  , CAST(gross_weight AS FLOAT64) AS gross_weight
-  , CAST(chargeable_weight AS FLOAT64) AS chargeable_weight
+  , CAST(gross_weight AS FLOAT64) AS gross_weight_kg
+  , CAST(chargeable_weight AS FLOAT64) AS chargeable_weight_kg
   , CAST(units AS INTEGER) AS units
   , CAST(cubic_meters AS FLOAT64) AS cubic_meters
   , CAST(cartons AS INTEGER) AS cartons
