@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_wen_parker__tariff_details
+    description: ""
+    tags:
+      - daily
+    columns:
+      - name: house_bill_number
+        data_type: string
+        description: ""
+
+      - name: line_item_description
+        data_type: string
+        description: ""
+
+      - name: tariff_duty
+        data_type: float64
+        description: ""
+
+      - name: tariff_number
+        data_type: string
+        description: ""
+
+      - name: fees
+        data_type: float64
+        description: ""
+
+      - name: duty_rate_percent
+        data_type: float64
+        description: ""
+
+      - name: duty_rate
+        data_type: float64
+        description: ""
+
