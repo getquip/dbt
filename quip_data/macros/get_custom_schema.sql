@@ -12,7 +12,7 @@
         -%}
             {{ default_schema }}_{{ custom_schema_name }}
         {%- else -%}
-            {{ default_schema }}
+            {{ custom_schema_name }}
         {%- endif -%}
 {%- endmacro %}
 
