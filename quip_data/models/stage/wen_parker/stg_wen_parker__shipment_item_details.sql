@@ -1,5 +1,5 @@
 WITH source AS (
-	SELECT * FROM {{ source('wen_parker', 'shipment_details') }}
+	SELECT * FROM {{ source('wen_parker', 'shipment_item_details') }}
 )
 
 SELECT DISTINCT
