@@ -11,19 +11,6 @@
             custom_schema_name is not none
         -%}
             {{ default_schema }}_{{ custom_schema_name }}
-
-        {%- elif target.name in ('staging', 'prod') and custom_schema_name is not none-%}
-
-            {#
-            -- We don't have a staging quipcare project, so if the target is staging
-            -- and we're writing a quipcare model, we will just write to the default schema.
-            #}
-            {%- if node.database == 'quipcare-etl-data' and target.name == 'staging' -%} 
-                {{ default_schema }}
-            {%- else -%}
-                {{ custom_schema_name | trim }}
-            {%- endif -%}
-
         {%- else -%}
             {{ default_schema }}
         {%- endif -%}
