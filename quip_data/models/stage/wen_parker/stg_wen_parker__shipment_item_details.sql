@@ -26,8 +26,8 @@ WITH source AS (
     , house_bill_number
     , po_number
     , sku_number AS sku
-    , CAST(cartons AS INTEGER) AS cartons
-    , CAST(quantity AS INTEGER) AS quantity
+    , CAST(REPLACE(cartons, ',', '') AS INTEGER) AS cartons
+    , CAST(REPLACE(quantity, ',', '') AS INTEGER) AS quantity
     , source_synced_at
     , source_file_name
   FROM source
