@@ -48,6 +48,7 @@ models:
         +schema: recharge
       wen_parker:
         +schema: wen_parker
+        +materialized: view # temp materialization as legacy dbt models are dependent on these models
 
     intermediate:
       +database: quip-dw-intermediate
