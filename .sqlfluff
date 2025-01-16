@@ -1,0 +1,48 @@
+[sqlfluff]
+templater = dbt
+dialect = bigquery
+
+[sqlfluff:rules]
+; Enforce UPPERCASE for SQL keywords
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.keywords]
+; Enforce UPPERCASE for keywords
+capitalisation_policy = upper
+
+[sqlfluff:rules:layout.long_lines]
+; Enforce a maximum line length
+max_line_length = 120
+
+[sqlfluff:rules:layout.spacing]
+; Enforce double quotes for string literals
+string_style = double
+
+[sqlfluff:rules:aliasing.table]
+; Table aliases must be at least 3 characters
+min_alias_length = 3
+
+[sqlfluff:rules:layout.indent]
+; Indent JOIN clauses like ON, AND, OR
+indented_joins = True
+
+[sqlfluff:rules:layout.commas]
+; SQL fields are listed with leading comma
+comma_style = leading
+; Commas must be followed by a space
+force_following_space = True
+
+[sqlfluff:rules:layout.cte_newline]
+; Enforce consistent new lines for CTEs
+force_enable = True
+
+[sqlfluff:rules:aliasing.forbid]
+; Ensure consistent use of DISTINCT
+distinct_usage = consistent
+
+[sqlfluff:rules:layout.operators]
+; Enforce a new line before operators in complex expressions
+operator_newline = before
+; Ensure whitespace before and after operators
+force_whitespace_around_operators = True
+
