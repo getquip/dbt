@@ -36,4 +36,3 @@ QUALIFY
         PARTITION BY invoice_line_item_id
         ORDER BY source_synced_at DESC
     ) = 1
-asdjasl
