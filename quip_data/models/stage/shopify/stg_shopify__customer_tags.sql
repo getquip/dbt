@@ -8,7 +8,7 @@
         "tag", 
         "shopify_customer_id"
     ]
-)}}
+) }}
 
 WITH source AS (
     SELECT * FROM {{ source('shopify', 'customer_tag') }}
@@ -24,4 +24,3 @@ SELECT
     -- strings
     , LOWER(value) AS tag
 FROM source
-

@@ -1,5 +1,5 @@
 WITH source AS (
-	SELECT * FROM {{ source('wen_parker', 'shipment_item_details') }}
+    SELECT * FROM {{ source('wen_parker', 'shipment_item_details') }}
 )
 
 /*
@@ -15,7 +15,7 @@ WITH source AS (
 */
 
 , renamed AS (
-  SELECT
+    SELECT
     {{
       dbt_utils.generate_surrogate_key([
         'house_bill_number'
@@ -23,40 +23,50 @@ WITH source AS (
         , 'sku_number'
       ])
     }} AS shipment_item_id
-    , house_bill_number
-    , po_number
-    , sku_number AS sku
-    , CAST(REPLACE(cartons, ',', '') AS INTEGER) AS cartons
-    , CAST(REPLACE(quantity, ',', '') AS INTEGER) AS quantity
-    , source_synced_at
-    , source_file_name
-  FROM source
+        , house_bill_number
+        , po_number
+        , sku_number AS sku
+        , CAST(REPLACE(cartons , ',' , '') AS INTEGER) AS cartons
+        , CAST(REPLACE(quantity , ',' , '') AS INTEGER) AS quantity
+        , source_synced_at
+        , source_file_name
+    FROM source
 )
 
 , dedupe_by_file AS (
-  SELECT
-    shipment_item_id
-    , house_bill_number
-    , po_number
-    , sku
-    , source_file_name
-    , SUM(cartons) AS cartons
-    , SUM(quantity) AS quantity
-    , MAX(source_synced_at) AS source_synced_at
-  FROM renamed
-  GROUP BY 1, 2, 3, 4, 5
-  QUALIFY ROW_NUMBER() OVER(
-    PARTITION BY shipment_item_id, house_bill_number, source_file_name, po_number, sku 
-    ORDER BY source_synced_at DESC) = 1
+    SELECT
+        shipment_item_id
+        , house_bill_number
+        , po_number
+        , sku
+        , source_file_name
+        , SUM(cartons) AS cartons
+        , SUM(quantity) AS quantity
+        , MAX(source_synced_at) AS source_synced_at
+    FROM renamed
+    GROUP BY 1 , 2 , 3 , 4 , 5
+    QUALIFY ROW_NUMBER() OVER (
+            PARTITION BY
+                shipment_item_id
+                , house_bill_number
+                , source_file_name
+                , po_number
+                , sku
+            ORDER BY source_synced_at DESC
+        ) = 1
 )
 
 -- dedupe by shipment_item_id
 SELECT
-  shipment_item_id
-  , house_bill_number
-  , po_number
-  , sku
-  , cartons
-  , quantity
+    shipment_item_id
+    , house_bill_number
+    , po_number
+    , sku
+    , cartons
+    , quantity
 FROM dedupe_by_file
-QUALIFY ROW_NUMBER() OVER(PARTITION BY shipment_item_id ORDER BY source_synced_at DESC) = 1
+QUALIFY
+    ROW_NUMBER() OVER (
+        PARTITION BY shipment_item_id
+        ORDER BY source_synced_at DESC
+    ) = 1
