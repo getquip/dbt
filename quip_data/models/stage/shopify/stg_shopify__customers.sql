@@ -30,7 +30,6 @@ WITH source AS (
 
         -- timestamps
         , _fivetran_synced AS source_synced_at
-        , COALESCE(is_source_deleted) AS is_source_deleted
         -- convert to UTC timestamp
         , created_at
         , updated_at
@@ -73,4 +72,3 @@ LEFT JOIN metafield
     ON renamed.shopify_customer_id = metafield.resource_id
         AND metafield.resource_table_name = 'customer'
         AND metafield.key = 'user_id'
-WHERE NOT is_source_deleted
