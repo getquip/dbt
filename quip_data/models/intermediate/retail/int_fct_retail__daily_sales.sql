@@ -1,5 +1,3 @@
-
-
 -- partner
 -- location_number
 -- product_category

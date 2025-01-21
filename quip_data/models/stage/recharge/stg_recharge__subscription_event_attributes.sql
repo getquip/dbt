@@ -1,5 +1,5 @@
 WITH source AS (
-	SELECT * FROM {{ ref('stg_recharge__events') }}
+    SELECT * FROM {{ ref('stg_recharge__events') }}
 )
 
 SELECT
@@ -7,13 +7,13 @@ SELECT
 		'event_id'
 		, 'items.attribute'
 		]) }} AS event_attribute_id
-	, event_id
-	, object_id AS subscription_id
+    , event_id
+    , object_id AS subscription_id
 
-	, event_at
-	, items.attribute AS field_name
-	, LOWER(items.previous_value) AS previous_value
-	, LOWER(items.value) AS current_value
+    , event_at
+    , items.attribute AS field_name
+    , LOWER(items.previous_value) AS previous_value
+    , LOWER(items.value) AS current_value
 FROM source
 , UNNEST(updated_attributes) AS items
 WHERE object_type = 'subscription'

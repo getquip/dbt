@@ -1,27 +1,29 @@
 WITH source AS (
-	SELECT * FROM {{ source('wen_parker', 'invoice_line_items') }}
+    SELECT * FROM {{ source('wen_parker', 'invoice_line_items') }}
 )
+
 , cleaned AS (
-  SELECT
+    SELECT
     {{ dbt_utils.generate_surrogate_key([
       'invoice_number'
       , 'house_bill_number'
       , 'charge_code'
       , 'invoice_date'
       , 'shipment_type'
-    ])}} AS invoice_line_item_id
-    , invoice_number
-    , PARSE_DATE('%Y%m%d', invoice_date) AS invoice_date
-    , payer_code
-    , payer_name
-    , TRIM(LOWER(shipment_type)) AS shipment_type
-    , house_bill_number
-    , TRIM(LOWER(charge_code)) AS charge_code
-    , TRIM(LOWER(charge_name)) AS charge_name
-    , invoice_currency
-    , CAST(REPLACE(REPLACE(invoice_amount, ',',''), '$','') AS FLOAT64) AS invoice_amount
-    , source_synced_at
-  FROM source
+    ]) }} AS invoice_line_item_id
+        , invoice_number
+        , PARSE_DATE('%Y%m%d' , invoice_date) AS invoice_date
+        , payer_code
+        , payer_name
+        , TRIM(LOWER(shipment_type)) AS shipment_type
+        , house_bill_number
+        , TRIM(LOWER(charge_code)) AS charge_code
+        , TRIM(LOWER(charge_name)) AS charge_name
+        , invoice_currency
+        , CAST(REPLACE(REPLACE(invoice_amount , ',' , '') , '$' , '') AS FLOAT64)
+            AS invoice_amount
+        , source_synced_at
+    FROM source
 )
 
 /*
@@ -29,4 +31,8 @@ WITH source AS (
 	the last 90 days, and the same invoice may appear in multiple files.
 */
 SELECT * FROM cleaned
-QUALIFY ROW_NUMBER() OVER(PARTITION BY invoice_line_item_id ORDER BY source_synced_at DESC) = 1
+QUALIFY
+    ROW_NUMBER() OVER (
+        PARTITION BY invoice_line_item_id
+        ORDER BY source_synced_at DESC
+    ) = 1

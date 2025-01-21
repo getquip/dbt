@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: shopify
-    database: quip-etl-data
+    database: quip-dw-raw
     loader: fivetran
     tables:
       - name: abandoned_applied_discount

@@ -9,24 +9,24 @@
 		"type", 
 		"key", 
 		"metafield_id"]
-)}}
+) }}
 
 WITH source AS (
-	SELECT * FROM {{ source('shopify', 'metafield') }}
+    SELECT * FROM {{ source('shopify', 'metafield') }}
 )
 
-SELECT 
-	id AS metafield_id
-	, owner_id AS resource_id
+SELECT
+    id AS metafield_id
+    , owner_id AS resource_id
 
-	, _fivetran_synced AS source_synced_at
-	, created_at
-	, updated_at
-	 
-	, `description`
-	, `key`
-	, `namespace`
-	, LOWER(owner_resource) AS resource_table_name
-	, `type`
-	, `value`
+    , _fivetran_synced AS source_synced_at
+    , created_at
+    , updated_at
+
+    , `description`
+    , `key`
+    , `namespace`
+    , `type`
+    , `value`
+    , LOWER(owner_resource) AS resource_table_name
 FROM source
