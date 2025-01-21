@@ -58,7 +58,7 @@ WITH source AS (
         , total_duties
         , `type` AS charge_type
         , last_charge_attempt AS last_charge_attempt_at
-        , IF(external_variant_not_found , FALSE , TRUE) AS has_external_variant
+        , IF(external_variant_not_found IS NULL, FALSE , TRUE) AS has_external_variant
 
         -- parse tags
         , SPLIT(LOWER(tags) , ',') AS tags
