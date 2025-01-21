@@ -23,6 +23,7 @@ clean-targets: # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
 # Config indicated by + and applies to all files under models/example/
+# directories are listed in alphabetical order
 models:
   quip_data: # these configs apply to all layers
     +persists_docs: # This persists our documentation on BQ UI
@@ -40,6 +41,8 @@ models:
         +schema: quip_public
       recharge:
         +schema: recharge
+      shopify:
+        +schema: shopify
       wen_parker:
         +schema: wen_parker
         +materialized: view # temp materialization as legacy dbt models are dependent on these models

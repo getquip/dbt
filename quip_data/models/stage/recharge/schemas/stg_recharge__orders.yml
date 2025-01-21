@@ -1,0 +1,100 @@
+version: 2
+
+models:
+  - name: stg_recharge__orders
+    description: ""
+    columns:
+      - name: recharge_order_id
+        data_type: int64
+        description: ""
+        tests:
+          - unique
+
+      - name: shopify_order_id
+        data_type: string
+        description: ""
+
+      - name: recharge_customer_id
+        data_type: int64
+        description: ""
+
+      - name: is_prepaid
+        data_type: boolean
+        description: ""
+
+      - name: processed_at
+        data_type: timestamp
+        description: ""
+
+      - name: scheduled_at
+        data_type: timestamp
+        description: ""
+
+      - name: created_at
+        data_type: timestamp
+        description: ""
+
+      - name: status
+        data_type: string
+        description: ""
+
+      - name: subtotal_price
+        data_type: string
+        description: ""
+
+      - name: tags
+        data_type: string
+        description: ""
+
+      - name: taxable
+        data_type: boolean
+        description: ""
+
+      - name: total_discounts
+        data_type: string
+        description: ""
+
+      - name: total_price
+        data_type: string
+        description: ""
+
+      - name: total_tax
+        data_type: string
+        description: ""
+
+      - name: updated_at
+        data_type: timestamp
+        description: ""
+
+      - name: total_line_items_price
+        data_type: string
+        description: ""
+
+      - name: total_weight_grams
+        data_type: int64
+        description: ""
+
+      - name: total_refunds
+        data_type: string
+        description: ""
+
+      - name: type
+        data_type: string
+        description: ""
+
+      - name: total_duties
+        data_type: string
+        description: ""
+
+      - name: shopify_product_id
+        data_type: int64
+        description: ""
+
+      - name: shopify_product_variant_id
+        data_type: int64
+        description: ""
+
+      - name: subscription_id
+        data_type: int64
+        description: ""
+

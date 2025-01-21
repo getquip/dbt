@@ -40,7 +40,7 @@ WITH source AS (
         , LOWER(status) AS detailed_status
         , IF(fulfillment_completed_at IS NULL , 'unfulfilled' , 'fulfilled') AS fulfillment_status
         , LOWER(order_type) AS order_type
-        , weight / 16 AS weight_in_lbs
+        , weight * 0.00220462 AS total_weight_lbs
 
     FROM source
 )

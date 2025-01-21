@@ -5,6 +5,9 @@ models:
     description: |
       Consolidated table for orders.
     columns:
+      - name: order_id
+        tests:
+          - unique
       - name: order_status
         data_type: string
         description: "{{ doc('order_status')}}"
