@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_wen_parker__shipment_item_details
+    description: ""
+    config:
+      tags: ['daily']
+    columns:
+      - name: shipment_item_id
+        data_type: string
+        description: ""
+        tests:
+          - unique
+
+      - name: house_bill_number
+        data_type: string
+        description: ""
+
+      - name: po_number
+        data_type: string
+        description: ""
+
+      - name: cartons
+        data_type: int64
+        description: ""
+
+      - name: quantity
+        data_type: int64
+        description: ""
+
+      - name: sku
+        data_type: string
+        description: ""
+

@@ -1,12 +1,11 @@
 WITH
 
 users AS (
-	SELECT * FROM {{ ref('int_dim_users') }}
+    SELECT * FROM {{ ref('int_dim_users') }}
 )
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------
 
-SELECT
-	users.*
+SELECT users.*
 FROM users

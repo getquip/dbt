@@ -1,0 +1,62 @@
+[sqlfluff]
+templater = dbt
+dialect = bigquery
+sql_file_exts = .sql
+max_line_length = 120
+
+[sqlfluff:templater:dbt]
+project_dir = quip_data
+
+[sqlfluff:indentation]
+indented_joins = False
+allow_implicit_indents = True
+
+[sqlfluff:rules:capitalisation.keywords]
+capitalisation_policy = upper
+
+[sqlfluff:rules:capitalisation.types]
+extended_capitalisation_policy = upper
+
+[sqlfluff:rules:convention.not_equal]
+preferred_not_equal_style = c_style
+
+[sqlfluff:rules:layout.cte_bracket]
+; Enforce that the closing bracket for CTEs should be on a new line
+force_newline_after_cte = True
+
+[sqlfluff:rules:layout.cte_newline]
+
+[sqlfluff:rules:layout.keyword_newline]
+; Enforce a standard for keywords before/after newlines
+standardize_newlines = True
+
+[sqlfluff:rules:layout.select_modifiers]
+; Enforce that SELECT modifiers (e.g., DISTINCT) must be on the same line as SELECT
+force_same_line = True
+
+[sqlfluff:rules:layout.select_targets]
+; Enforce placing each SELECT target on a new line unless there is only one target.
+force_newlines = True
+single_target_newline = False
+
+[sqlfluff:rules:layout.set_operators]
+; Enforce that set operators (e.g., UNION, INTERSECT) should be surrounded by newlines
+force_newlines = True
+
+[sqlfluff:layout:type:comma]
+spacing_before = single
+line_position = leading
+
+[sqlfluff:rules:references.consistent]
+; Enforce consistent qualification of column references in single-table SELECTs
+force_enable = True
+single_table_references = consistent
+
+
+[sqlfluff:rules:references.from]
+; Enforce that references cannot reference objects not present in the FROM clause
+force_enable = True
+
+[sqlfluff:rules:references.qualification]
+; Enforce that references should be qualified if the SELECT has more than one referenced table/view
+enabled = True

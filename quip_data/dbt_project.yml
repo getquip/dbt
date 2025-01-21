@@ -29,7 +29,8 @@ models:
       relation: true
       columns: true
     +materialized: table
-    stage: # these configs apply to the stage layer
+
+    stage:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
@@ -39,9 +40,11 @@ models:
         +schema: quip_public
       recharge:
         +schema: recharge
-      shopify:
-        +schema: shopify
-    intermediate: # these configs apply to the intermediate layer
+      wen_parker:
+        +schema: wen_parker
+        +materialized: view # temp materialization as legacy dbt models are dependent on these models
+
+    intermediate:
       +database: quip-dw-intermediate
       +docs:
         node_color: "#1577ef"
@@ -51,9 +54,10 @@ models:
         +schema: products
       subscriptions:
         +schema: subscriptions
-      users:
-        +schema: users
-    mart: # these configs apply to the mart layer
+      products:
+        +schema: products
+    
+    mart:
       +database: quip-dw-mart
       +schema: mart
       node:color: "#fcba03"
