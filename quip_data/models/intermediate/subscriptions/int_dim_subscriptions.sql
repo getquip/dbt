@@ -1,5 +1,5 @@
 /*
-These subscriptions excliude subsciptions to AAA batteries. 
+These subscriptions excliude subsciptions to AAA batteries.
 */
 WITH
 
