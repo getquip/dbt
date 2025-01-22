@@ -14,6 +14,7 @@ WITH source AS (
         id AS recharge_order_id
         , CAST(external_order_id.ecommerce AS INTEGER) AS shopify_order_id
         , customer.id AS recharge_customer_id
+        , address_id AS recharge_address_id
         , is_prepaid
         , processed_at
         , scheduled_at
@@ -29,7 +30,7 @@ WITH source AS (
         , total_line_items_price
         , total_weight_grams
         , total_refunds
-        , type
+        , type -- 'checkout' are the first orders of a subscription
         , total_duties
         , line_items
     FROM source

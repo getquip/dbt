@@ -59,21 +59,13 @@ SELECT
     , fulfillment_service_level
     , fulfillment_status
     , NULL AS fulfillment_ship_date
-    --, NULL AS fulfillment_delivered_at
     , NULL AS fulfilment_received_by_provider_at
 
     , order_type
     , 'quip' AS order_source
     , detailed_status
     , order_status
-
-    , total_weight_lbs
-
-    -- payments
     , payment_status
-    --, total_cost
-    , tax AS total_tax_at_checkout
-    , subtotal AS subtotal_price_at_checkout
 
 FROM legacy_orders
 
@@ -112,15 +104,9 @@ SELECT
 				THEN 'pending'
 			ELSE 'no_mapped_order_status_need_to_fix'
 		END AS order_status
-    
-
-    , total_weight_lbs
 
     -- payments
     , orders.payment_status
-    --, total_cost
-    , orders.total_tax_at_checkout
-    , orders.subtotal_price_at_checkout
 
 FROM shopify_orders AS orders
 LEFT JOIN metafields
@@ -130,3 +116,12 @@ LEFT JOIN metafields
 	AND orders.source_name IN ('1662707', 'shopify_draft_order')
 LEFT JOIN fulfillment_provider AS fulfillment
     ON orders.shopify_order_id = fulfillment.shopify_order_id
+
+/*
+need to add:
+is_guest_checkout
+weight (according to fulfiller)
+order name
+
+
+*/

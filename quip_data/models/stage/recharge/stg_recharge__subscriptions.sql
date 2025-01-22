@@ -20,6 +20,7 @@ WITH source AS (
     SELECT
         id AS subscription_id
         , customer_id AS recharge_customer_id
+        , address_id AS recharge_address_id
         , created_at
         , updated_at
         , source_synced_at

@@ -53,6 +53,8 @@ models:
         node_color: "#1577ef"
       orders:
         +schema: orders
+      order_items:
+        +schema: order_items
       products:
         +schema: products
       subscriptions:

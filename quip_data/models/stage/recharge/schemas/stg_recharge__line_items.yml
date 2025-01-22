@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: stg_recharge__line_items
+    description: ""
+    columns:
+      - name: line_item_id
+        tests:
+          - unique
