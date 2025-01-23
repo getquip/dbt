@@ -35,8 +35,6 @@ models:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
-      alloy:
-        +schema: alloy
       ceva:
         +schema: ceva
       quip_public:
@@ -45,6 +43,8 @@ models:
         +schema: recharge
       shopify:
         +schema: shopify
+      tiktok_ads:
+        +schema: tiktok_ads
       wen_parker:
         +schema: wen_parker
         +materialized: view # temp materialization as legacy dbt models are dependent on these models
@@ -53,16 +53,16 @@ models:
       +database: quip-dw-intermediate
       +docs:
         node_color: "#1577ef"
-      orders:
-        +schema: orders
       order_items:
         +schema: order_items
+      orders:
+        +schema: orders
       products:
         +schema: products
       subscriptions:
         +schema: subscriptions
-      products:
-        +schema: products
+      users:
+        +schema: users
     
     mart:
       +database: quip-dw-mart
