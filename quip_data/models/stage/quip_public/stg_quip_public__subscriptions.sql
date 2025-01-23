@@ -20,4 +20,4 @@ WITH source AS (
 )
 
 SELECT * FROM renamed
-WHERE NOT is_source_deleted
+WHERE NOT is_source_deleted 

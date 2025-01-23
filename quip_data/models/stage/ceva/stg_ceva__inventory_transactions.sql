@@ -9,7 +9,7 @@ WITH source AS (
         , sku_id AS sku
         , `key` AS insert_id
         , description
-        , update_qty AS quantity
+        , CAST(update_qty AS INTEGER) AS quantity
         , reference_id AS shipment_id
         , purchase_order AS manifest_po
         , reason_id AS inventory_reason_id
