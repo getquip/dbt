@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: stg_recharge__subscription_event_attributes
+    description: ""
+    config:
+      tags: ['daily']
+    columns:
+      - name: event_attribute_id
+        data_type: string
+        description: ""
+
+      - name: event_id
+        data_type: int64
+        description: ""
+
+      - name: subscription_id
+        data_type: int64
+        description: ""
+
+      - name: event_at
+        data_type: timestamp
+        description: ""
+
+      - name: field_name
+        data_type: string
+        description: ""
+
+      - name: previous_value
+        data_type: string
+        description: ""
+
+      - name: current_value
+        data_type: string
+        description: ""
+

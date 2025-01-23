@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: stg_ceva__inventory_snapshot
+    description: A dataset of CEVA's inventory snapshots sent to our S3 bucket.
+    columns:
+      - name: surrogate_key
+        description: The surrogate key is a concatenation of `SNAPSHOT_DATE` and `SKU_ID`.
+        tests:
+          - not_null
+          - unique
+
+      - name: snapshot_timestamp
+        description: The UTC timestamp when the snapshot was taken.
+
+      - name: snapshot_date
+        description: The date the snapshot was taken.
+
+      - name: sku_id
+        description: The SKU (e.g., 700-00030).
+
+      - name: sku_description
+        description: The description of the SKU.
+
+      - name: putaway_qty
+        description: |
+          Count of units that have been received and are awaiting putaway. Does not include returned items.
+
+      - name: quarantine_qty
+        description: Count of units currently in quarantine locations due to an inventory issue.
+
+      - name: open_order_qty
+        description: Count of units reserved by pending (open and unshipped) orders.
+
+      - name: expired_qty
+        description: |
+          Count of units currently in an expired location due to the expiration of the product’s shelf life.
+
+      - name: damaged_qty
+        description: Count of units in the warehouse with a condition code of DAM.
+
+      - name: total_qty_on_hand
+        description: |
+          Count of all units within the 4 walls of CEVA's facility (includes allocated/picked, expired, etc.).
+
+      - name: sellable_qty
+        description: Count of units available to sell (`total_qty_on_hand` - `open_order_qty`).
+
+      - name: kitting_qty
+        description: Count of units that are pending kitting, based on pending kitting requests submitted.

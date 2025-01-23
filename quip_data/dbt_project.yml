@@ -37,6 +37,8 @@ models:
         node_color: "#900C3F"
       alloy:
         +schema: alloy
+      ceva:
+        +schema: ceva
       quip_public:
         +schema: quip_public
       recharge:
