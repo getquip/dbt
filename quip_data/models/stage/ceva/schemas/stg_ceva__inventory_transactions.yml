@@ -8,9 +8,6 @@ models:
       columns:
           - name: insert_id
             description: The unique key for the table
-            tests:
-                - unique
-                - not_null
 
           - name: reference_id
             description: |

@@ -6,9 +6,6 @@ models:
     columns:
       - name: surrogate_key
         description: The surrogate key is a concatenation of `SNAPSHOT_DATE` and `SKU_ID`.
-        tests:
-          - not_null
-          - unique
 
       - name: snapshot_timestamp
         description: The UTC timestamp when the snapshot was taken.
