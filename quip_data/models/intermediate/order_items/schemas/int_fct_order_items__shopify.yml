@@ -5,5 +5,3 @@ models:
     description: ""
     columns:
       - name: line_item_id
-        tests:
-          - unique

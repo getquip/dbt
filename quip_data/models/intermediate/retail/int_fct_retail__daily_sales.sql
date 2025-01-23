@@ -18,3 +18,4 @@
 -- average_price
 -- product_cogs
 -- estimated_pos_margin
+SELECT 'test'
