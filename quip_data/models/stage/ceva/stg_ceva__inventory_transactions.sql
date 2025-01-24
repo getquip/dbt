@@ -26,7 +26,7 @@ WITH source AS (
 )
 
 SELECT
-    *
+    * EXCEPT(quantity)
     , CASE
         WHEN code = 'shipment' THEN 'ship'
         WHEN code = 'adjustment' THEN 'adjust'
