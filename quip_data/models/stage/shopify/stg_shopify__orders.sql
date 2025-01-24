@@ -17,7 +17,7 @@ WITH source AS (
 /*
 NOTE: some fields are purposely excluded from this model. They are either:
 - redundant (e.g. total_price_set is a nested field that contains the same information as total_price)
-- possibly stale (e.g. total_weight does not update if items are removed from the order)
+- possibly stale
 - deprecated (e.g. total_discounts)
 
 Confirm with the API docs before adding any of these fields back in.
@@ -46,7 +46,7 @@ https://shopify.dev/docs/api/admin-rest/2024-10/resources/order#resource-object
         , presentment_currency	
         , reference	
         , source_identifier	
-        , source_name	
+        , LOWER(source_name) AS source_name
         , source_url	
         , customer_locale	
         , fulfillment_status	
@@ -79,6 +79,8 @@ https://shopify.dev/docs/api/admin-rest/2024-10/resources/order#resource-object
         , IF(taxes_included, subtotal_price - current_total_tax, subtotal_price) AS subtotal_price_at_checkout
         , total_line_items_price AS total_product_price_at_checkout
         , total_price AS total_price_at_checkout
+        , total_weight AS total_weight_grams
+        , total_weight * 0.00220462 AS total_weight_lbs
         ---- metrics at current time: this reflects the amount after any edits/refunds
         , current_total_discounts
         , current_total_price

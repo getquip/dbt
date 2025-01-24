@@ -12,10 +12,6 @@ models:
         data_type: int64
         description: ""
 
-      - name: COALESCE(is_source_deleted)
-        data_type: boolean
-        description: ""
-
       - name: created_at
         data_type: timestamp
         description: ""

@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_recharge__customer
+  - name: stg_recharge__customers
     description: ""
     columns:
       - name: id

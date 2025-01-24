@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_recharge__events
+    description: ""
+    config:
+      tags: ['daily']
+    columns:
+      - name: event_id
+        data_type: int64
+        description: ""
+
+      - name: recharge_customer_id
+        data_type: int64
+        description: ""
+
+      - name: object_id
+        data_type: int64
+        description: ""
+
+      - name: event_at
+        data_type: timestamp
+        description: ""
+
+      - name: description
+        data_type: string
+        description: ""
+
+      - name: object_type
+        data_type: string
+        description: ""
+
+      - name: admin_account_id
+        data_type: string
+        description: ""
+
+      - name: api_token_id
+        data_type: string
+        description: ""
+
+      - name: admin_account_email
+        data_type: string
+        description: ""
+
+      - name: api_token_name
+        data_type: string
+        description: ""
+
+      - name: event_origin
+        data_type: string
+        description: ""
+
+      - name: user_type
+        data_type: string
+        description: ""
+
+      - name: verb
+        data_type: string
+        description: ""
+
+      - name: custom_attributes
+        data_type: record
+        description: ""
+
+      - name: custom_attributes.key
+        data_type: string
+        description: ""
+
+      - name: custom_attributes.value
+        data_type: string
+        description: ""
+
+      - name: updated_attributes
+        data_type: record
+        description: ""
+
+      - name: updated_attributes.attribute
+        data_type: string
+        description: ""
+
+      - name: updated_attributes.previous_value
+        data_type: string
+        description: ""
+
+      - name: updated_attributes.value
+        data_type: string
+        description: ""
+

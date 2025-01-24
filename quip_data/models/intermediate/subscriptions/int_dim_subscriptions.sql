@@ -1,3 +1,6 @@
+/*
+These subscriptions excliude subsciptions to AAA batteries.
+*/
 WITH
 
 subscriptions AS (

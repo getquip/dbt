@@ -10,5 +10,6 @@ SELECT
 
     , created_at
     , updated_at
+    , grams * 0.00220462 AS weight_lbs
 FROM
     source

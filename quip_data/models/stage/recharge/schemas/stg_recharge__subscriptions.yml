@@ -1,0 +1,82 @@
+version: 2
+
+models:
+  - name: stg_recharge__subscriptions
+    description: ""
+    columns:
+      - name: subscription_id
+        data_type: int64
+        description: ""
+
+      - name: recharge_customer_id
+        data_type: int64
+        description: ""
+
+      - name: created_at
+        data_type: timestamp
+        description: ""
+
+      - name: updated_at
+        data_type: timestamp
+        description: ""
+
+      - name: source_synced_at
+        data_type: timestamp
+        description: ""
+
+      - name: status
+        data_type: string
+        description: ""
+
+      - name: address_id
+        data_type: int64
+        description: ""
+
+      - name: quantity
+        data_type: int64
+        description: ""
+
+      - name: cancelled_at
+        data_type: timestamp
+        description: ""
+
+      - name: cancellation_reason
+        data_type: string
+        description: ""
+
+      - name: cancellation_reason_comments
+        data_type: string
+        description: ""
+
+      - name: legacy_subscription_properties
+        data_type: record
+        description: ""
+
+      - name: legacy_subscription_properties.name
+        data_type: string
+        description: ""
+
+      - name: legacy_subscription_properties.value
+        data_type: string
+        description: ""
+
+      - name: shopify_product_id
+        data_type: int64
+        description: ""
+
+      - name: shopify_product_variant_id
+        data_type: int64
+        description: ""
+
+      - name: product_title
+        data_type: string
+        description: ""
+
+      - name: variant_title
+        data_type: string
+        description: ""
+
+      - name: legacy_subscription_id
+        data_type: int64
+        description: ""
+

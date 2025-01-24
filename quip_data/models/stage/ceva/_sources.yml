@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: ceva
+    database: quip-dw-raw
+    loader: Airflow
+    tables:
+      - name: inventory_snapshot
+      - name: inventory_transactions

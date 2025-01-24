@@ -6,12 +6,17 @@ shopify_orders AS (
     SELECT * FROM {{ ref("stg_shopify__orders") }}
 )
 
-, shopify_fulfillment_events AS (
-    SELECT * FROM {{ ref("stg_shopify__fulfillment_events") }}
+, metafields AS (
+	SELECT
+		resource_id AS order_id
+		, key
+		, LOWER(value) AS value
+	FROM {{ ref("stg_shopify__metafields") }}
 )
 
 , shopify_fulfillments AS (
-    SELECT * FROM {{ ref("stg_shopify__fulfillments") }}
+    SELECT * 
+    FROM {{ ref("stg_shopify__fulfillments") }}
 )
 
 , middleware_fulfillments AS (
@@ -25,9 +30,25 @@ shopify_orders AS (
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------
 
+, fulfillment_provider AS (
+    SELECT
+        shopify.shopify_order_id
+        , middleware.fulfillment_provider
+        , middleware.fulfillment_service_level
+        , MIN(middleware.fulfilment_received_by_provider_at) AS fulfilment_received_by_provider_at
+        , MIN(middleware.fulfillment_ship_date) AS fulfillment_ship_date
+        , MAX(middleware.updated_at) AS updated_at
+    FROM shopify_fulfillments AS shopify
+    LEFT JOIN middleware_fulfillments AS middleware
+        ON shopify.shopify_fulfillment_id = middleware.shopify_fulfillment_id
+    GROUP BY 1, 2, 3
+    QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY shopify.shopify_order_id 
+        ORDER BY updated_at DESC) = 1
+)
+
 SELECT
     legacy_order_id AS order_id
-    , legacy_subscription_id AS subscription_id
 
     , created_at
     , updated_at
@@ -38,21 +59,13 @@ SELECT
     , fulfillment_service_level
     , fulfillment_status
     , NULL AS fulfillment_ship_date
-    --, NULL AS fulfillment_delivered_at
     , NULL AS fulfilment_received_by_provider_at
 
     , order_type
     , 'quip' AS order_source
     , detailed_status
     , order_status
-
-    , weight_in_lbs
-
-    -- payments
     , payment_status
-    --, total_cost
-    , tax AS total_tax_at_checkout
-    , subtotal AS subtotal_price_at_checkout
 
 FROM legacy_orders
 
@@ -60,46 +73,55 @@ UNION ALL
 
 SELECT
     orders.shopify_order_id AS order_id
-    , NULL AS subscription_id -- need to bring in recharge orders to get subscription_id
 
     , orders.created_at
     , orders.updated_at
     , orders.cancelled_at
 
     -- fulfillment
-    , middleware_fulfillments.fulfillment_provider
-    , middleware_fulfillments.fulfillment_service_level
+    , fulfillment.fulfillment_provider
+    , fulfillment.fulfillment_service_level
     , orders.fulfillment_status
-    , middleware_fulfillments.fulfillment_ship_date
+    , fulfillment.fulfillment_ship_date
     --delivered_at
-    , middleware_fulfillments.fulfilment_received_by_provider_at
+    , fulfillment.fulfilment_received_by_provider_at
 
-    , NULL AS order_type
+    , CASE 
+		WHEN orders.source_name = 'subscription_contract' 
+			THEN 'subscription-invoice-item'
+		WHEN orders.source_name = 'web' THEN 'store'
+		WHEN metafields.value = 'replacement' THEN 'replacement'
+		WHEN metafields.value = 'reshipment' THEN 'reshipment'
+		WHEN metafields.value = 'wholesale'THEN 'wholesale-dental-supplier'
+		ELSE 'other'
+	END AS order_type
     , 'shopify' AS order_source
     , NULL AS detailed_status
     , CASE
-        WHEN orders.cancelled_at IS NOT NULL THEN 'failed_or_canceled'
-        WHEN (orders.fulfillment_status IS NULL OR orders.fulfillment_status = 'partial')
-            OR (orders.fulfillment_status = 'fulfilled' AND delivered.event_at IS NULL)
-            THEN 'pending'
-        WHEN delivered.event_at IS NOT NULL THEN 'delivered'
-        ELSE 'no_mapped_order_status_need_to_fix'
-    END AS order_status
-
-    , NULL AS weight_in_lbs
+			WHEN orders.cancelled_at IS NOT NULL THEN 'failed_or_canceled'
+			WHEN (orders.fulfillment_status IS NULL OR orders.fulfillment_status = 'partial')
+				OR (orders.fulfillment_status = 'fulfilled')
+				THEN 'pending'
+			ELSE 'no_mapped_order_status_need_to_fix'
+		END AS order_status
 
     -- payments
     , orders.payment_status
-    --, total_cost
-    , orders.total_tax_at_checkout
-    , orders.subtotal_price_at_checkout
 
 FROM shopify_orders AS orders
-LEFT JOIN shopify_fulfillments
-    ON orders.shopify_order_id = shopify_fulfillments.shopify_order_id
-LEFT JOIN middleware_fulfillments
-    ON shopify_fulfillments.shopify_fulfillment_id = middleware_fulfillments.shopify_fulfillment_id
-LEFT JOIN shopify_fulfillment_events AS delivered
-    ON orders.shopify_order_id = delivered.shopify_order_id
-        AND delivered.order_status = 'delivered'
-WHERE NOT orders.is_source_deleted
+LEFT JOIN metafields
+	ON orders.shopify_order_id = metafields.order_id
+	AND metafields.key = 'order_type'
+	AND metafields.value IN ('replacement', 'reshipment', 'wholesale')
+	AND orders.source_name IN ('1662707', 'shopify_draft_order')
+LEFT JOIN fulfillment_provider AS fulfillment
+    ON orders.shopify_order_id = fulfillment.shopify_order_id
+
+/*
+need to add:
+is_guest_checkout
+weight (according to fulfiller)
+order name
+
+
+*/

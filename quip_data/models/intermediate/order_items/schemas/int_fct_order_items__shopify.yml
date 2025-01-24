@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: int_fct_order_items__shopify
+    description: ""
+    columns:
+      - name: line_item_id

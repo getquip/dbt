@@ -9,6 +9,7 @@ WITH source AS (
         , created_at
         , updated_at
         , order_id AS shopify_order_id
+        , service AS fulfillment_service
     FROM source
 )
 

@@ -1,0 +1,134 @@
+version: 2
+
+models:
+  - name: stg_recharge__discounts
+    description: ""
+    columns:
+      - name: id
+        data_type: int64
+        description: ""
+
+      - name: applies_to
+        data_type: record
+        description: ""
+
+      - name: applies_to.ids
+        data_type: string
+        description: ""
+
+      - name: applies_to.purchase_item_type
+        data_type: string
+        description: ""
+
+      - name: applies_to.resource
+        data_type: string
+        description: ""
+
+      - name: channel_settings
+        data_type: record
+        description: ""
+
+      - name: channel_settings.api
+        data_type: record
+        description: ""
+
+      - name: channel_settings.api.can_apply
+        data_type: boolean
+        description: ""
+
+      - name: channel_settings.checkout_page
+        data_type: record
+        description: ""
+
+      - name: channel_settings.checkout_page.can_apply
+        data_type: boolean
+        description: ""
+
+      - name: channel_settings.customer_portal
+        data_type: record
+        description: ""
+
+      - name: channel_settings.customer_portal.can_apply
+        data_type: boolean
+        description: ""
+
+      - name: channel_settings.merchant_portal
+        data_type: record
+        description: ""
+
+      - name: channel_settings.merchant_portal.can_apply
+        data_type: boolean
+        description: ""
+
+      - name: code
+        data_type: string
+        description: ""
+
+      - name: created_at
+        data_type: timestamp
+        description: ""
+
+      - name: ends_at
+        data_type: timestamp
+        description: ""
+
+      - name: external_discount_id
+        data_type: record
+        description: ""
+
+      - name: external_discount_id.ecommerce
+        data_type: string
+        description: ""
+
+      - name: external_discount_source
+        data_type: string
+        description: ""
+
+      - name: prerequisite_subtotal_min
+        data_type: string
+        description: ""
+
+      - name: starts_at
+        data_type: timestamp
+        description: ""
+
+      - name: status
+        data_type: string
+        description: ""
+
+      - name: updated_at
+        data_type: timestamp
+        description: ""
+
+      - name: usage_limits
+        data_type: record
+        description: ""
+
+      - name: usage_limits.automatic_redemptions_per_customer
+        data_type: int64
+        description: ""
+
+      - name: usage_limits.first_time_customer_restriction
+        data_type: boolean
+        description: ""
+
+      - name: usage_limits.max_subsequent_redemptions
+        data_type: int64
+        description: ""
+
+      - name: usage_limits.one_application_per_customer
+        data_type: boolean
+        description: ""
+
+      - name: value
+        data_type: string
+        description: ""
+
+      - name: value_type
+        data_type: string
+        description: ""
+
+      - name: source_synced_at
+        data_type: string
+        description: ""
+
