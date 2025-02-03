@@ -30,7 +30,6 @@ WITH source AS (
         , DATE(from_date) AS from_date
         , TIMESTAMP(actual_dstamp) AS actual_timestamp
 		, TIMESTAMP(finish_dstamp) AS finish_timestamp
-        , LOWER(code) AS code
     FROM source
 )
 

@@ -5,6 +5,8 @@ models:
       description: |
         A dataset of CEVA's inventory transactions sent to our S3 bucket. Inventory transactions are any 
         event occurring to a unit of inventory at the CEVA warehouse.
+    config:
+      tags: ['daily']
       columns:
           - name: insert_id
             description: The unique key for the table
