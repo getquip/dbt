@@ -20,7 +20,7 @@ WITH source AS (
         , 'ceva' AS provider
         , DATE(to_date) AS to_date
         , DATE(from_date) AS from_date
-        , TIMESTAMP(complete_dstamp) AS completed_timestamp
+        , SAFE_CAST(complete_dstamp AS TIMESTAMP) AS completed_timestamp
         , LOWER(code) AS code
     FROM source
 )
