@@ -9,7 +9,7 @@ WITH source AS (
         , sku_id AS sku
         , `key` AS insert_id
         , description
-        , CAST(update_qty AS INTEGER) AS quantity
+        , SAFE_CAST(update_qty AS INTEGER) AS quantity
         , reference_id AS shipment_id
         , purchase_order AS manifest_po
         , reason_id AS inventory_reason_id
@@ -18,9 +18,9 @@ WITH source AS (
         , source_file_name
         , source_synced_at
         , 'ceva' AS provider
-        , DATE(to_date) AS to_date
-        , DATE(from_date) AS from_date
-        , TIMESTAMP(complete_dstamp) AS completed_timestamp
+        , SAFE_CAST(to_date AS DATE) AS to_date
+        , SAFE_CAST(from_date AS DATE) AS from_date
+        , SAFE_CAST(complete_dstamp AS TIMESTAMP) AS completed_timestamp
         , LOWER(code) AS code
     FROM source
 )
@@ -31,7 +31,7 @@ SELECT
         WHEN code = 'shipment' THEN 'ship'
         WHEN code = 'adjustment' THEN 'adjust'
         ELSE REGEXP_REPLACE(code , r'\s' , '_')
-    END AS type
+    END AS inventory_type
     /*
     quantity is negative in Newgistics when it's a deduction.
     CEVA reports update_qty as a positive number for Shipment, this flips that

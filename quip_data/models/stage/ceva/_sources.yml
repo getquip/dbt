@@ -7,3 +7,4 @@ sources:
     tables:
       - name: inventory_snapshot
       - name: inventory_transactions
+      - name: pre_advices

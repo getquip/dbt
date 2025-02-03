@@ -1,18 +1,19 @@
 version: 2
 
 models:
-    - name: stg_ceva__inventory_transactions
-      description: |
-        A dataset of CEVA's inventory transactions sent to our S3 bucket. Inventory transactions are any 
-        event occurring to a unit of inventory at the CEVA warehouse.
-      columns:
-          - name: insert_id
-            description: The unique key for the table
+  - name: stg_ceva__inventory_transactions
+    description: |
+      This model represents CEVA's inventory transactions dataset, sourced from the S3 bucket.
+      Inventory transactions capture any event affecting a unit of inventory at the CEVA warehouse.
+    tags: ['daily']
+    columns:
+      - name: insert_id
+        description: The unique identifier for the table.
 
-          - name: reference_id
-            description: |
-              The `reference_id` is a polymorphic key. 
-              Importantly, when the order is a DTC order and the `code = 'Shipment'` the `reference_id` 
-              is the shipment ID that can be linked back to our `orders` via 
-              `orders.newgistics_shipment_id` (which is confusing because it's not a newgistics field, 
-              but that's how the backend calls it).
+      - name: reference_id
+        description: |
+          The `reference_id` is a polymorphic key. 
+          When the order is a DTC (Direct-to-Consumer) order and `code = 'Shipment'`, 
+          the `reference_id` represents the shipment ID. This ID can be linked back to the 
+          `orders` table via `orders.newgistics_shipment_id`. Despite the name, 
+          `newgistics_shipment_id` is not a Newgistics field; it reflects a backend naming convention.
