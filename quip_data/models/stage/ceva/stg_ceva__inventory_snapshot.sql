@@ -4,7 +4,7 @@ WITH source AS (
 
 , renamed AS (
 	SELECT 
-		CAST(snapshot_date_time AS TIMESTAMP) AS snapshot_timestamp
+		SAFE_CAST(snapshot_date_time AS TIMESTAMP) AS snapshot_timestamp
 		, snapshot_date
 		, sku_id AS sku
 		, description AS sku_description
