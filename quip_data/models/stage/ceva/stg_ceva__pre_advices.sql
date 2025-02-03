@@ -34,5 +34,5 @@ WITH source AS (
     FROM source
 )
 
-SELECT
+SELECT *
 FROM cleaned
