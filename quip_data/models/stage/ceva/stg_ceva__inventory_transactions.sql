@@ -9,7 +9,7 @@ WITH source AS (
         , sku_id AS sku
         , `key` AS insert_id
         , description
-        , CAST(update_qty AS INTEGER) AS quantity
+        , SAFE_CAST(update_qty AS INTEGER) AS quantity
         , reference_id AS shipment_id
         , purchase_order AS manifest_po
         , reason_id AS inventory_reason_id
@@ -18,8 +18,8 @@ WITH source AS (
         , source_file_name
         , source_synced_at
         , 'ceva' AS provider
-        , DATE(to_date) AS to_date
-        , DATE(from_date) AS from_date
+        , SAFE_CAST(to_date AS DATE) AS to_date
+        , SAFE_CAST(from_date AS DATE) AS from_date
         , SAFE_CAST(complete_dstamp AS TIMESTAMP) AS completed_timestamp
         , LOWER(code) AS code
     FROM source
