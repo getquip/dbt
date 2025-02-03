@@ -1,5 +1,5 @@
 WITH source AS (
-    SELECT * FROM {{ source('ceva', 'inventory_transactions') }}
+    SELECT * FROM {{ source('ceva', 'pre_advices') }}
 )
 
 , cleaned AS (
