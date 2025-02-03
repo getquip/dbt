@@ -22,6 +22,7 @@ WITH source AS (
         , DATE(from_date) AS from_date
         , TIMESTAMP(complete_dstamp) AS completed_timestamp
         , LOWER(code) AS code
+        , notes
     FROM source
 )
 
