@@ -22,7 +22,6 @@ WITH source AS (
         , DATE(from_date) AS from_date
         , TIMESTAMP(complete_dstamp) AS completed_timestamp
         , LOWER(code) AS code
-        , notes
     FROM source
 )
 
@@ -32,7 +31,7 @@ SELECT
         WHEN code = 'shipment' THEN 'ship'
         WHEN code = 'adjustment' THEN 'adjust'
         ELSE REGEXP_REPLACE(code , r'\s' , '_')
-    END AS type
+    END AS inventory_type
     /*
     quantity is negative in Newgistics when it's a deduction.
     CEVA reports update_qty as a positive number for Shipment, this flips that
