@@ -3,8 +3,7 @@ version: 2
 models:
   - name: stg_wen_parker__tariff_details
     description: ""
-    config:
-      tags: ['daily']
+    tags: ['daily']
     columns:
       - name: tariff_id
         data_type: string

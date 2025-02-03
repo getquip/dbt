@@ -28,8 +28,8 @@ WITH source AS (
         , 'ceva' AS provider
         , DATE(to_date) AS to_date
         , DATE(from_date) AS from_date
-        , TIMESTAMP(actual_dstamp) AS actual_timestamp
-		, TIMESTAMP(finish_dstamp) AS finish_timestamp
+    	, SAFE_CAST(actual_dstamp AS TIMESTAMP) AS actual_timestamp
+		, SAFE_CAST(finish_dstamp AS TIMESTAMP) AS finish_timestamp
     FROM source
 )
 
