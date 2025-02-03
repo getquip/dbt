@@ -7,7 +7,7 @@ WITH source AS (
         {{ dbt_utils.generate_surrogate_key([
 			'pre_advice_id'
 			, 'po_number'
-			, 'sku'
+			, 'sku_id'
 			]) }} as pre_advice_uuid
 		, pre_advice_id
         , po_number
