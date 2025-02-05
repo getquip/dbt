@@ -12,7 +12,7 @@ SELECT
     , order_number
     , drop_ship_name
     , transaction_num
-    , ngs_transaction_key
+    , SAFE_CAST(ngs_transaction_key AS INTEGER) AS ngs_transaction_key
     , source_synced_at
     , source_file_name
     , SAFE_CAST(package_count AS INTEGER) AS package_count
