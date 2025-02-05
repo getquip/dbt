@@ -24,7 +24,7 @@ SELECT
     , ship_from_zip
     , zone
     , LOWER(class_of_service) AS class_of_service
-    , ngs_postage_key
+    , SAFE_CAST(ngs_postage_key AS INTEGER) AS ngs_postage_key
     , source_synced_at
     , source_file_name
     , SAFE_CAST(COALESCE(no_of_pkgs, no__of_pkgs) AS INTEGER) AS num_packages
@@ -64,4 +64,5 @@ SELECT
     , LOWER(fee_surcharge_type_10) AS fee_surcharge_type_10
     , SAFE_CAST(fee_type_charges_10 AS FLOAT64) AS fee_type_charges_10
 FROM source
+WHERE ngs_postage_key IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (PARTITION BY ngs_postage_key ORDER BY source_synced_at DESC) = 1
