@@ -31,7 +31,7 @@ SELECT
         WHEN code = 'shipment' THEN 'ship'
         WHEN code = 'adjustment' THEN 'adjust'
         ELSE REGEXP_REPLACE(code , r'\s' , '_')
-    END AS inventory_type
+    END AS type
     /*
     quantity is negative in Newgistics when it's a deduction.
     CEVA reports update_qty as a positive number for Shipment, this flips that
