@@ -64,3 +64,4 @@ SELECT
     , LOWER(fee_surcharge_type_10) AS fee_surcharge_type_10
     , SAFE_CAST(fee_type_charges_10 AS FLOAT64) AS fee_type_charges_10
 FROM source
+QUALIFY ROW_NUMBER() OVER (PARTITION BY ngs_postage_key ORDER BY source_synced_at DESC) = 1
