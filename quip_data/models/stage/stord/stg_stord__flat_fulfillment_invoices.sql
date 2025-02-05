@@ -44,3 +44,5 @@ SELECT
     , LOWER(fee_surcharge_type_8) AS fee_surcharge_type_8
     , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
 FROM source
+-- dedupe
+QUALIFY ROW_NUMBER() OVER (PARTITION BY ngs_transaction_key ORDER BY source_synced_at DESC) = 1
