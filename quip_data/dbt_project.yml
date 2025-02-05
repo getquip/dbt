@@ -43,6 +43,8 @@ models:
         +schema: recharge
       shopify:
         +schema: shopify
+      stord:
+        +schema: stord
       tiktok_ads:
         +schema: tiktok_ads
       wen_parker:
