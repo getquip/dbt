@@ -1,10 +1,18 @@
 WITH source AS (
-    SELECT * FROM {{ source("stord", "parcel_fulfillment_invoices") }}
+    SELECT * FROM {{ source("stord", "postage_invoices") }}
 )
 
 
 SELECT
-    merchant_name
+    {{
+        dbt_utils.generate_surrogate_key([
+            "merchant_name",
+            "invoice_number",
+            "order_number",
+            "ngs_postage_key",
+        ])
+    }} AS id
+    , merchant_name
     , merchant_number
     , invoice_number
     , LOWER(warehouse_name) AS warehouse_name
