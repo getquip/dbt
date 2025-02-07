@@ -1,10 +1,19 @@
 WITH source AS (
-    SELECT * FROM {{ source("stord", "flat_fulfillment_invoices") }}
+    SELECT * FROM {{ source("stord", "fulfillment_invoices") }}
 )
 
 
 SELECT
-    merchant_number
+    {{
+            dbt_utils.generate_surrogate_key([
+                "merchant_name",
+                "invoice_number",
+                "order_number",
+                "trxn_date",
+                "ngs_transaction_key",
+            ])
+        }} AS id
+    , merchant_number
     , invoice_number
     , po AS po_number
     , manifest_id
