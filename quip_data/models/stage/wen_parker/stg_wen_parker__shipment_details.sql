@@ -1,3 +1,17 @@
+{{ config(
+    partition_by={
+      "field": "source_synced_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "destination_port_code",
+        "origin_port_code", 
+		"transportation_method",
+        "shipment_id"
+    ]
+) }}
+
 WITH source AS (
     SELECT * FROM {{ source('wen_parker', 'shipment_details') }}
 )
@@ -37,6 +51,7 @@ WITH source AS (
         , delivery_address
         , PARSE_DATE('%Y%m%d' , delivered_at) AS delivered_on
         , source_synced_at
+        , source_file_name
     FROM source
 )
 
@@ -44,5 +59,5 @@ SELECT * FROM cleaned
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY shipment_id
-        ORDER BY source_synced_at DESC
+        ORDER BY source_synced_at DESC, source_file_name DESC
     ) = 1
