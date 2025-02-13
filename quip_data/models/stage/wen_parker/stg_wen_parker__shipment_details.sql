@@ -1,6 +1,6 @@
 {{ config(
     partition_by={
-      "field": "source_synced_at",
+      "field": "cargo_received_on",
       "data_type": "timestamp",
       "granularity": "day"
     },
