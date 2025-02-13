@@ -2,32 +2,33 @@ version: 2
 
 models:
   - name: stg_wen_parker__shipment_item_details
-    description: ""
+    description: |
+      Staging table for Wen Parker shipment item details. This table contains information about individual items in each shipment, 
+      including product details, quantities, and packaging information. It is loaded daily with new shipment item data from the source system.
     tags: ['daily']
     columns:
       - name: shipment_item_id
         data_type: string
-        description: ""
+        description: "Unique identifier for each shipment item."
         tests:
           - unique
 
       - name: house_bill_number
         data_type: string
-        description: ""
+        description: "House Bill of Lading (HBL) number associated with the shipment."
 
       - name: po_number
         data_type: string
-        description: ""
+        description: "Purchase order number associated with the shipment item."
 
       - name: cartons
         data_type: int64
-        description: ""
+        description: "Number of cartons or boxes containing the shipment item."
 
       - name: quantity
         data_type: int64
-        description: ""
+        description: "Quantity of the specific shipment item."
 
       - name: sku
         data_type: string
-        description: ""
-
+        description: "Stock Keeping Unit (SKU) identifier for the product being shipped."
