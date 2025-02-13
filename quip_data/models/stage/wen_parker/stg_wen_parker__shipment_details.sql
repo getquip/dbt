@@ -1,6 +1,6 @@
 {{ config(
     partition_by={
-      "field": "source_synced_at",
+      "field": "cargo_received_on",
       "data_type": "timestamp",
       "granularity": "day"
     },
@@ -22,7 +22,6 @@ WITH source AS (
         'house_bill_number'
         , 'master_bill_number'
         , 'transportation_method'
-        , 'container_id'
         , 'vendor'
         , 'origin_port_code'
         , 'destination_port_code'

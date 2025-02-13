@@ -1,3 +1,17 @@
+{{ config(
+    partition_by={
+      "field": "invoice_date",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "house_bill_number",
+        "shipment_type", 
+		"invoice_number",
+        "invoice_line_item_id"
+    ]
+) }}
+
 WITH source AS (
     SELECT * FROM {{ source('wen_parker', 'invoice_line_items') }}
 )

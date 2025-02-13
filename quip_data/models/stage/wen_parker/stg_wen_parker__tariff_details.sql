@@ -1,3 +1,15 @@
+{{ config(
+    partition_by={
+      "field": "source_synced_at",
+      "data_type": "timestamp",
+      "granularity": "day"
+    },
+	cluster_by=[
+		"house_bill_number",
+        "tariff_number"
+    ]
+) }}
+
 WITH source AS (
     SELECT * FROM {{ source('wen_parker', 'tariff_details') }}
 )

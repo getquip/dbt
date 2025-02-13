@@ -2,52 +2,54 @@ version: 2
 
 models:
   - name: stg_wen_parker__invoice_line_items
-    description: ""
+    description: |
+      Staging table for Wen Parker invoice line items. This table contains details about individual invoice lines, including 
+      information on the payer, charges, and invoice amounts. It is loaded daily with new invoice data from the source system
+      and is deduplicated because Wen Parker sends multiple records for the same invoice items.
     tags: ['daily']
     columns:
       - name: invoice_line_item_id
         data_type: string
-        description: ""
+        description: "Unique identifier for each invoice line item."
         tests:
           - unique
-          
+
       - name: invoice_number
         data_type: string
-        description: ""
+        description: "Invoice number associated with the line item."
 
       - name: invoice_date
         data_type: date
-        description: ""
+        description: "Date the invoice was issued."
 
       - name: payer_code
         data_type: string
-        description: ""
+        description: "Code identifying the payer responsible for the invoice."
 
       - name: payer_name
         data_type: string
-        description: ""
+        description: "Name of the payer responsible for the invoice."
 
       - name: shipment_type
         data_type: string
-        description: ""
+        description: "Type of shipment associated with the invoice (e.g., air, ocean, truck)."
 
       - name: house_bill_number
         data_type: string
-        description: ""
+        description: "House Bill of Lading (HBL) number associated with the shipment."
 
       - name: charge_code
         data_type: string
-        description: ""
+        description: "Code identifying the type of charge (e.g., freight, handling)."
 
       - name: charge_name
         data_type: string
-        description: ""
+        description: "Description of the charge (e.g., shipment cost, customs fee)."
 
       - name: invoice_currency
         data_type: string
-        description: ""
+        description: "Currency used for the invoice amount (e.g., USD, EUR)."
 
       - name: invoice_amount
         data_type: string
-        description: ""
-
+        description: "Amount billed in the invoice, represented as a string to handle currency formatting."
