@@ -3,7 +3,8 @@ version: 2
 models:
   - name: stg_recharge__subscription_event_attributes
     description: ""
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: event_attribute_id
         data_type: string

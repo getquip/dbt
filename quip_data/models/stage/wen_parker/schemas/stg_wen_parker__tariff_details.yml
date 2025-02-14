@@ -5,7 +5,8 @@ models:
     description: |
       Staging table for Wen Parker tariff details. This table contains information about tariffs applied to shipments, 
       including duties, fees, and costs. It is loaded daily with new tariff data from the source system.
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: tariff_id
         data_type: string

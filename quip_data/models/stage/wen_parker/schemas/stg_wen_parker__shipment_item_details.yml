@@ -5,7 +5,8 @@ models:
     description: |
       Staging table for Wen Parker shipment item details. This table contains information about individual items in each shipment, 
       including product details, quantities, and packaging information. It is loaded daily with new shipment item data from the source system.
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: shipment_item_id
         data_type: string

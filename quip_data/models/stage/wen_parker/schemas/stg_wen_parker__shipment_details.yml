@@ -7,7 +7,8 @@ models:
       including tracking numbers, transportation details, weight, volume, and delivery dates.
       This table is loaded daily with new shipment data from the source system and is deduplicated
       because Wen Parker sends multiple records for the same shipment.
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: shipment_id
         data_type: string
