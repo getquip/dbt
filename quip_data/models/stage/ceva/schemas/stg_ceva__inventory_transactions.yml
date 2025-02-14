@@ -5,7 +5,8 @@ models:
     description: |
       This model represents CEVA's inventory transactions dataset, sourced from the S3 bucket.
       Inventory transactions capture any event affecting a unit of inventory at the CEVA warehouse.
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: insert_id
         description: The unique identifier for the table.
