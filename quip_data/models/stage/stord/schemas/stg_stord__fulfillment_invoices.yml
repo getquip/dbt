@@ -1,7 +1,7 @@
 version: 2
 
 models:
-    - name: stg_stord__parcel_fulfillment_invoices
+    - name: stg_stord__postage_invoices
       description: >
         The master table of domestic postage invoice files received from Newgistics. Individual files are loaded into a staging table
         newgistics.stg_newgistics_domestic_postage_invoices via custom airflow jobs.
