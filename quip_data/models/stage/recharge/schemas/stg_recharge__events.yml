@@ -3,7 +3,8 @@ version: 2
 models:
   - name: stg_recharge__events
     description: ""
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: event_id
         data_type: int64

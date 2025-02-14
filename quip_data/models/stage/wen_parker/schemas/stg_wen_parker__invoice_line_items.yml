@@ -6,7 +6,8 @@ models:
       Staging table for Wen Parker invoice line items. This table contains details about individual invoice lines, including 
       information on the payer, charges, and invoice amounts. It is loaded daily with new invoice data from the source system
       and is deduplicated because Wen Parker sends multiple records for the same invoice items.
-    tags: ['daily']
+    config:
+      tags: ['daily']
     columns:
       - name: invoice_line_item_id
         data_type: string
