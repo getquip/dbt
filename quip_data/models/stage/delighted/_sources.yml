@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+  - name: delighted_nps
+    loader: Fivetran
+    tables:
+      - name: person
+  - name: delighted_incentive
+    loader: Fivetran
+    tables:
+      - name: person
+  - name: delighted_self_service
+    loader: Fivetran
+    tables:
+      - name: person
+  - name: delighted_quip_main
+    loader: Fivetran
+    tables:
+      - name: person
