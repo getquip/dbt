@@ -20,12 +20,7 @@ WITH source AS (
     SELECT
     {{ dbt_utils.generate_surrogate_key([
         'house_bill_number'
-        , 'master_bill_number'
-        , 'transportation_method'
-        , 'vendor'
-        , 'origin_port_code'
-        , 'destination_port_code'
-        , 'delivery_address'
+        , 'created_at'
     ]) }} AS shipment_id
         , house_bill_number
         , master_bill_number
