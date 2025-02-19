@@ -35,18 +35,40 @@ models:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
+      amazon_ads:
+        +schema: amazon_ads
+      bingads:
+        +schema: bingads
       ceva:
         +schema: ceva
+      delighted:
+        +schema: delighted
+      mailchimp:
+        +schema: mailchimp
+      oxford_road:
+        +schema: oxford_road
+      pinterest_ads:
+        +schema: pinterest_ads
       quip_public:
         +schema: quip_public
       recharge:
         +schema: recharge
       shopify:
         +schema: shopify
+      snapchat_ads:
+        +schema: snapchat_ads
       stord:
         +schema: stord
+      taboola:
+        +schema: taboola
+      tatari:
+        +schema: tatari
       tiktok_ads:
         +schema: tiktok_ads
+      tinuiti:
+        +schema: tinuiti
+      twitter_ads:
+        +schema: twitter_ads
       wen_parker:
         +schema: wen_parker
         +materialized: view # temp materialization as legacy dbt models are dependent on these models
