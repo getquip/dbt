@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: taboola
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: partner_type
+      - name: fivetran_audit
+      - name: campaign_type
+      - name: account
+      - name: content_provider_country_report
+      - name: content_provider_platform_report

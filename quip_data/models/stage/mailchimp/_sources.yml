@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: mailchimp
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: list
+      - name: unsubscribe
+      - name: campaign_recipient
+      - name: automation_recipient
+      - name: automation
+      - name: member
+      - name: fivetran_audit
+      - name: campaign
+      - name: segment_member
+      - name: campaign_variate_combination
+      - name: campaign_recipient_activity
+      - name: automation_email
+      - name: segment
+      - name: automation_recipient_activity

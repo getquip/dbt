@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: tatari
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: linear_spend_and_impressions_unreconciled_stage
+      - name: streaming_spend_and_impressions_unreconciled_stage
+      - name: linear_spend_and_impressions_unreconciled
+      - name: streaming_spend_and_impressions_unreconciled

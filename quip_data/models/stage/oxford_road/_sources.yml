@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: oxford_road
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: national_radio
+      - name: fivetran_audit
+      - name: siriusxm
+      - name: podcast
+      - name: local_radio

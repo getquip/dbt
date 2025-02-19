@@ -1,0 +1,46 @@
+version: 2
+
+sources:
+  - name: pinterest_ads
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: advertiser_report
+      - name: pin_media_image
+      - name: targeting_interest
+      - name: pin_history
+      - name: conversion_tag_history
+      - name: pin_promotion_report
+      - name: conversion_tag_config
+      - name: tag_history
+      - name: customer_list_history
+      - name: catalog_product_groups_history
+      - name: product_group_history
+      - name: fivetran_audit
+      - name: ad_group_history
+      - name: targeting_locale
+      - name: board_section
+      - name: product_item_report
+      - name: ad_group_report
+      - name: keyword_history
+      - name: catalog_feed_history
+      - name: pin_promotion_history
+      - name: targeting_location
+      - name: targeting_geo
+      - name: board_history
+      - name: targeting_app_type
+      - name: targeting_geo_metro
+      - name: campaign_report
+      - name: targeting_age_bucket
+      - name: pin_media
+      - name: audience_history
+      - name: pin_promotion_targeting_report
+      - name: advertiser_history
+      - name: board_pin_thumbnail_url
+      - name: app_event_tracking_config_history
+      - name: targeting_geo_region
+      - name: keyword_report
+      - name: pin_analytics_report
+      - name: targeting_gender
+      - name: campaign_history

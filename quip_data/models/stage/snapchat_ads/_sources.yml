@@ -1,0 +1,58 @@
+version: 2
+
+sources:
+  - name: snapchat_ads
+    database: quip-dw-raw
+    config:
+      tags: ['stale_source']
+    tables:
+      - name: ad_squad_unique_impression_hourly_report
+      - name: ad_squad_interest_daily_report
+      - name: campaign_interest_daily_report
+      - name: ad_history
+      - name: ad_demographic_daily_report
+      - name: campaign_device_make_daily_report
+      - name: campaign_demographic_daily_report
+      - name: ad_squad_history
+      - name: ad_device_make_daily_report
+      - name: ad_account_funding_source
+      - name: ad_hourly_report
+      - name: campaign_daily_report
+      - name: ad_interest_daily_report
+      - name: targeting_interest_history
+      - name: ad_geo_country_daily_report
+      - name: fivetran_audit
+      - name: ad_unique_impression_daily_report
+      - name: ad_device_os_daily_report
+      - name: creative_history
+      - name: campaign_device_os_daily_report
+      - name: ad_daily_report
+      - name: campaign_hourly_report
+      - name: ad_squad_geo_country_daily_report
+      - name: ad_squad_geo_dma_daily_report
+      - name: creative_url_tag_history
+      - name: ad_geo_region_daily_report
+      - name: audience_segment_history
+      - name: ad_account_history
+      - name: ad_unique_impression_hourly_report
+      - name: ad_squad_device_os_daily_report
+      - name: targeting_geolocation_history
+      - name: ad_geo_dma_daily_report
+      - name: campaign_geo_country_daily_report
+      - name: snap_pixel_history
+      - name: ad_squad_unique_impression_daily_report
+      - name: ad_squad_segment_history
+      - name: media_history
+      - name: organization_history
+      - name: campaign_geo_region_daily_report
+      - name: funding_source_history
+      - name: campaign_geo_dma_daily_report
+      - name: targeting_demographic_history
+      - name: campaign_unique_impression_hourly_report
+      - name: ad_squad_geo_region_daily_report
+      - name: ad_squad_demographic_daily_report
+      - name: campaign_unique_impression_daily_report
+      - name: ad_squad_daily_report
+      - name: campaign_history
+      - name: ad_squad_device_make_daily_report
+      - name: ad_squad_hourly_report
