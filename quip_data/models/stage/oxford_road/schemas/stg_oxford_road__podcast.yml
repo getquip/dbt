@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: stg_oxford_road__podcast
+    description: ""
+    config:
+      tags: ['stale_source']
+    columns:
+      - name: ad_id
+        data_type: string
+        description: ""
+
+      - name: spot_type
+        data_type: string
+        description: ""
+
+      - name: date
+        data_type: date
+        description: '{{ doc("date")}}'
+
+      - name: marketing_channel
+        data_type: string
+        description: '{{ doc("marketing_channel")}}'
+
+      - name: marketing_channel_grouping
+        data_type: string
+        description: '{{ doc("marketing_channel_grouping")}}'
+
+      - name: marketing_platform
+        data_type: string
+        description: '{{ doc("marketing_platform")}}'
+
+      - name: vendor
+        data_type: string
+        description: '{{ doc("vendor")}}'
+
+      - name: dma
+        data_type: string
+        description: '{{ doc("dma")}}'
+
+      - name: target_audience
+        data_type: string
+        description: '{{ doc("target_audience")}}'
+
+      - name: campaign_type
+        data_type: string
+        description: '{{ doc("campaign_type")}}'
+
+      - name: utm_campaign_source
+        data_type: string
+        description: '{{ doc("utm_campaign_source")}}'
+
+      - name: utm_campaign_medium
+        data_type: string
+        description: '{{ doc("utm_campaign_source")}}'
+
+      - name: utm_campaign_name
+        data_type: string
+        description: '{{ doc("utm_campaign_name")}}'
+
+      - name: impressions
+        data_type: int64
+        description: ""
+
+      - name: total_spend
+        data_type: float64
+        description: '{{ doc("total_spend") }}'
+
+      - name: media_spend
+        data_type: float64
+        description: '{{ doc("media_spend") }}'
+
+      - name: agency_fee
+        data_type: float64
+        description: '{{ doc("agency_fee") }}'
+
+      - name: campaign_objective
+        data_type: string
+        description: '{{ doc("campaign_objective") }}'
+
+      - name: campaign_category
+        data_type: string
+        description: '{{ doc("campaign_category") }}'
+
