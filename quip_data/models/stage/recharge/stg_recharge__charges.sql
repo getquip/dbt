@@ -7,7 +7,7 @@
 	cluster_by=[
         "status", 
 		"charge_type",
-        "charge_id"
+        "recharge_charge_id"
     ]
 ) }}
 
@@ -18,14 +18,15 @@ WITH source AS (
 
 , renamed AS (
     SELECT
-        id AS charge_id
+        id AS recharge_charge_id
         , address_id
+        , customer.id AS recharge_customer_id
+        , customer.external_customer_id.ecommerce AS shopify_customer_id
         /* -- can be parsed if we need it
         , analytics_data
         , external_transaction_id
         , billing_address
         , client_details
-        , customer
         */
         , created_at
         , currency
@@ -41,7 +42,7 @@ WITH source AS (
         , retry_date AS retry_at
         , scheduled_at
         , orders_count AS count_orders
-        , external_order_id
+        , external_order_id.ecommerce AS shopify_order_id
         , `status`
         , shipping_address
         , subtotal_price
@@ -59,18 +60,19 @@ WITH source AS (
         , `type` AS charge_type
         , last_charge_attempt AS last_charge_attempt_at
         , IF(external_variant_not_found IS NULL , FALSE , TRUE) AS has_external_variant
-
-        -- parse tags
-        , SPLIT(LOWER(tags) , ',') AS tags
+        
+        , tags
+        , include.transactions AS transactions
     FROM source
     -- dedupe
-    QUALIFY ROW_NUMBER() OVER (
-            PARTITION BY id
-            ORDER BY updated_at DESC
-        ) = 1
+    
 )
 
 
 
 SELECT * EXCEPT (tags)
 FROM renamed
+QUALIFY ROW_NUMBER() OVER (
+            PARTITION BY recharge_charge_id
+            ORDER BY updated_at DESC
+        ) = 1

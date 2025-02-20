@@ -2,11 +2,19 @@ version: 2
 
 models:
   - name: stg_recharge__charges
-    description: ""
+    description: |
+      A charge is the representation of a financial transaction linked to the purchase of an item (past or future). 
+      It can be a transaction that was processed already or the representation of an upcoming transaction.
+
+      Read more: https://developer.rechargepayments.com/2021-11/charges
     columns:
-      - name: charge_id
+      - name: recharge_charge_id
         data_type: int64
-        description: ""
+        description: '{{ doc("recharge_charge_id" )}}'
+        
+      - name: shopify_order_id
+        data_type: string
+        description: '{{ doc("shopify_order_id")}}'
 
       - name: address_id
         data_type: int64
