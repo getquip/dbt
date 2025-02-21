@@ -33,63 +33,65 @@ credit_accounts AS (
 , transactions AS (
 	-- parse credit transactions from charges
 	SELECT
-		recharge_charge_id
-		, recharge_customer_id
-		, shopify_order_id
+		charges.recharge_charge_id
+		, charges.recharge_customer_id
+		, charges.shopify_order_id
 		, transactions.external_transaction_id AS credit_adjustment_id
 		, SAFE_CAST(transactions.amount AS FLOAT64) AS amount
 		, transactions.created_at AS created_at
-		, IF(transactions.kind != 'refund', 'debit', 'credit') AS payment_transaction_type
+		, IF(transactions.kind = 'sale', 'debit', 'credit') AS payment_transaction_type
 		, IF(transactions.kind = 'refund', 'refund', 'unapplicable') AS credit_type
 	FROM charges
-	INNER JOIN UNNEST(transactions) AS transactions
-		ON transactions.processor_name = 'recharge_credits'
-	WHERE charges.status IN ('partially_refunded', 'success', 'refunded')
+	, UNNEST(transactions) AS transactions
+	WHERE transactions.processor_name = 'recharge_credits'
+		AND charges.status IN ('partially_refunded', 'success', 'refunded')
+	QUALIFY ROW_NUMBER() OVER (
+		PARTITION BY transactions.payment_method_id
+		ORDER BY transactions.created_at DESC
+	) = 1
 
 )
 
-, unioned AS (
-	-- get credit issued event
-	SELECT
-		credit_account_id
-		, recharge_customer_id
-		, NULL AS recharge_charge_id
-		, 'credit' AS payment_transaction_type
-		, NULL AS shopify_order_id
-		, initial_amount AS amount
-		, created_at
-		, credit_type
-	FROM credit_accounts
-
-	UNION ALL
-
-	-- join transactions to adjustments for account level info
-	SELECT
-		adjustments.credit_account_id
-		, transactions.recharge_customer_id
-		, transactions.recharge_charge_id
-		, COALESCE(transactions.payment_transaction_type, adjustments.adjustment_type) AS payment_transaction_type
-		, transactions.shopify_order_id
-		, transactions.amount
-		, COALESCE(transactions.created_at, adjustments.created_at) AS created_at
-		, transactions.credit_type
-	FROM transactions
-	LEFT JOIN credit_adjustments AS adjustments
-		ON adjustments.credit_adjustment_id = adjustments.credit_adjustment_id
-)
-
+-- get credit issued event
 SELECT
-	*
-	, {{ dbt_utils.generate_surrogate_key(
+	 {{ dbt_utils.generate_surrogate_key(
 		[
 			'credit_account_id'
 			, 'recharge_customer_id'
-			, 'recharge_charge_id'
-			, 'payment_transaction_type'
 			, 'credit_type'
 			, 'created_at'
 		]
 	) }} AS credit_event_id
-FROM unioned
+	, credit_account_id
+	, recharge_customer_id
+	, NULL AS recharge_charge_id
+	, 'credit' AS payment_transaction_type
+	, NULL AS shopify_order_id
+	, initial_amount AS amount
+	, created_at
+	, credit_type
+FROM credit_accounts
+
+UNION ALL
+
+
+-- join transactions to adjustments for account level info
+SELECT
+	{{ dbt_utils.generate_surrogate_key(
+		[
+			'transactions.credit_adjustment_id'
+		]
+	) }} AS credit_event_id
+	, adjustments.credit_account_id
+	, transactions.recharge_customer_id
+	, transactions.recharge_charge_id
+	, COALESCE(transactions.payment_transaction_type, adjustments.adjustment_type) AS payment_transaction_type
+	, transactions.shopify_order_id
+	, transactions.amount
+	, COALESCE(transactions.created_at, adjustments.created_at) AS created_at
+	, transactions.credit_type
+FROM transactions
+LEFT JOIN credit_adjustments AS adjustments
+	ON adjustments.credit_adjustment_id = transactions.credit_adjustment_id
 
 
