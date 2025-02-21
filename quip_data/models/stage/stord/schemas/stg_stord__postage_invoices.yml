@@ -1,0 +1,7 @@
+version: 2
+
+models:
+  - name: stg_stord__postage_invoices
+    description: ''
+    config:
+      tags: ['daily']
