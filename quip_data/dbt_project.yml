@@ -35,6 +35,8 @@ models:
       +database: quip-dw-stage
       +docs:
         node_color: "#900C3F"
+      alloy:
+        +schema: alloy
       ceva:
         +schema: ceva
       quip_public:
@@ -59,6 +61,8 @@ models:
         +schema: order_items
       orders:
         +schema: orders
+      payments:
+        +schema: payments
       products:
         +schema: products
       subscriptions:
