@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: alloy
+    database: quip-dw-raw
+    loader: Airflow
+    description: https://9e6d57501d3d455b965fdfc0234f1e74-dot-us-central1.composer.googleusercontent.com/dags/get__alloy/grid
+    tables:
+      - name: daily_sell_through_report
