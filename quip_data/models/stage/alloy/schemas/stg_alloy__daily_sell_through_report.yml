@@ -52,11 +52,11 @@ models:
 
       - name: unit_sales_circular
         data_type: numeric
-        description: ""
+        description: "Unit sales for stores within a certain radius of where circular is distributed."
 
       - name: sales_circular
         data_type: numeric
-        description: ""
+        description: "Sales $ for stores within a certain radius of where circular is distributed."
 
       - name: unit_sales_promo
         data_type: numeric
