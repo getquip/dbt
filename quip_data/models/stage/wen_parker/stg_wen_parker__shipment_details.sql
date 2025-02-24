@@ -46,6 +46,7 @@ WITH source AS (
 )
 
 SELECT * FROM cleaned
+WHERE delivered_on IS NOT NULL
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY house_bill_number
