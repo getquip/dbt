@@ -1,4 +1,20 @@
-WITH source AS (
+{{ config(
+    partition_by={
+      "field": "invoice_date",
+      "data_type": "date",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "tracking_number",
+        "order_number", 
+		"invoice_number",
+        "postage_invoice_id"
+    ]
+) }}
+
+WITH 
+
+source AS (
     SELECT * FROM {{ source("stord", "postage_invoices") }}
 )
 
@@ -6,12 +22,11 @@ WITH source AS (
 SELECT
     {{
         dbt_utils.generate_surrogate_key([
-            "merchant_name",
             "invoice_number",
             "order_number",
-            "ngs_postage_key",
+            "invoice_date",
         ])
-    }} AS id
+    }} AS postage_invoice_id
     , merchant_name
     , merchant_number
     , invoice_number
@@ -32,7 +47,6 @@ SELECT
     , ship_from_zip
     , zone
     , LOWER(class_of_service) AS class_of_service
-    , SAFE_CAST(ngs_postage_key AS INTEGER) AS ngs_postage_key
     , source_synced_at
     , source_file_name
     , SAFE_CAST(COALESCE(no_of_pkgs, no__of_pkgs) AS INTEGER) AS num_packages
@@ -72,5 +86,6 @@ SELECT
     , LOWER(fee_surcharge_type_10) AS fee_surcharge_type_10
     , SAFE_CAST(fee_type_charges_10 AS FLOAT64) AS fee_type_charges_10
 FROM source
-WHERE ngs_postage_key IS NOT NULL
-QUALIFY ROW_NUMBER() OVER (PARTITION BY ngs_postage_key ORDER BY source_synced_at DESC) = 1
+WHERE invoice_number IS NOT NULL
+     AND order_number IS NOT NULL
+QUALIFY ROW_NUMBER() OVER (PARTITION BY postage_invoice_id ORDER BY source_file_name DESC) = 1
