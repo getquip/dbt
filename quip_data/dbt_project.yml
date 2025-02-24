@@ -61,6 +61,8 @@ models:
         +schema: order_items
       orders:
         +schema: orders
+      payments:
+        +schema: payments
       products:
         +schema: products
       subscriptions:

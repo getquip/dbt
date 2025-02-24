@@ -2,7 +2,12 @@ version: 2
 
 models:
   - name: stg_recharge__credit_accounts
-    description: ""
+    description: |
+      A credit account is a representation of a credit balance that can be used to pay for future charges.
+      A customer can have many credit accounts, and credit accounts are created when customers are issued new credits.
+      Credit accounts may not have negative balances.
+
+      Read more: https://developer.rechargepayments.com/2021-11/credits
     columns:
       - name: credit_account_id
         data_type: int64
