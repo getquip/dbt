@@ -10,15 +10,11 @@ models:
     config:
       tags: ['daily']
     columns:
-      - name: shipment_id
-        data_type: string
-        description: "Unique identifier for each shipment."
-        tests:
-          - unique
-
       - name: house_bill_number
         data_type: string
         description: "House Bill of Lading (HBL) number, used for tracking shipments at a more granular level."
+        tests:
+          - unique
 
       - name: master_bill_number
         data_type: string

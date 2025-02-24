@@ -1,6 +1,6 @@
 {{ config(
     partition_by={
-      "field": "cargo_received_on",
+      "field": "source_synced_at",
       "data_type": "timestamp",
       "granularity": "day"
     },
@@ -8,7 +8,7 @@
         "destination_port_code",
         "origin_port_code", 
 		"transportation_method",
-        "shipment_id"
+        "house_bill_number"
     ]
 ) }}
 
@@ -18,11 +18,7 @@ WITH source AS (
 
 , cleaned AS (
     SELECT
-    {{ dbt_utils.generate_surrogate_key([
-        'house_bill_number'
-        , 'created_at'
-    ]) }} AS shipment_id
-        , house_bill_number
+        house_bill_number
         , master_bill_number
         , PARSE_DATE('%Y%m%d' , created_at) AS created_on
         , TRIM(LOWER(transportation_method)) AS transportation_method
@@ -52,6 +48,6 @@ WITH source AS (
 SELECT * FROM cleaned
 QUALIFY
     ROW_NUMBER() OVER (
-        PARTITION BY shipment_id
-        ORDER BY source_synced_at DESC, source_file_name DESC
+        PARTITION BY house_bill_number
+        ORDER BY source_synced_at DESC, source_file_name DESC, delivered_on DESC
     ) = 1
