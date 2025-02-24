@@ -5,3 +5,161 @@ models:
     description: ''
     config:
       tags: ['daily']
+    columns:
+      - name: fulfillment_invoice_id
+        data_type: string
+        description: ""
+        tests:
+          - unique
+
+      - name: merchant_number
+        data_type: string
+        description: ""
+
+      - name: invoice_number
+        data_type: string
+        description: ""
+
+      - name: po_number
+        data_type: string
+        description: ""
+
+      - name: manifest_id
+        data_type: string
+        description: ""
+
+      - name: warehouse_name
+        data_type: string
+        description: ""
+
+      - name: order_number
+        data_type: string
+        description: ""
+
+      - name: drop_ship_name
+        data_type: string
+        description: ""
+
+      - name: transaction_num
+        data_type: string
+        description: ""
+
+      - name: source_synced_at
+        data_type: timestamp
+        description: ""
+
+      - name: source_file_name
+        data_type: string
+        description: ""
+
+      - name: package_count
+        data_type: int64
+        description: ""
+
+      - name: fulfillment_mode
+        data_type: string
+        description: ""
+
+      - name: shipment_id
+        data_type: int64
+        description: ""
+
+      - name: merchant_name
+        data_type: string
+        description: ""
+
+      - name: invoice_date
+        data_type: date
+        description: ""
+
+      - name: received_manifest_date
+        data_type: date
+        description: ""
+
+      - name: shipment_received_date
+        data_type: date
+        description: ""
+
+      - name: closed_manifest_date
+        data_type: date
+        description: ""
+
+      - name: transaction_date
+        data_type: date
+        description: ""
+
+      - name: ship_on_date
+        data_type: date
+        description: ""
+
+      - name: fee_surcharge_category
+        data_type: string
+        description: ""
+
+      - name: total_amount
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_1
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_1
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_2
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_2
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_3
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_3
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_4
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_4
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_5
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_5
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_6
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_6
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_7
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_7
+        data_type: numeric
+        description: ""
+
+      - name: fee_surcharge_type_8
+        data_type: string
+        description: ""
+
+      - name: fee_type_charges_8
+        data_type: numeric
+        description: ""
