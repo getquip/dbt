@@ -1,4 +1,20 @@
-WITH source AS (
+{{ config(
+    partition_by={
+      "field": "transaction_date",
+      "data_type": "date",
+      "granularity": "day"
+    },
+	cluster_by=[
+        "fulfillment_mode",
+        "order_number", 
+		"invoice_number",
+        "fulfillment_invoice_id"
+    ]
+) }}
+
+WITH 
+
+source AS (
     SELECT * FROM {{ source("stord", "fulfillment_invoices") }}
 )
 
@@ -6,13 +22,11 @@ WITH source AS (
 SELECT
     {{
             dbt_utils.generate_surrogate_key([
-                "merchant_name",
                 "invoice_number",
                 "order_number",
                 "trxn_date",
-                "ngs_transaction_key",
             ])
-        }} AS id
+        }} AS fulfillment_invoice_id
     , merchant_number
     , invoice_number
     , po AS po_number
@@ -21,7 +35,6 @@ SELECT
     , order_number
     , drop_ship_name
     , transaction_num
-    , SAFE_CAST(ngs_transaction_key AS INTEGER) AS ngs_transaction_key
     , source_synced_at
     , source_file_name
     , SAFE_CAST(package_count AS INTEGER) AS package_count
@@ -53,5 +66,8 @@ SELECT
     , LOWER(fee_surcharge_type_8) AS fee_surcharge_type_8
     , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
 FROM source
+WHERE invoice_number IS NOT NULL
+     AND order_number IS NOT NULL
+     AND trxn_date IS NOT NULL
 -- dedupe
-QUALIFY ROW_NUMBER() OVER (PARTITION BY ngs_transaction_key ORDER BY source_synced_at DESC) = 1
+QUALIFY ROW_NUMBER() OVER (PARTITION BY fulfillment_invoice_id ORDER BY source_file_name DESC) = 1
