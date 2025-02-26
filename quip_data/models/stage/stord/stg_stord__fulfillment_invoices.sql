@@ -67,7 +67,6 @@ SELECT
     , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
 FROM source
 WHERE invoice_number IS NOT NULL
-     AND order_number IS NOT NULL
      AND trxn_date IS NOT NULL
 -- dedupe
 QUALIFY ROW_NUMBER() OVER (PARTITION BY fulfillment_invoice_id ORDER BY source_file_name DESC) = 1
