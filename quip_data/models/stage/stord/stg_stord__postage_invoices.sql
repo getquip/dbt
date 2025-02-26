@@ -6,7 +6,7 @@
     },
 	cluster_by=[
         "tracking_number",
-        "order_number", 
+        "shipment_id", 
 		"invoice_number",
         "postage_invoice_id"
     ]
@@ -23,7 +23,7 @@ SELECT
     {{
         dbt_utils.generate_surrogate_key([
             "invoice_number",
-            "order_number",
+            "shipment_id",
             "invoice_date",
         ])
     }} AS postage_invoice_id
@@ -87,5 +87,4 @@ SELECT
     , SAFE_CAST(fee_type_charges_10 AS FLOAT64) AS fee_type_charges_10
 FROM source
 WHERE invoice_number IS NOT NULL
-     AND order_number IS NOT NULL
 QUALIFY ROW_NUMBER() OVER (PARTITION BY postage_invoice_id ORDER BY source_file_name DESC) = 1
