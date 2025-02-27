@@ -52,46 +52,69 @@ credit_accounts AS (
 
 )
 
--- get credit issued event
+, credit_events AS (
+	-- get credit issued event
+	SELECT
+		{{ dbt_utils.generate_surrogate_key(
+			[
+				'credit_account_id'
+				, 'recharge_customer_id'
+				, 'credit_type'
+				, 'created_at'
+			]
+		) }} AS credit_event_id
+		, credit_account_id
+		, recharge_customer_id
+		, NULL AS recharge_charge_id
+		, 'credit' AS payment_transaction_type
+		, NULL AS shopify_order_id
+		, initial_amount AS amount
+		, created_at
+		, credit_type
+	FROM credit_accounts
+
+	UNION ALL
+
+
+	-- join transactions to adjustments for account level info
+	SELECT
+		{{ dbt_utils.generate_surrogate_key(
+			[
+				'transactions.credit_adjustment_id'
+			]
+		) }} AS credit_event_id
+		, adjustments.credit_account_id
+		, transactions.recharge_customer_id
+		, transactions.recharge_charge_id
+		, COALESCE(transactions.payment_transaction_type, adjustments.adjustment_type) AS payment_transaction_type
+		, transactions.shopify_order_id
+		, transactions.amount
+		, COALESCE(transactions.created_at, adjustments.created_at) AS created_at
+		, transactions.credit_type
+	FROM transactions
+	LEFT JOIN credit_adjustments AS adjustments
+		ON adjustments.credit_adjustment_id = transactions.credit_adjustment_id
+)
+
+, credit_debit_diff AS (
+	-- Calculate the time difference between credit and debit created_at for each credit_account_id
+	SELECT
+		credit_event_id
+		, credit_account_id
+		, payment_transaction_type
+		, created_at
+		-- First, get the 'credit' created_at for each credit_account_id
+		, FIRST_VALUE(CASE WHEN payment_transaction_type = 'credit' THEN created_at END)
+			OVER (PARTITION BY credit_account_id ORDER BY created_at) AS credit_created_at
+		-- Get the 'debit' created_at for each credit_account_id
+		, FIRST_VALUE(CASE WHEN payment_transaction_type = 'debit' THEN created_at END)
+			OVER (PARTITION BY credit_account_id ORDER BY created_at) AS debit_created_at
+	FROM credit_events
+)
+
 SELECT
-	 {{ dbt_utils.generate_surrogate_key(
-		[
-			'credit_account_id'
-			, 'recharge_customer_id'
-			, 'credit_type'
-			, 'created_at'
-		]
-	) }} AS credit_event_id
-	, credit_account_id
-	, recharge_customer_id
-	, NULL AS recharge_charge_id
-	, 'credit' AS payment_transaction_type
-	, NULL AS shopify_order_id
-	, initial_amount AS amount
-	, created_at
-	, credit_type
-FROM credit_accounts
-
-UNION ALL
-
-
--- join transactions to adjustments for account level info
-SELECT
-	{{ dbt_utils.generate_surrogate_key(
-		[
-			'transactions.credit_adjustment_id'
-		]
-	) }} AS credit_event_id
-	, adjustments.credit_account_id
-	, transactions.recharge_customer_id
-	, transactions.recharge_charge_id
-	, COALESCE(transactions.payment_transaction_type, adjustments.adjustment_type) AS payment_transaction_type
-	, transactions.shopify_order_id
-	, transactions.amount
-	, COALESCE(transactions.created_at, adjustments.created_at) AS created_at
-	, transactions.credit_type
-FROM transactions
-LEFT JOIN credit_adjustments AS adjustments
-	ON adjustments.credit_adjustment_id = transactions.credit_adjustment_id
-
-
+    e.*
+    , TIMESTAMP_DIFF(d.credit_created_at, d.debit_created_at, DAY) AS days_between_credit_and_debit
+FROM credit_events e
+LEFT JOIN credit_debit_diff d
+    ON e.credit_event_id = d.credit_event_id
