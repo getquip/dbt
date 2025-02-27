@@ -96,25 +96,36 @@ credit_accounts AS (
 		ON adjustments.credit_adjustment_id = transactions.credit_adjustment_id
 )
 
-, credit_debit_diff AS (
-	-- Calculate the time difference between credit and debit created_at for each credit_account_id
+, first_credit AS (
+	-- identify first credit associated with a credit_account_id
 	SELECT
 		credit_event_id
 		, credit_account_id
-		, payment_transaction_type
 		, created_at
-		-- First, get the 'credit' created_at for each credit_account_id
-		, FIRST_VALUE(CASE WHEN payment_transaction_type = 'credit' THEN created_at END)
-			OVER (PARTITION BY credit_account_id ORDER BY created_at) AS credit_created_at
-		-- Get the 'debit' created_at for each credit_account_id
-		, FIRST_VALUE(CASE WHEN payment_transaction_type = 'debit' THEN created_at END)
-			OVER (PARTITION BY credit_account_id ORDER BY created_at) AS debit_created_at
 	FROM credit_events
+	WHERE payment_transaction_type = 'credit'
+	QUALIFY ROW_NUMBER () OVER (PARTITION BY credit_account_id ORDER BY created_at) = 1
+)
+
+, first_debit AS (
+	-- identify first debit associated with a credit_account_id
+	SELECT
+		credit_event_id
+		, credit_account_id
+		, created_at
+	FROM credit_events
+	WHERE payment_transaction_type = 'debit'
+	QUALIFY ROW_NUMBER () OVER (PARTITION BY credit_account_id ORDER BY created_at) = 1
 )
 
 SELECT
     e.*
-    , TIMESTAMP_DIFF(d.credit_created_at, d.debit_created_at, DAY) AS days_between_credit_and_debit
+    , CASE 
+		WHEN payment_transaction_type = 'debit' 
+			THEN TIMESTAMP_DIFF(d.created_at, c.created_at, DAY) 
+		END AS days_between_credit_and_debit
 FROM credit_events e
-LEFT JOIN credit_debit_diff d
-    ON e.credit_event_id = d.credit_event_id
+LEFT JOIN first_credit c
+    ON e.credit_account_id = c.credit_account_id
+LEFT JOIN first_debit d
+	ON e.credit_account_id = d.credit_account_id
