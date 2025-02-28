@@ -34,12 +34,12 @@ source AS (
         , LOWER(fulfillment_mode) AS fulfillment_mode
         , SAFE_CAST(shipment_id AS INTEGER) AS shipment_id
         , LOWER(COALESCE(merchant_name , client_name , brand_name)) AS merchant_name
-        , SAFE_CAST(invoice_date AS DATE) AS invoice_date
-        , SAFE_CAST(received_manifest_date AS DATE) AS received_manifest_date
-        , SAFE_CAST(shipment_received_date AS DATE) AS shipment_received_date
-        , SAFE_CAST(closed_manifest_date AS DATE) AS closed_manifest_date
-        , SAFE_CAST(trxn_date AS DATE) AS transaction_date
-        , SAFE_CAST(ship_on_date AS DATE) AS ship_on_date
+        , COALESCE(SAFE_CAST(invoice_date AS DATE), PARSE_DATE('%m/%d/%y', invoice_date)) AS invoice_date
+        , COALESCE(SAFE_CAST(closed_manifest_date AS DATE), PARSE_DATE('%m/%d/%y', closed_manifest_date)) AS closed_manifest_date
+        , COALESCE(SAFE_CAST(received_manifest_date AS DATE), PARSE_DATE('%m/%d/%y', received_manifest_date)) AS received_manifest_date
+        , COALESCE(SAFE_CAST(shipment_received_date AS DATE), PARSE_DATE('%m/%d/%y', shipment_received_date)) AS shipment_received_date
+        , COALESCE(SAFE_CAST(trxn_date AS DATE), PARSE_DATE('%m/%d/%y', trxn_date)) AS transaction_date
+        , COALESCE(SAFE_CAST(ship_on_date AS DATE), PARSE_DATE('%m/%d/%y', ship_on_date)) AS ship_on_date
         , LOWER(fee_surcharge_category) AS fee_surcharge_category
         , SAFE_CAST(total_amt AS NUMERIC) AS total_amount
         , LOWER(fee_surcharge_type_1) AS fee_surcharge_type_1
@@ -58,6 +58,7 @@ source AS (
         , SAFE_CAST(fee_type_charges_7 AS NUMERIC) AS fee_type_charges_7
         , LOWER(fee_surcharge_type_8) AS fee_surcharge_type_8
         , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
+        , source_file_name
     FROM source
 )
 
@@ -67,10 +68,12 @@ SELECT
         dbt_utils.generate_surrogate_key([
             "invoice_number",
             "order_number",
-            "transaction_number",
+            "transaction_date",
         ])
     }} AS fulfillment_invoice_id
+    , *
+FROM cleaned
 WHERE invoice_number IS NOT NULL
-     AND trxn_date IS NOT NULL
+     AND transaction_date IS NOT NULL
 -- dedupe
 QUALIFY ROW_NUMBER() OVER (PARTITION BY fulfillment_invoice_id ORDER BY source_file_name DESC) = 1
