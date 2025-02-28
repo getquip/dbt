@@ -8,7 +8,7 @@ shipment_items AS (
 
 , invoice_items AS (
 	-- at the invoice and charge code level
-	SELECT * FROM {{ ref("stg_wen_parker__shipment_item_details") }}
+	SELECT * FROM {{ ref("stg_wen_parker__invoice_line_items") }}
 )
 
 , charge_codes AS (
