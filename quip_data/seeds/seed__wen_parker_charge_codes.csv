@@ -1,0 +1,145 @@
+charge_code,charge_name,charge_category,charge_type
+adm,admin fee,customs,
+adm,brokerage handling,customs,
+adm,eir fee,freight,variable
+adm,pre pull fee,freight,variable
+adm,wage adjustment fee,freight,variable
+afc,air freight,freight,fixed
+afc,air freight charge,freight,fixed
+afc,courier cost,freight,variable
+agc,agency fee,customs,
+agc,fda filing,customs,
+ams,ams,customs,
+ams,ams fee,customs,
+ams,automated manifest system,customs,
+bkf,booking fee,freight,variable
+bon,bond,customs,
+ccc,customs clearance charge,customs,
+ccc,customs clearance fee,customs,
+ccc,customs clearance fee canada,customs,
+ccc,customs clearance fee fedex,customs,
+ccc,customs clearance fee- canada,customs,
+ccc,customs clearance fee- fedex,customs,
+ccc,customs clearance fee-import,customs,
+ccc,export customs clearance fee,customs,
+ccc,origin clearance,customs,
+ccc,origin clearance fee,customs,
+ccc,origin customs clearance fee,customs,
+cdc,container dettn/demurage charge,freight,variable
+cdr,container drayage,freight,fixed
+cdr,drayage,freight,fixed
+cdr,yard storage,freight,variable
+cfs,cfs charges,freight,variable
+cfs,cfs fee,freight,variable
+cha,2 additional chassis days,freight,variable
+cha,2 extra chassis days,freight,variable
+cha,3 additional chassis days,freight,variable
+cha,add. chassis charge 12,freight,variable
+cha,add. chassis charge- 12,freight,variable
+cha,additional chass days,freight,variable
+cha,additional chassis charge,freight,variable
+cha,additional chassis charge 11,freight,variable
+cha,additional chassis charge- 11,freight,variable
+cha,additional chassis days,freight,variable
+cha,additional chassis days 18,freight,variable
+cha,additional chassis days 5,freight,variable
+cha,additional chassis days- 18,freight,variable
+cha,additional chassis days- 5,freight,variable
+cha,chassis,freight,variable
+cha,chassis charge,freight,variable
+cha,chassis split charge,freight,variable
+cha,extra day chassis charge,freight,variable
+cha,extra chassis day,freight,fixed
+cha,additional chassis charges 3 days,freight,fixed
+ddc,delivery,freight,fixed
+ddc,destination delivery charges,freight,fixed
+ddv,1 pallet devan,freight,variable
+ddv,devanning charges,freight,variable
+dgs,dangerous cargo surcharge,freight,variable
+dhc,carton removal from container,freight,variable
+dhc,destination handling charge,freight,variable
+dhc,pallet handling,freight,variable
+doc,doc fee,customs,
+doc,documentation charges,customs,
+doc,eir fee,freight,variable
+dtc,dest. thc,freight,variable
+dtk,destination trucking,freight,fixed
+dtk,destination trucking 2 pls to ky,freight,fixed
+dtk,destination trucking box truck,freight,fixed
+dtk,destination trucking- 2 pls to ky,freight,fixed
+dtk,destination trucking- box truck,freight,fixed
+dtk,truckload to ky,freight,fixed
+dut,customs duties,duties,
+edi,edi charges,customs,
+fda,fda filing,customs,
+fsc,fuel surcharge,freight,fixed
+gat,gate fee,freight,variable
+hawb,house airway bill charges,freight,fixed
+hawb,house bill charges,freight,fixed
+hdc,20 carton handling charges,freight,variable
+hdc,courier handling charges,freight,variable
+hdc,pallet removal handling charges,freight,fixed
+hdc,handling charges,freight,fixed
+isc,import service charge,customs,
+isf,import security fee,customs,
+lod,pallet offload/handling,freight,variable
+mpf,processing fee,freight,variable
+nav,navcan,freight,variable
+ofc,ocean freight charge,freight,fixed
+ohc,origin handling charge,customs,
+ohc,origin hawb charge,customs,
+ohc,origin hawb fees,customs,
+oth,additional classificaitons/invoices,customs,
+oth,additional classifications,customs,
+oth,additional classifications/invoices,customs,
+oth,additional invoices,customs,
+oth,additional invoices/classifications,customs,
+oth,addititonal classifications invoices,customs,
+oth,cfs docs,freight,variable
+oth,cfs handling- destination,freight,variable
+oth,congestion surcharge,freight,variable
+oth,ipf,freight,variable
+oth,loading fee,freight,variable
+oth,overnight cartons,freight,fixed
+oth,port wait time,freight,variable
+oth,prepull,freight,variable
+oth,psf,freight,variable
+oth,remote delivery charge,freight,variable
+oth,transload 2 plts,freight,variable
+oth,transload 5 pallets,freight,variable
+oth,transload 6 plts,freight,variable
+oth,transload- 5 pallets,freight,variable
+oth,transload- 6 plts,freight,variable
+oth,waiting time,freight,variable
+oth,yard storage,freight,variable
+oth,additional classifications invoices,customs,
+oth,additional classifcations,customs,
+otk,origin - local trucking,freight,fixed
+otk,pickup,freight,fixed
+owh,whseout fee,freight,variable
+pcg,port check,freight,variable
+phc,port check,freight,variable
+ppf,pier pass,freight,variable
+ppf,pier pass fee,freight,variable
+sel,container seal fee,freight,variable
+sel,seal,freight,variable
+str,yard storage,freight,variable
+tfc,fuel surcharge,freight,fixed
+tfc,trucking fuel surcharge,freight,fixed
+tff,destination thc,freight,variable
+tff,pickup,freight,fixed
+tff,transfer fee,freight,variable
+thc,handling fee,customs,
+thc,origin fees,customs,
+thc,terminal charge,freight,variable
+thc,thc,freight,variable
+tlx,telex release,customs,
+tlx,telex release fee,customs,
+trk,trucking,freight,fixed
+trk,trucking to kentucky,freight,fixed
+trk,trucking to ky,freight,fixed
+trk,trucking to pb,freight,fixed
+trk,trucking3 plts to pb,freight,fixed
+vac,vacis exam in/out,freight,variable
+vgm,verified gross mass fee,freight,variable
+vgm,vgm,freight,variable
