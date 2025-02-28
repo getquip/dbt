@@ -59,3 +59,4 @@ This repo is for all things related to dbt.
    ```zsh
    echo $DBT_GCP_BQ_DATASET
    ```
+
