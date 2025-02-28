@@ -57,6 +57,8 @@ models:
       +database: quip-dw-intermediate
       +docs:
         node_color: "#1577ef"
+      logistics:
+        +schema: logistics
       order_items:
         +schema: order_items
       orders:
