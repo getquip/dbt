@@ -33,6 +33,7 @@ shipment_items AS (
 SELECT
   items.*
   , charge_codes.* EXCEPT(charge_type)
+  , invoice_items.invoice_number
   , invoice_items.amount
   , items.allocation_percentage * invoice_items.amount AS allocated_amount
 FROM house_bill_item_summary AS items
