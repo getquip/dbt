@@ -4,7 +4,7 @@ models:
   - name: stg_alloy__daily_sell_through_report
     description: ""
     config:
-      tags: ['daily9am']
+      tags: ['hourly']
     columns:
       - name: partner
         data_type: string
