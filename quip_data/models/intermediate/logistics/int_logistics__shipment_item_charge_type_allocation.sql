@@ -36,8 +36,8 @@ SELECT
   , invoice_items.amount
   , items.allocation_percentage * invoice_items.amount AS allocated_amount
 FROM house_bill_item_summary AS items
-LEFT JOIN  invoice_items
+INNER JOIN  invoice_items
   ON items.house_bill_number = invoice_items.house_bill_number
-LEFT JOIN charge_codes
+INNER JOIN charge_codes
   ON invoice_items.charge_code = charge_codes.charge_code
   AND invoice_items.charge_name = charge_codes.charge_name
