@@ -79,6 +79,7 @@ SELECT
     , cartons
     , quantity
 FROM dedupe_by_file
+WHERE sku IS NOT NULL
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY shipment_item_id
