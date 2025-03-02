@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: stg_wen_parker__hts_duties
+    description: |
+      This model contains Harmonized Tariff Schedule (HTS) duties at the SKU level. HTS duties are tariffs
+      imposed on imported goods based on their classification under the Harmonized System (HS), which 
+      considers product type, manufacturer, and location.
+    columns:
+      - name: source_synced_at
+        data_type: timestamp
+        description: '{{ doc("source_synced_at") }}'
+
+      - name: sku
+        data_type: string
+        description: '{{ doc("sku") }}'
+
+      - name: sku_name
+        data_type: string
+        description: ""
+
+      - name: sku_group
+        data_type: string
+        description: ""
+
+      - name: sku_description
+        data_type: string
+        description: ""
+
+      - name: value_per_unit
+        data_type: float64
+        description: ""
+
+      - name: harmonized_tariff_schedule
+        data_type: string
+        description: ""
+
+      - name: duty_rate
+        data_type: float64
+        description: ""
+
+      - name: additional_hts_china
+        data_type: string
+        description: ""
+
+      - name: china_duty_rate
+        data_type: float64
+        description: ""
+
+      - name: is_fda_required
+        data_type: boolean
+        description: ""
+
+      - name: merchandise_processing_fee
+        data_type: float64
+        description: ""
+
+      - name: harbor_maintenance
+        data_type: float64
+        description: ""
+
+      - name: weight_lb
+        data_type: numeric
+        description: ""
