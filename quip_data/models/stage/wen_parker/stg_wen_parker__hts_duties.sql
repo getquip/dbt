@@ -11,7 +11,7 @@ SELECT
 	, LOWER(`group`) AS sku_group
 	, LOWER(description) AS sku_description
 	, value_per_unit
-	, hts AS harmonized_tariff_schedule 
+	, hts AS tariff_number 
 	, duty_rate_ AS duty_rate
 	, add_t_hts_cn AS additional_hts_china
 	, hts_cn_duty_rate_ AS china_duty_rate
