@@ -12,5 +12,5 @@ WITH base AS (
 
 SELECT 
 credit_account_id
-, TIMESTAMP_DIFF(f.first_debit, f.first_credit, DAY) AS days_between_credit_and_debit
+, TIMESTAMP_DIFF(first_debit, first_credit, DAY) AS days_between_credit_and_debit
 FROM base
