@@ -1,0 +1,14 @@
+
+models:
+  - name: credit_account_dims
+    description: ""
+    config:
+      tags: ['daily']
+    columns:
+      - name: credit_account_id
+        data_type: int64
+        description: '{{ doc("credit_account_id")}}'
+
+      - name: days_between_credit_and_debit
+        data_type: int64
+        description: "Days between when a debit was issued and credit was redeemed for a singular credit_account_id."
