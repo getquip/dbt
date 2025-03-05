@@ -86,8 +86,6 @@ models:
         +schema: marketing
       quip:
         +schema: quip
-      finance:
-        +schema: finance
 
 # Configuring seeds
 # Full documentation: https://docs.getdbt.com/docs/configuring-seeds
