@@ -1,0 +1,49 @@
+
+models:
+  - name: credit_events
+    description: "This model links int_payments__credit_events and credit_account_dims"
+    config:
+      tags: ['daily']
+    columns:
+      - name: credit_account_id
+        data_type: int64
+        description: '{{ doc("credit_account_id")}}'
+
+      - name: recharge_customer_id
+        data_type: int64
+        description: '{{ doc("recharge_customer_id")}}'
+
+      - name: recharge_charge_id
+        data_type: int64
+        description: '{{ doc("recharge_charge_id")}}'
+
+      - name: payment_transaction_type
+        data_type: string
+        description: '{{ doc("payment_transaction_type")}}'
+
+      - name: shopify_order_id
+        data_type: string
+        description: '{{ doc("shopify_order_id")}}'
+
+      - name: amount
+        data_type: float64
+        description: '{{ doc("amount")}}'
+
+      - name: created_at
+        data_type: timestamp
+        description: ""
+
+      - name: credit_type
+        data_type: string
+        description: '{{ doc("credit_type")}}'
+
+      - name: credit_event_id
+        data_type: string
+        description: " A unique identifier for the credit event transaction."
+
+      - name: days_between_credit_and_debit
+        data_type: int64
+        description: "Days between when a debit was issued and credit was redeemed for a singular credit_account_id."
+
+
+
