@@ -80,6 +80,8 @@ models:
         +schema: dims
       facts:
         +schema: facts
+      finance:
+        +schema: finance
       marketing:
         +schema: marketing
       quip:
