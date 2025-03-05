@@ -7,7 +7,7 @@ SELECT
     , id AS shopify_line_item_id
     , CAST(product_id AS INTEGER) AS shopify_product_id
     , CAST(variant_id AS INTEGER) AS shopify_product_variant_id
-    , sku
+    , REGEXP_REPLACE(sku, r'\D', '') AS sku -- remove non-numeric characters
     , vendor AS supplier
     , gift_card AS is_paid_by_gift_card
     , taxable AS is_taxable
