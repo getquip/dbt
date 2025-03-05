@@ -35,7 +35,7 @@ WITH source AS (
         , TRIM(LOWER(charge_name)) AS charge_name
         , invoice_currency
         , CAST(REPLACE(REPLACE(invoice_amount , ',' , '') , '$' , '') AS FLOAT64)
-            AS amount
+            AS invoice_amount
         , source_synced_at
     FROM source
 )
