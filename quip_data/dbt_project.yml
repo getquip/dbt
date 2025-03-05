@@ -82,6 +82,8 @@ models:
         +schema: facts
       marketing:
         +schema: marketing
+      operations:
+        +schema: operations
       quip:
         +schema: quip
 

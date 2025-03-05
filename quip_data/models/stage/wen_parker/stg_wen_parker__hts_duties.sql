@@ -13,7 +13,7 @@ SELECT
 	, value_per_unit
 	, hts AS tariff_number 
 	, duty_rate_ AS duty_rate
-	, add_t_hts_cn AS additional_hts_china
+	, add_t_hts_cn AS chine_tariff_number
 	, hts_cn_duty_rate_ AS china_duty_rate
 	, SAFE_CAST(IF(LOWER(fda_required) = 'yes', 1, 0) AS BOOLEAN) AS is_fda_required
 	, mpf AS merchandise_processing_fee

@@ -41,6 +41,7 @@ WITH source AS (
         house_bill_number
         , tariff_number
         , source_file_name
+        , LOWER(line_item_description) AS sku_description
         , MAX(source_synced_at) AS source_synced_at
         , SUM(tariff_duty) AS total_tariff_duty
         , SUM(fees) AS total_fees
@@ -59,6 +60,7 @@ SELECT
       , 'tariff_number'
       ]) }} AS tariff_id
     , house_bill_number
+    , sku_description
     , tariff_number
     , total_tariff_duty
     , total_fees

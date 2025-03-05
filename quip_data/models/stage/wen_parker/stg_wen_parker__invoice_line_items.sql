@@ -44,7 +44,15 @@ WITH source AS (
 	This model MUST be deduplicated by unique records. This is because each file contains data for
 	the last 90 days, and the same invoice may appear in multiple files.
 */
-SELECT * FROM cleaned
+SELECT
+    * EXCEPT(house_bill_number)
+    /*
+        house_bill_number and invoice_number should be 1:1, however, there are historical records where this is not 
+        the case and the invoices are valid. To fix this, we will add a suffix to the house_bill_number to make it unique.
+    */
+    , IF(DENSE_RANK() OVER (PARTITION BY house_bill_number ORDER BY invoice_date, invoice_number) = 2
+        , CONCAT(house_bill_number, '-VERSION-2'), house_bill_number) AS house_bill_number
+FROM cleaned
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY invoice_line_item_id
