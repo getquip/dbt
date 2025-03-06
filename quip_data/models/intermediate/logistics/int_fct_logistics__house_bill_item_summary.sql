@@ -17,6 +17,7 @@ shipment_items AS (
 	SELECT
 		items.house_bill_number
 		, items.sku
+		, items.po_number
 		, skus.tariff_number
 		, skus.china_tariff_number
 		-- quantity
@@ -30,7 +31,8 @@ shipment_items AS (
 		, SUM(items.quantity) OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_sku_quantity
 		, SUM(items.quantity) OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_sku_quantity
 	FROM shipment_items AS items
-	LEFT JOIN skus
+	-- this join filters out any skus from shipment_items that are not in the skus table
+	INNER JOIN skus
 		ON items.sku = skus.sku
 )
 

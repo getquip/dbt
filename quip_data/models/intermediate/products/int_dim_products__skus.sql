@@ -14,7 +14,7 @@ skus AS (
 
 SELECT
 	skus.sku
-    , skus.weight AS weight_lb
+    , COALESCE(skus.weight, 0) AS weight_lb
     , hts.tariff_number
     , hts.china_tariff_number
     , skus.unit_cost

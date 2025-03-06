@@ -15,27 +15,23 @@ tariffs AS (
 
 SELECT
 	tariffs.house_bill_number
+	, COALESCE(hts.po_number, hts_china.po_number) AS po_number
 	, tariffs.tariff_number
-	, items.sku
-	, IF(items.china_tariff_number IS NULL, 'hts', 'hts_china') AS tariff_type
-	, items.total_sku_quantity
-	, items.total_tariff_sku_quantity
-	, items.total_china_tariff_sku_quantity
-	, items.allocation_percentage_for_tariffs
-	, items.allocation_percentage_for_china_tariffs
+	, COALESCE(hts_china.sku, hts.sku) AS sku
+	, IF(hts_china.china_tariff_number IS NULL, 'hts', 'hts_china') AS tariff_type
+	, COALESCE(hts_china.total_sku_quantity, hts.total_sku_quantity, 0) AS total_sku_quantity
+	, COALESCE(hts_china.total_china_tariff_sku_quantity, hts.total_tariff_sku_quantity, 0) AS total_tariff_sku_quantity
+	, COALESCE(hts.allocation_percentage_for_tariffs, hts_china.allocation_percentage_for_china_tariffs, 1) AS allocation_percentage_for_tariffs
 	, tariffs.total_tariff_duty
 	, tariffs.total_tariff_fees
 	, tariffs.total_tariff_cost
-	, IF(items.china_tariff_number IS NULL, 
-		tariffs.total_tariff_duty * items.allocation_percentage_for_tariffs, 
-		tariffs.total_tariff_duty * items.allocation_percentage_for_china_tariffs) AS total_allocated_tariff_duty 
-	, IF(items.china_tariff_number IS NULL, 
-		tariffs.total_tariff_fees * items.allocation_percentage_for_tariffs, 
-		tariffs.total_tariff_fees * items.allocation_percentage_for_china_tariffs) AS total_allocated_tariff_fees
-	, IF(items.china_tariff_number IS NULL, 
-		tariffs.total_tariff_cost * items.allocation_percentage_for_tariffs, 
-		tariffs.total_tariff_cost * items.allocation_percentage_for_china_tariffs) AS total_allocated_tariff_cost
+	, tariffs.total_tariff_duty * COALESCE(hts.allocation_percentage_for_tariffs, hts_china.allocation_percentage_for_china_tariffs, 1) AS total_allocated_tariff_duty 
+	, tariffs.total_tariff_fees * COALESCE(hts.allocation_percentage_for_tariffs, hts_china.allocation_percentage_for_china_tariffs, 1) AS total_allocated_tariff_fees 
+	, tariffs.total_tariff_cost * COALESCE(hts.allocation_percentage_for_tariffs, hts_china.allocation_percentage_for_china_tariffs, 1) AS total_allocated_tariff_cost 
 FROM tariffs
-LEFT JOIN house_bill_item_summary AS items
-	ON tariffs.house_bill_number = items.house_bill_number
-	AND (tariffs.tariff_number = items.tariff_number OR tariffs.tariff_number = items.china_tariff_number)
+LEFT JOIN house_bill_item_summary AS hts
+	ON tariffs.house_bill_number = hts.house_bill_number
+	AND tariffs.tariff_number = hts.tariff_number 
+LEFT JOIN house_bill_item_summary AS hts_china
+	ON tariffs.house_bill_number = hts_china.house_bill_number
+	AND tariffs.tariff_number = hts_china.china_tariff_number
