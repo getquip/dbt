@@ -1,0 +1,11 @@
+[tool.poetry]
+name = "dbt"
+version = "0.1.0"
+authors = ["ammie.tea@getquip.com"]
+package-mode = false  # Disable packaging behavior
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+dbt-bigquery = "1.8.2"
+sqlfluff = "3.3.0"
+dbt-osmosis = "1.1.13"

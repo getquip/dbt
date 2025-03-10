@@ -59,6 +59,7 @@ SELECT
       ]) }} AS tariff_bill_id
     , house_bill_number
     , tariff_number
+    , duty_rate
     , total_tariff_duty
     , total_tariff_fees
     , total_tariff_cost

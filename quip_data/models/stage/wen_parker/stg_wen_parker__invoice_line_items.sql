@@ -34,7 +34,7 @@ WITH source AS (
         , house_bill_number
         , TRIM(LOWER(charge_code)) AS charge_code
         , TRIM(LOWER(charge_name)) AS charge_name
-        , invoice_currency
+        , invoice_currency AS currency
         , CAST(REPLACE(REPLACE(invoice_amount , ',' , '') , '$' , '') AS FLOAT64)
             AS amount
         , source_synced_at

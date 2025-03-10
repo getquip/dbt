@@ -58,7 +58,6 @@ source AS (
         , SAFE_CAST(fee_type_charges_7 AS NUMERIC) AS fee_type_charges_7
         , LOWER(fee_surcharge_type_8) AS fee_surcharge_type_8
         , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
-        , source_file_name
     FROM source
 )
 

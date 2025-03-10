@@ -30,6 +30,13 @@ models:
       relation: true
       columns: true
     +materialized: table
+    # dbt-osmosis configurations
+    +dbt-osmosis: "schemas/{model}.yml" # all files will be created in the schemas directory
+    +dbt-osmosis-options:
+        skip-add-tags: true
+        output-to-lower: true
+        force-inherit-descriptions	: true
+        sort-by: "alphabetical"
 
     stage:
       +database: quip-dw-stage
@@ -80,6 +87,8 @@ models:
         +schema: dims
       facts:
         +schema: facts
+      finance:
+        +schema: finance
       marketing:
         +schema: marketing
       operations:

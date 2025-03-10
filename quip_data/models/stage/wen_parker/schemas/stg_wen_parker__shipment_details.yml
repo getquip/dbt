@@ -12,7 +12,7 @@ models:
     columns:
       - name: house_bill_number
         data_type: string
-        description: "House Bill of Lading (HBL) number, used for tracking shipments at a more granular level."
+        description: '{{ doc("house_bill_number") }}'
         tests:
           - unique
 
@@ -22,7 +22,7 @@ models:
 
       - name: created_on
         data_type: date
-        description: "Date the shipment record was created in the source system."
+        description: '{{ doc("created_on") }}'
 
       - name: transportation_method
         data_type: string

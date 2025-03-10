@@ -1,0 +1,20 @@
+version: 2
+models:
+  - name: int_dim_products__skus
+    columns:
+      - name: china_tariff_number
+        description: The tariff classification number specific to imports from China.
+        data_type: string
+      - name: sku
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+        data_type: string
+      - name: tariff_number
+        description: The Harmonized Tariff Schedule (HTS) classification number assigned to the product.
+        data_type: string
+      - name: unit_cost
+        data_type: string
+        description: '{{ doc("unit_cost") }}'
+      - name: weight_lb
+        description: The weight of the record unit in pounds.
+        data_type: float64

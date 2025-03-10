@@ -38,10 +38,10 @@ WITH source AS (
       ])
     }} AS shipment_item_id
         , house_bill_number
-        , TRIM(po_number) AS po_number
-        , REGEXP_REPLACE(sku_number, r'\D', '') AS sku -- remove non-numeric characters
-        , COALESCE(CAST(REPLACE(cartons , ',' , '') AS INTEGER), 0) AS cartons
-        , COALESCE(CAST(REPLACE(quantity , ',' , '') AS INTEGER), 0) AS quantity
+        , po_number
+        , sku_number AS sku -- remove non-numeric characters
+        , CAST(REPLACE(cartons , ',' , '') AS INTEGER) AS cartons
+        , CAST(REPLACE(quantity , ',' , '') AS INTEGER) AS quantity
         , source_synced_at
         , source_file_name
     FROM source

@@ -1,11 +1,43 @@
+# Finance
+{% docs currency %}
+    The currency in which financial transactions are recorded.  
+    This field follows the ISO 4217 standard (e.g., USD for US dollars, EUR for euros) to ensure consistency and accuracy in financial reporting.  
+{% enddocs %}
+
 {% docs amount %}
     The monetary value associated with the record.  
 {% enddocs %}
 
+{% docs unit_cost %}
+    The cost per unit of the product, representing the amount paid by Quip to acquire or produce the item.  
+    This value does not reflect the retail price or selling price but rather the internal cost to the company.  
+{% enddocs %}
+
+{% docs po_number %}
+    A PO number is a unique identifier assigned to a purchase order.  
+{% enddocs %}
+
+
+# Timestamps
 {% docs source_synced_at %}
     The timestamp indicating when the record was last successfully synced from the source system.
 {% enddocs %}
 
+{% docs created_at %}
+    The timestamp indicating when the record was initially created in the source system.  
+{% enddocs %}
+
+{% docs created_on %}
+    The date when the record was initially created or logged in the source system.  
+    This field represents the creation date without a specific time, capturing the day the record was entered.
+{% enddocs %}
+
+
+{% docs updated_at %}
+    The timestamp indicating when the record was last updated in the source system.
+{% enddocs %}
+
+# Data Loader related
 {% docs is_source_deleted %}
     A boolean flag indicating whether the record has been marked as deleted in the source system.  
     - `TRUE` (or `1`): The record was deleted at the source.  
@@ -13,14 +45,7 @@
     This can be useful for soft deletions and historical tracking.  
 {% enddocs %}
 
-{% docs created_at %}
-    The timestamp indicating when the record was initially created in the source system.  
-{% enddocs %}
-
-{% docs updated_at %}
-    The timestamp indicating when the record was last updated in the source system.
-{% enddocs %}
-
+# Product Terms
 {% docs sku %}
     The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.  
 {% enddocs %}
@@ -82,4 +107,8 @@
     A boolean flag indicating whether the component is refillable.  
     - `TRUE` (or `1`): The component is refillable.  
     - `FALSE` (or `0`): The component is not refillable.  
+{% enddocs %}
+
+{% docs weight_lb %}
+    The weight of the record unit in pounds.
 {% enddocs %}

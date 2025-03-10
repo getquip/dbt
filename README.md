@@ -3,29 +3,34 @@ This repo is for all things related to dbt.
 
 ## Getting Started  
 
+#### Poetry for Python
+Poetry is a Python dependency management tool that allows us to manage your project’s dependencies, packaging, and publishing with ease. Follow the steps below to install and set up Poetry on your local machine.
+
+**Prerequisites**
+Python 3.10+ should be installed on your system. You can check your Python version with:
+```bash
+python --version
+```
+
+If you need to install Python, follow the official [Python installation](https://www.python.org/downloads/) guide.
+Next, follow the official guide for [Installing Poetry](https://python-poetry.org/docs/).
+
 1. **Create a Virtual Environment**  
     A virtual environment isolates your project dependencies from the system Python installation, preventing version conflicts and ensuring a consistent development environment.
    
    Run the following command in your terminal to set up a virtual environment:  
    ```bash
-   python3 -m venv venv
+   poetry env use python3.10
    ```
 
 2. **Activate the Virtual Environment**  
-   Use the appropriate command for your operating system:  
-   - On macOS/Linux:  
      ```bash
-     source venv/bin/activate
-     ```  
-   - On Windows:  
-     ```bash
-     venv\Scripts\activate
-     ```
+     eval $(poetry env activate)
+     ```  =
 
-3. **Install Dependencies**  
-   Install the required packages by running:  
+3. **Start your Virtual Environment**  =
    ```bash
-   pip3 install -r requirements.txt
+   eval $(poetry env activate)
    ```  
 
 ---  

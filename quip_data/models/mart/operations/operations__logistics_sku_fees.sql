@@ -19,7 +19,6 @@ SELECT
 	, 'tariff' AS fee_type
 	, tariff_type AS fee_detail_1
 	, tariff_number AS fee_detail_2
-	, 'fixed' AS fee_detail_3
 	, total_allocated_tariff_cost AS total_allocated_amount
 FROM tariffs
 WHERE tariff_type = 'hts_china'
@@ -32,7 +31,6 @@ SELECT
 	, 'tariff' AS fee_type
 	, tariff_type AS fee_detail_1
 	, tariff_number AS fee_detail_2
-	, 'fixed' AS fee_detail_3
 	, total_allocated_tariff_cost AS total_allocated_amount
 FROM tariffs
 WHERE tariff_type = 'hts'
@@ -45,7 +43,6 @@ SELECT
 	, charge_category AS fee_type
 	, charge_code AS fee_detail_1
 	, charge_name AS fee_detail_2
-	, charge_type AS fee_detail_3
 	, allocated_invoice_amount AS total_allocated_amount
 FROM fees
 

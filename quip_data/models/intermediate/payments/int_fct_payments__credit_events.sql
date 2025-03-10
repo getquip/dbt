@@ -51,10 +51,9 @@ credit_accounts AS (
 	) = 1
 
 )
-
 -- get credit issued event
 SELECT
-	 {{ dbt_utils.generate_surrogate_key(
+	{{ dbt_utils.generate_surrogate_key(
 		[
 			'credit_account_id'
 			, 'recharge_customer_id'
@@ -93,5 +92,3 @@ SELECT
 FROM transactions
 LEFT JOIN credit_adjustments AS adjustments
 	ON adjustments.credit_adjustment_id = transactions.credit_adjustment_id
-
-
