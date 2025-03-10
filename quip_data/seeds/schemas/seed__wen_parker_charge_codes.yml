@@ -9,4 +9,3 @@ models:
       - name: charge_code
       - name: charge_name
       - name: charge_category
-      - name: charge_type
