@@ -4,7 +4,8 @@ adm,brokerage handling,customs
 adm,eir fee,freight
 adm,pre pull fee,freight
 adm,wage adjustment fee,freight
-afc,air freightfreight
+afc,air freight,freight
+
 afc,air freight charge,freight
 afc,courier cost,freight
 agc,agency fee,customs
