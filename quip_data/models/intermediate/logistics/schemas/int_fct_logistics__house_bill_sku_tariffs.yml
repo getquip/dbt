@@ -23,6 +23,10 @@ models:
         description: >-
           The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
         data_type: string
+      - name: sku_presentment
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+          This differs from sku in that this represents sku as it is presented in the item master.
       - name: tariff_number
         description: Tariff classification number, used to categorize goods for duty calculation.
         data_type: string

@@ -17,6 +17,7 @@ shipment_items AS (
 	SELECT
 		items.house_bill_number
 		, items.sku
+		, skus.sku_presentment
 		, items.po_number
 		, skus.tariff_number
 		, skus.china_tariff_number

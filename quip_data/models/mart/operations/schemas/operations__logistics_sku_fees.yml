@@ -12,7 +12,9 @@ models:
         description: charge_name or tariff_number
         data_type: string
       - name: fee_type
-        description: The type or category of the fee applied, helping to classify the logistics fee (e.g., invoice category or tariff).
+        description: >-
+          The type or category of the fee applied, helping to classify the logistics fee (e.g., invoice
+          category or tariff).
         data_type: string
       - name: house_bill_number
         description: |-

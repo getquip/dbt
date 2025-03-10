@@ -18,6 +18,7 @@ SELECT
 	, COALESCE(hts.po_number, hts_china.po_number) AS po_number
 	, tariffs.tariff_number
 	, COALESCE(hts_china.sku, hts.sku) AS sku
+	, COALESCE(hts_china.sku_presentment, hts.sku_presentment) AS sku_presentment
 	, IF(hts_china.china_tariff_number IS NULL, 'hts', 'hts_china') AS tariff_type
 	, COALESCE(hts_china.total_sku_quantity, hts.total_sku_quantity, 0) AS total_sku_quantity
 	, COALESCE(hts_china.total_china_tariff_sku_quantity, hts.total_tariff_sku_quantity, 0) AS total_tariff_sku_quantity

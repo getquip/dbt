@@ -13,8 +13,9 @@ skus AS (
 -------------------------------------------------------
 
 SELECT
-	skus.sku
-    , COALESCE(skus.weight, 0) AS weight_lb
+	skus.sku AS sku_presentment
+    , REGEXP_REPLACE(skus.sku, r'\D', '') AS sku -- remove non-numeric characters
+    , COALESCE(SAFE_CAST(skus.weight AS NUMERIC), 0) AS weight_lb
     , hts.tariff_number
     , hts.china_tariff_number
     , skus.unit_cost

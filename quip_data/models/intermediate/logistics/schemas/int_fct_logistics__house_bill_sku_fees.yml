@@ -48,6 +48,10 @@ models:
       - name: sku
         description: "The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory."
         data_type: string
+      - name: sku_presentment
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+          This differs from sku in that this represents sku as it is presented in the item master.
       - name: total_hbl_item_quantity
         data_type: int64
         description: "The total number of items in the shipment associated with a specific House Bill of Lading."
