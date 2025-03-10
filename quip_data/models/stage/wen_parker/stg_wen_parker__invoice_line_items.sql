@@ -22,6 +22,7 @@ WITH source AS (
       'invoice_number'
       , 'house_bill_number'
       , 'charge_code'
+      , 'charge_name'
       , 'invoice_date'
       , 'shipment_type'
     ]) }} AS invoice_line_item_id

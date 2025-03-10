@@ -6,7 +6,7 @@ tariffs AS (
 )
 
 , house_bill_item_summary AS (
-  SELECT * FROM {{ ref("int_fct_logistics__house_bill_item_summary")}}
+  SELECT * FROM {{ ref("int_fct_logistics__house_bill_sku_summary")}}
 
 )
 -------------------------------------------------------

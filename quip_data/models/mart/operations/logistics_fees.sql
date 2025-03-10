@@ -1,11 +1,11 @@
 WITH
 
 fees AS (
-	SELECT * FROM {{ ref("int_fct_logistics__house_bill_item_fees") }}
+	SELECT * FROM {{ ref("int_fct_logistics__house_bill_sku_fees") }}
 )
 
 , tariffs AS (
-	SELECT * FROM {{ ref("int_fct_logistics__house_bill_item_tariffs") }}
+	SELECT * FROM {{ ref("int_fct_logistics__house_bill_sku_tariffs") }}
 )
 
 -------------------------------------------------------
