@@ -35,7 +35,7 @@ models:
     +dbt-osmosis-options:
         skip-add-tags: true
         output-to-lower: true
-        force-inherit-descriptions	: true
+        force-inherit-descriptions: true
         sort-by: "alphabetical"
 
     stage:
