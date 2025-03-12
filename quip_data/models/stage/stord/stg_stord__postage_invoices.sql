@@ -85,22 +85,23 @@ SELECT
     -- parse dates
     , COALESCE(
         SAFE_CAST(received_date AS DATE) -- Format: 2024-09-09
-        , PARSE_DATE('%m/%d/%y', received_date) -- Format: 9/9/24
+        , SAFE.PARSE_DATE('%m/%d/%y', received_date) -- Format: 9/9/24
         , SAFE.PARSE_DATE('%m/%d/%Y', received_date) -- Format: 9/9/2024
+        , SAFE.PARSE_DATE('%d/%m/%Y', received_date) -- Format: 19/9/2024
     ) AS received_date
     , COALESCE(
         SAFE_CAST(shipped_date AS DATE)
-        , PARSE_DATE('%m/%d/%y', shipped_date)
+        , SAFE.PARSE_DATE('%m/%d/%y', shipped_date)
         , SAFE.PARSE_DATE('%m/%d/%Y', shipped_date)
     ) AS shipped_date
     , COALESCE(
         SAFE_CAST(order_date AS DATE)
-        , PARSE_DATE('%m/%d/%y', order_date)
+        , SAFE.PARSE_DATE('%m/%d/%y', order_date)
         , SAFE.PARSE_DATE('%m/%d/%Y', order_date)
     ) AS order_date
     , COALESCE(
         SAFE_CAST(invoice_date AS DATE)
-        , PARSE_DATE('%m/%d/%y', invoice_date)
+        , SAFE.PARSE_DATE('%m/%d/%y', invoice_date)
         , SAFE.PARSE_DATE('%m/%d/%Y', invoice_date)
     ) AS invoice_date
 FROM source
