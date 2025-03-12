@@ -33,10 +33,8 @@ WITH source AS (
         , CAST(cubic_meters AS FLOAT64) AS cubic_meters
         , CAST(cartons AS INTEGER) AS cartons
         , PARSE_DATE('%Y%m%d' , cargo_received_at) AS cargo_received_on
-        , PARSE_DATE('%Y%m%d' , actual_time_of_departure_origin_at)
-            AS actual_time_of_departure_origin_on
-        , PARSE_DATE('%Y%m%d' , actual_arrival_airport_wetport_at)
-            AS actual_arrival_airport_wetport_on
+        , PARSE_DATE('%Y%m%d' , actual_time_of_departure_origin_at) AS actual_time_of_departure_origin_on
+        , PARSE_DATE('%Y%m%d' , actual_arrival_airport_wetport_at) AS actual_arrival_airport_wetport_on
         , PARSE_DATE('%Y%m%d' , custom_release_at) AS custom_release_on
         , delivery_address
         , PARSE_DATE('%Y%m%d' , delivered_at) AS delivered_on
