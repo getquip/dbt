@@ -34,12 +34,6 @@ source AS (
         , LOWER(fulfillment_mode) AS fulfillment_mode
         , SAFE_CAST(shipment_id AS INTEGER) AS shipment_id
         , LOWER(COALESCE(merchant_name , client_name , brand_name)) AS merchant_name
-        , COALESCE(SAFE_CAST(invoice_date AS DATE), PARSE_DATE('%m/%d/%y', invoice_date)) AS invoice_date
-        , COALESCE(SAFE_CAST(closed_manifest_date AS DATE), PARSE_DATE('%m/%d/%y', closed_manifest_date)) AS closed_manifest_date
-        , COALESCE(SAFE_CAST(received_manifest_date AS DATE), PARSE_DATE('%m/%d/%y', received_manifest_date)) AS received_manifest_date
-        , COALESCE(SAFE_CAST(shipment_received_date AS DATE), PARSE_DATE('%m/%d/%y', shipment_received_date)) AS shipment_received_date
-        , COALESCE(SAFE_CAST(trxn_date AS DATE), PARSE_DATE('%m/%d/%y', trxn_date)) AS transaction_date
-        , COALESCE(SAFE_CAST(ship_on_date AS DATE), PARSE_DATE('%m/%d/%y', ship_on_date)) AS ship_on_date
         , LOWER(fee_surcharge_category) AS fee_surcharge_category
         , SAFE_CAST(total_amt AS NUMERIC) AS total_amount
         , LOWER(fee_surcharge_type_1) AS fee_surcharge_type_1
@@ -58,6 +52,43 @@ source AS (
         , SAFE_CAST(fee_type_charges_7 AS NUMERIC) AS fee_type_charges_7
         , LOWER(fee_surcharge_type_8) AS fee_surcharge_type_8
         , SAFE_CAST(fee_type_charges_8 AS NUMERIC) AS fee_type_charges_8
+        -- parse dates
+        , COALESCE(
+            SAFE_CAST(invoice_date AS DATE) -- Format: 2024-09-09
+            , SAFE.PARSE_DATE('%m/%d/%y', invoice_date) -- Format: 9/9/24
+            , SAFE.PARSE_DATE('%m/%d/%Y', invoice_date)  -- Format: 9/9/2024
+            , SAFE.PARSE_DATE('%d/%m/%Y', invoice_date) -- Format: 19/9/2024
+        ) AS invoice_date
+        , COALESCE(
+            SAFE_CAST(closed_manifest_date AS DATE)
+            , SAFE.PARSE_DATE('%m/%d/%y', closed_manifest_date)
+            , SAFE.PARSE_DATE('%m/%d/%Y', closed_manifest_date)
+            , SAFE.PARSE_DATE('%d/%m/%Y', closed_manifest_date)
+        ) AS closed_manifest_date
+        , COALESCE(
+            SAFE_CAST(received_manifest_date AS DATE)
+            , SAFE.PARSE_DATE('%m/%d/%y', received_manifest_date)
+            , SAFE.PARSE_DATE('%m/%d/%Y', received_manifest_date)
+            , SAFE.PARSE_DATE('%d/%m/%Y', received_manifest_date)
+        ) AS received_manifest_date
+        , COALESCE(
+            SAFE_CAST(shipment_received_date AS DATE)
+            , SAFE.PARSE_DATE('%m/%d/%y', shipment_received_date)
+            , SAFE.PARSE_DATE('%m/%d/%Y', shipment_received_date)
+            , SAFE.PARSE_DATE('%d/%m/%Y', shipment_received_date)
+        ) AS shipment_received_date
+        , COALESCE(
+            SAFE_CAST(trxn_date AS DATE)
+            , SAFE.PARSE_DATE('%m/%d/%y', trxn_date)
+            , SAFE.PARSE_DATE('%m/%d/%Y', trxn_date)
+            , SAFE.PARSE_DATE('%d/%m/%Y', trxn_date)
+        ) AS transaction_date
+        , COALESCE(
+            SAFE_CAST(ship_on_date AS DATE)
+            , SAFE.PARSE_DATE('%m/%d/%y', ship_on_date)
+            , SAFE.PARSE_DATE('%m/%d/%Y', ship_on_date)
+            , SAFE.PARSE_DATE('%d/%m/%Y', ship_on_date)
+        ) AS ship_on_date
     FROM source
 )
 
