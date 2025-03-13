@@ -29,8 +29,11 @@ shipment_items AS (
 		, SUM(skus.weight_lb * items.quantity) OVER (PARTITION BY items.house_bill_number) AS total_hbl_weight_lb
 		-- tariffs
 		, skus.unit_cost -- need to coalesce with cogs with this as secondary
-		, SUM(items.quantity) OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_sku_quantity
-		, SUM(items.quantity) OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_sku_quantity
+		, skus.unit_cost * items.quantity AS total_sku_cost
+		, SUM(skus.unit_cost * items.quantity) 
+			OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_cost_basis
+		, SUM(skus.unit_cost * items.quantity) 
+			OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_cost_basis
 	FROM shipment_items AS items
 	-- this join filters out any skus from shipment_items that are not in the skus table
 	INNER JOIN skus
@@ -41,6 +44,6 @@ SELECT
 	*
 	, SAFE_DIVIDE(total_sku_quantity, total_hbl_item_quantity) AS allocation_percentage_by_quantity
 	, SAFE_DIVIDE(total_sku_weight_lb, total_hbl_weight_lb) AS allocation_percentage_by_weight
-	, SAFE_DIVIDE(total_sku_quantity, total_tariff_sku_quantity) AS allocation_percentage_for_tariffs
-	, SAFE_DIVIDE(total_sku_quantity, total_china_tariff_sku_quantity) AS allocation_percentage_for_china_tariffs
+	, SAFE_DIVIDE(total_sku_cost, total_tariff_cost_basis) AS allocation_percentage_for_tariffs
+	, SAFE_DIVIDE(total_sku_cost, total_china_tariff_cost_basis) AS allocation_percentage_for_china_tariffs
 FROM house_bill_item_summary

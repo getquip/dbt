@@ -21,7 +21,7 @@ SELECT
 	, COALESCE(hts_china.sku_presentment, hts.sku_presentment) AS sku_presentment
 	, IF(hts_china.china_tariff_number IS NULL, 'hts', 'hts_china') AS tariff_type
 	, COALESCE(hts_china.total_sku_quantity, hts.total_sku_quantity, 0) AS total_sku_quantity
-	, COALESCE(hts_china.total_china_tariff_sku_quantity, hts.total_tariff_sku_quantity, 0) AS total_tariff_sku_quantity
+	, COALESCE(hts_china.total_tariff_cost_basis, hts.total_tariff_cost_basis, 0) AS total_tariff_cost_basis
 	, COALESCE(hts.allocation_percentage_for_tariffs, hts_china.allocation_percentage_for_china_tariffs, 1) AS allocation_percentage_for_tariffs
 	, tariffs.total_tariff_duty
 	, tariffs.total_tariff_fees

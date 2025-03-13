@@ -19,7 +19,7 @@ invoice_items AS (
 -------------------------------------------------------
 
 SELECT
-	items.* EXCEPT(tariff_number, china_tariff_number, total_tariff_sku_quantity, total_china_tariff_sku_quantity)
+	items.* EXCEPT(tariff_number, china_tariff_number, allocation_percentage_for_tariffs, allocation_percentage_for_china_tariffs)
 	, charge_codes.*
 	, invoice_items.invoice_number
 	, invoice_items.amount AS total_invoice_amount

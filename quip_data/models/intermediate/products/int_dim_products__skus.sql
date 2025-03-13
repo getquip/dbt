@@ -18,7 +18,7 @@ SELECT
     , COALESCE(SAFE_CAST(skus.weight AS NUMERIC), 0) AS weight_lb
     , hts.tariff_number
     , hts.china_tariff_number
-    , skus.unit_cost
+    , SAFE_CAST(skus.unit_cost AS NUMERIC) AS unit_cost
 FROM skus
 LEFT JOIN hts 
     ON hts.sku = skus.sku
