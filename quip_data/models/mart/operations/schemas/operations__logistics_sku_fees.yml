@@ -1,0 +1,34 @@
+version: 2
+models:
+  - name: operations__logistics_sku_fees
+    description: |
+      This model contains details about various logistics fees associated with shipments and their skus.
+      It tracks fees at the sku and house_bill_number (HBL) level, capturing detailed information such as fee categories and associated amounts.  
+    columns:
+      - name: fee_detail_1
+        description: charge_code or tariff_type (hts or hts_china)
+        data_type: string
+      - name: fee_detail_2
+        description: charge_name or tariff_number
+        data_type: string
+      - name: fee_type
+        description: >-
+          The type or category of the fee applied, helping to classify the logistics fee (e.g., invoice
+          category or tariff).
+        data_type: string
+      - name: house_bill_number
+        description: |-
+          The unique identifier assigned to a House Bill of Lading (HBL).  
+          The HBL is a transport document issued by a freight forwarder or logistics provider that details the shipment of goods.  
+          It includes information such as the shipper, consignee, origin, destination, and cargo details.  
+          This field is used to track and manage shipments at the HBL level.  
+
+          It can sometimes be referred to as the **House Air Waybill (HAWB)** in air freight shipments.
+        data_type: string
+      - name: sku
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+        data_type: string
+      - name: total_allocated_amount
+        description: The total amount allocated for the logistics fee.
+        data_type: float64

@@ -1,0 +1,59 @@
+version: 2
+models:
+  - name: int_fct_logistics__house_bill_sku_tariffs
+    description: |
+      This model contains detailed information about tariffs applied to the SKU level, including tariff costs, duties, and associated fees. 
+    columns:
+      - name: allocation_percentage_for_tariffs
+        description: The percentage allocation for tariffs based on the total value, weight, or other factors.
+        data_type: float64
+      - name: house_bill_number
+        description: |-
+          The unique identifier assigned to a House Bill of Lading (HBL).  
+          The HBL is a transport document issued by a freight forwarder or logistics provider that details the shipment of goods.  
+          It includes information such as the shipper, consignee, origin, destination, and cargo details.  
+          This field is used to track and manage shipments at the HBL level.  
+
+          It can sometimes be referred to as the **House Air Waybill (HAWB)** in air freight shipments.
+        data_type: string
+      - name: po_number
+        description: Purchase order number linked to the shipment item.
+        data_type: string
+      - name: sku
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+        data_type: string
+      - name: sku_presentment
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+          This differs from sku in that this represents sku as it is presented in the item master.
+      - name: tariff_number
+        description: Tariff classification number, used to categorize goods for duty calculation.
+        data_type: string
+      - name: tariff_type
+        description: Type of tariff applied to the goods (e.g., standard, preferential, etc.).
+        data_type: string
+      - name: total_allocated_tariff_cost
+        description: The total cost associated with the allocated tariff, including all applicable duties and fees.
+        data_type: float64
+      - name: total_allocated_tariff_duty
+        description: The total duty amount allocated to the tariff.
+        data_type: float64
+      - name: total_allocated_tariff_fees
+        description: The total additional fees allocated to the tariff.
+        data_type: float64
+      - name: total_sku_quantity
+        description: The total quantity of SKUs associated with the tariff.
+        data_type: int64
+      - name: total_tariff_cost
+        description: Total cost of the tariff, including duties and fees.
+        data_type: float64
+      - name: total_tariff_duty
+        description: Total duty amount applied to the tariff.
+        data_type: float64
+      - name: total_tariff_fees
+        description: Total additional fees associated with the tariff.
+        data_type: float64
+      - name: total_tariff_sku_quantity
+        description: Total quantity of SKUs affected by the tariff.
+        data_type: int64

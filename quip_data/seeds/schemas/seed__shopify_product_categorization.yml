@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: seed__wen_parker_charge_codes
+    description: |
+      A table containing the categorization of our products and their components. This table maps products to specific categories,
+      enabling more efficient product management, search, and reporting.
+    columns:
+      - name: sku
+        description: '{{ doc("sku") }}'
+
+      - name: component_master_category
+        description: '{{ doc("component_master_category") }}'
+        
+      - name: component_master_subcategory
+        description: '{{ doc("component_master_subcategory") }}'
+        
+      - name: component_category
+        description: '{{ doc("component_category") }}'
+        
+      - name: component_color
+        description: '{{ doc("component_color") }}'
+        
+      - name: component_material
+        description: '{{ doc("component_material") }}'
+        
+      - name: component_consumer
+        description: '{{ doc("component_consumer") }}'
+        
+      - name: component_edition
+        description: '{{ doc("component_edition") }}'
+        
+      - name: component_version
+        description: '{{ doc("component_version") }}'
+        
+      - name: component_has_revenue
+        description: '{{ doc("component_has_revenue") }}'
+        
+      - name: component_is_smart
+        description: '{{ doc("component_is_smart") }}'
+        
+      - name: component_is_refillable_product
+        description: '{{ doc("component_is_refillable_product") }}'
+        

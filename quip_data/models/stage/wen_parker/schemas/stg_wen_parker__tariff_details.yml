@@ -1,35 +1,28 @@
 version: 2
-
 models:
   - name: stg_wen_parker__tariff_details
     description: |
-      Staging table for Wen Parker tariff details. This table contains information about tariffs applied to shipments, 
-      including duties, fees, and costs. It is loaded daily with new tariff data from the source system.
-    config:
-      tags: ['daily']
+      Staging model for Wen Parker tariff details, containing cost breakdowns for tariffs associated with house bills.
+      This data is at the house_bill_number and tariff_number level.
     columns:
-      - name: tariff_id
-        data_type: string
-        description: "Unique identifier for each tariff record."
-        tests:
-          - unique
-
       - name: house_bill_number
         data_type: string
-        description: "House Bill of Lading (HBL) number associated with the shipment."
-
-      - name: total_tariff_duty
-        data_type: float64
-        description: "Total duty applied to the shipment under the tariff."
-
+        description: '{{ doc("house_bill_number") }}'
+      - name: tariff_bill_id
+        data_type: string
+        description: "Unique identifier for the tariff bill. This is a combination of the house bill number and the tariff number."
       - name: tariff_number
         data_type: string
-        description: "Tariff number identifying the specific tariff applied to the shipment."
-
-      - name: total_fees
-        data_type: float64
-        description: "Total fees associated with the tariff, including any additional charges."
-
+        description: "Tariff classification number, used to categorize goods for duty calculation."
       - name: total_tariff_cost
         data_type: float64
         description: "Total cost of the tariff, including duties and fees."
+      - name: total_tariff_duty
+        data_type: float64
+        description: "Total duty amount applied to the tariff."
+      - name: total_tariff_fees
+        data_type: float64
+        description: "Total additional fees associated with the tariff."
+      - name: duty_rate
+        data_type: float64
+        description: "Percentage rate at which duty is applied to the tariff value."

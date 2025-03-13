@@ -22,6 +22,7 @@ WITH source AS (
       'invoice_number'
       , 'house_bill_number'
       , 'charge_code'
+      , 'charge_name'
       , 'invoice_date'
       , 'shipment_type'
     ]) }} AS invoice_line_item_id
@@ -33,9 +34,9 @@ WITH source AS (
         , house_bill_number
         , TRIM(LOWER(charge_code)) AS charge_code
         , TRIM(LOWER(charge_name)) AS charge_name
-        , invoice_currency
+        , invoice_currency AS currency
         , CAST(REPLACE(REPLACE(invoice_amount , ',' , '') , '$' , '') AS FLOAT64)
-            AS invoice_amount
+            AS amount
         , source_synced_at
     FROM source
 )
@@ -44,7 +45,9 @@ WITH source AS (
 	This model MUST be deduplicated by unique records. This is because each file contains data for
 	the last 90 days, and the same invoice may appear in multiple files.
 */
-SELECT * FROM cleaned
+SELECT
+    *
+FROM cleaned
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY invoice_line_item_id

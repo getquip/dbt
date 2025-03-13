@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_wen_parker__hts_duties
+    description: |
+      This model contains Harmonized Tariff Schedule (HTS) duties at the SKU level. HTS duties are tariffs
+      imposed on imported goods based on their classification under the Harmonized System (HS), which 
+      considers product type, manufacturer, and location.
+    columns:
+      - name: china_duty_rate
+        data_type: float64
+        description: "The duty rate applied to products imported from China, expressed as a percentage."
+      - name: china_tariff_number
+        data_type: string
+        description: "The tariff classification number specific to imports from China."
+      - name: duty_rate
+        data_type: float64
+        description: "The standard duty rate applied to the product based on its tariff classification."
+      - name: harbor_maintenance
+        data_type: float64
+        description: "The fee charged for harbor maintenance, typically applied to imports arriving via ocean freight."
+      - name: is_fda_required
+        data_type: boolean
+        description: "Indicates whether the product requires FDA (Food and Drug Administration) approval before import."
+      - name: merchandise_processing_fee
+        data_type: float64
+        description: "The Merchandise Processing Fee (MPF) applied to imports, calculated based on the value of the goods."
+      - name: sku
+        data_type: string
+        description: "The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory."
+      - name: sku_description
+        data_type: string
+        description: "A detailed description of the product associated with the SKU."
+      - name: sku_group
+        data_type: string
+        description: "A categorization of SKUs based on product type, brand, or other grouping criteria."
+      - name: source_synced_at
+        data_type: timestamp
+        description: "The timestamp indicating when the record was last successfully synced from the source system."
+      - name: tariff_number
+        data_type: string
+        description: "The Harmonized Tariff Schedule (HTS) classification number assigned to the product."
+      - name: value_per_unit
+        data_type: float64
+        description: "The declared value of the product per unit, used for duty and tariff calculations."
+      - name: weight_lb
+        data_type: numeric
+        description: '{{ doc("weight_lb") }}'
