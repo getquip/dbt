@@ -12,3 +12,62 @@ sources:
     tables:
       - name: postage_invoices
       - name: fulfillment_invoices
+      - name: newgistics_inventory_transactions
+        description: |
+          This table contains inventory transactions from our old fulfillment provider, Newgistics. The following query was used
+          to create this table:
+
+          ```sql
+            SELECT
+              id
+              , type
+              , linked_inventory_id
+              , warehouse_id
+              , warehouse
+              , manifest_id
+              , manifest_po
+              , shipment_id
+              , order_id
+              , timestamp
+              , sku
+              , CAST(quantity AS INTEGER) AS quantity
+              , NULL AS inventory_reason_id
+              , reason_code AS inventory_reason
+              , inventory_type
+              , 'quip-etl-data.newgistics.src_newgistics_inventory_transactions_data' AS data_source
+            FROM `quip-etl-data.newgistics.src_newgistics_inventory_transactions_data`
+
+            UNION ALL
+
+            SELECT
+              insertId
+              , type
+              , NULL AS linked_inventory_id
+              , warehouse_id
+              , warehouse
+              , manifest_id
+              , manifest_po
+              , shipment_id
+              , CAST(order_id AS STRING) AS order_id
+              , timestamp
+              , sku
+              , quantity
+              , CAST(inventory_reason_id AS STRING) AS inventory_reason_id
+              , CAST(inventory_reason AS STRING) AS inventory_reason
+              , CAST(inventory_reason AS STRING) AS inventory_reason
+              , 'quip-etl-data.newgistics.fct_newgistics_inventory_transactions' AS data_source
+            FROM quip-etl-data.newgistics.fct_newgistics_inventory_transactions
+          ```
+  
+  - name: stord-dev
+    schema: stord
+    database: quip-dw-raw-dev
+    loader: Airflow
+    description: |
+      Stord is a logistics company that provides warehousing and fulfillment services. This source also contains
+      data from our old fulfillment provider, Newgistics. 
+
+      Airflow DAG: https://9e6d57501d3d455b965fdfc0234f1e74-dot-us-central1.composer.googleusercontent.com/dags/get__stord/grid
+    tables:
+      - name: inventory_adjustments
+      - name: inventory_adjustment_reason_codes
