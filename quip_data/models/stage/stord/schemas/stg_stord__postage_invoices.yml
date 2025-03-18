@@ -7,7 +7,7 @@ models:
       This table contains details of shipments, associated fees, and metadata for tracking 
       and reconciliation purposes.
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
       - name: postage_invoice_id
         data_type: string

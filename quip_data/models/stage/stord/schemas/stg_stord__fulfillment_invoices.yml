@@ -4,7 +4,7 @@ models:
   - name: stg_stord__fulfillment_invoices
     description: "Staging table for fulfillment invoices received from Stord, capturing details about shipments, fees, and related transactions."
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
       - name: fulfillment_invoice_id
         data_type: string

@@ -3,7 +3,7 @@ models:
   - name: credit_events
     description: "This model links int_payments__credit_events and credit_account_dims"
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
       - name: credit_account_id
         data_type: int64

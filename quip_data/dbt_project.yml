@@ -91,6 +91,8 @@ models:
         +schema: finance
       marketing:
         +schema: marketing
+      operations:
+        +schema: operations
       quip:
         +schema: quip
 

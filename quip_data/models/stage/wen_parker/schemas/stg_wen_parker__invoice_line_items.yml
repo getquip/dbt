@@ -1,56 +1,44 @@
 version: 2
-
 models:
   - name: stg_wen_parker__invoice_line_items
     description: |
-      Staging table for Wen Parker invoice line items. This table contains details about individual invoice lines, including 
-      information on the payer, charges, and invoice amounts. It is loaded daily with new invoice data from the source system
-      and is deduplicated because Wen Parker sends multiple records for the same invoice items.
-    config:
-      tags: ['daily']
+      Staging model for Wen Parker invoice line items, containing detailed billing information for shipments.
+      This model is at the house_bill_number and charge_code level. Note that an invoice should only have 1
+      house_bill_number, however this is not historically true.
     columns:
-      - name: invoice_line_item_id
-        data_type: string
-        description: "Unique identifier for each invoice line item."
-        tests:
-          - unique
-
-      - name: invoice_number
-        data_type: string
-        description: "Invoice number associated with the line item."
-
-      - name: invoice_date
-        data_type: date
-        description: "Date the invoice was issued."
-
-      - name: payer_code
-        data_type: string
-        description: "Code identifying the payer responsible for the invoice."
-
-      - name: payer_name
-        data_type: string
-        description: "Name of the payer responsible for the invoice."
-
-      - name: shipment_type
-        data_type: string
-        description: "Type of shipment associated with the invoice (e.g., air, ocean, truck)."
-
-      - name: house_bill_number
-        data_type: string
-        description: "House Bill of Lading (HBL) number associated with the shipment."
-
+      - name: amount
+        data_type: float64
+        description: '{{ doc("amount") }}'
       - name: charge_code
         data_type: string
-        description: "Code identifying the type of charge (e.g., freight, handling)."
-
+        description: "Code representing the type of charge applied."
       - name: charge_name
         data_type: string
-        description: "Description of the charge (e.g., shipment cost, customs fee)."
-
-      - name: invoice_currency
+        description: "Descriptive name of the charge applied."
+      - name: house_bill_number
         data_type: string
-        description: "Currency used for the invoice amount (e.g., USD, EUR)."
-
-      - name: invoice_amount
+        description: '{{ doc("house_bill_number") }}'
+      - name: currency
         data_type: string
-        description: "Amount billed in the invoice, represented as a string to handle currency formatting."
+        description: '{{ doc("currency") }}'
+      - name: invoice_date
+        data_type: date
+        description: "Date when the invoice was issued."
+      - name: invoice_line_item_id
+        data_type: string
+        description: "Unique identifier for the invoice line item."
+      - name: invoice_number
+        data_type: string
+        description: "Unique identifier for the invoice."
+      - name: payer_code
+        data_type: string
+        description: "Code identifying the entity responsible for payment."
+      - name: payer_name
+        data_type: string
+        description: "Name of the entity responsible for payment."
+      - name: shipment_type
+        data_type: string
+        description: "Type of shipment associated with the invoice (e.g., air, ocean, ground)."
+      - name: source_synced_at
+        data_type: timestamp
+        description: '{{ doc("source_synced_at") }}'

@@ -14,3 +14,5 @@ sources:
       - name: shipment_details
       - name: shipment_item_details
       - name: tariff_details
+      - name: hts_duties
+      
