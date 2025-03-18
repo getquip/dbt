@@ -8,7 +8,7 @@ models:
       This table is loaded daily with new shipment data from the source system and is deduplicated
       because Wen Parker sends multiple records for the same shipment.
     config:
-      tags: ['daily9am']
+      tags: ['daily7am']
     columns:
       - name: house_bill_number
         data_type: string

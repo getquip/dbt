@@ -7,7 +7,7 @@ models:
       Inventory transactions capture any event affecting a unit of inventory at the CEVA warehouse.
     config:
       config:
-      tags: ['daily9am']
+      tags: ['daily7am']
     columns:
       - name: insert_id
         description: The unique identifier for the table.

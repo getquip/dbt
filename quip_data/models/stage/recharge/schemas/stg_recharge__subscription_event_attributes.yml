@@ -4,7 +4,7 @@ models:
   - name: stg_recharge__subscription_event_attributes
     description: ""
     config:
-      tags: ['daily9am']
+      tags: ['daily7am']
     columns:
       - name: event_attribute_id
         data_type: string

@@ -5,7 +5,7 @@ models:
     description: |
       The master table of domestic postage invoice files received from Newgistics and Stord.
     config:
-      tags: ['daily9am']
+      tags: ['daily7am']
     columns:
       - name: postage_invoice_id
         data_type: string
