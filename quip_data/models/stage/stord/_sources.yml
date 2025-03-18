@@ -12,6 +12,8 @@ sources:
     tables:
       - name: postage_invoices
       - name: fulfillment_invoices
+      - name: inventory_adjustments
+      - name: inventory_adjustment_reason_codes
       - name: newgistics_inventory_transactions
         description: |
           This table contains inventory transactions from our old fulfillment provider, Newgistics. The following query was used
@@ -58,16 +60,3 @@ sources:
               , 'quip-etl-data.newgistics.fct_newgistics_inventory_transactions' AS data_source
             FROM quip-etl-data.newgistics.fct_newgistics_inventory_transactions
           ```
-  
-  - name: stord-dev
-    schema: stord
-    database: quip-dw-raw-dev
-    loader: Airflow
-    description: |
-      Stord is a logistics company that provides warehousing and fulfillment services. This source also contains
-      data from our old fulfillment provider, Newgistics. 
-
-      Airflow DAG: https://9e6d57501d3d455b965fdfc0234f1e74-dot-us-central1.composer.googleusercontent.com/dags/get__stord/grid
-    tables:
-      - name: inventory_adjustments
-      - name: inventory_adjustment_reason_codes

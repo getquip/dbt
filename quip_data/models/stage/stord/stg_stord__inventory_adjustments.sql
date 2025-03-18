@@ -1,11 +1,11 @@
 WITH
 
 source AS (
-	SELECT * FROM {{ source("stord-dev", "inventory_adjustments")}}
+	SELECT * FROM {{ source("stord", "inventory_adjustments")}}
 )
 
 , reason_codes AS (
-	SELECT * FROM {{ source("stord-dev", "inventory_adjustment_reason_codes")}}
+	SELECT * FROM {{ source("stord", "inventory_adjustment_reason_codes")}}
 )
 
 , newgistics AS (
