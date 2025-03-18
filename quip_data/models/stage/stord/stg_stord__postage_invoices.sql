@@ -25,6 +25,7 @@ SELECT
             "invoice_number",
             "shipment_id",
             "invoice_date",
+            "fee_category"
         ])
     }} AS postage_invoice_id
     , merchant_name
