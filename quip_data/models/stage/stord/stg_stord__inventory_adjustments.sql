@@ -16,10 +16,10 @@ source AS (
 	SELECT
 		adjustment_id
 		, adjusted_at
-		, adjustment_quantity
+		, SAFE_CAST(adjustment_quantity AS INTEGER) AS adjustment_quantity
 		, adjustment_sequence
 		, category AS adjustment_category
-		, expires_at
+		, expires_at AS expires_on
 		, facility_alias
 		, facility_id
 		, item_id
@@ -27,13 +27,13 @@ source AS (
 		, lot_number
 		, LOWER(name) AS adjustment_name
 		, order_number
-		, previous_quantity
+		, SAFE_CAST(previous_quantity AS INTEGER) AS previous_quantity
 		, LOWER(reason) AS adjustment_reason
 		, reason_code AS adjustment_reason_code
 		, LOWER(reason_type) AS adjustment_reason_type
 		, REGEXP_REPLACE(sku, r'\D', '') AS sku -- remove non-numeric characters
 		, unit
-		, updated_quantity AS adjusted_to_quantity
+		, SAFE_CAST(updated_quantity AS INTEGER) AS adjusted_to_quantity
 		, source_synced_at
 	FROM source
 )
@@ -45,22 +45,22 @@ source AS (
 		, quantity AS adjustment_quantity
 		, ROW_NUMBER() OVER(PARTITION BY id ORDER BY timestamp ASC) AS adjustment_sequence
 		, `type` AS adjustment_category
-		, NULL AS expires_at
+		, CAST(NULL AS DATE) AS expires_at
 		, warehouse AS facility_alias
 		, warehouse_id AS facility_id
 		, shipment_id AS item_id
-		, NULL AS ledger_sequence
-		, NULL AS lot_number
-		, NULL AS adjustment_name
+		, CAST(NULL AS INTEGER) AS ledger_sequence
+		, CAST(NULL AS STRING) AS lot_number
+		, CAST(NULL AS STRING) AS adjustment_name
 		, order_id AS order_number
-		, NULL AS previous_quantity
+		, CAST(NULL AS INTEGER) AS previous_quantity
 		, inventory_reason AS adjustment_reason
-		, inventory_reason_id AS adjustment_reason_code
+		, CAST(inventory_reason_id AS INTEGER) AS adjustment_reason_code
 		, inventory_type AS adjustment_reason_type
 		, REGEXP_REPLACE(sku, r'\D', '') AS sku -- remove non-numeric characters
-		, NULL AS unit
-		, NULL AS adjusted_to_quantity
-		, NULL AS source_synced_at
+		, CAST(NULL AS STRING) AS unit
+		, CAST(NULL AS INTEGER) AS adjusted_to_quantity
+		, CAST(NULL AS TIMESTAMP) AS source_synced_at
 	FROM newgistics
 	QUALIFY ROW_NUMBER() OVER (PARTITION BY adjustment_id ORDER BY adjusted_at DESC) = 1
 )
