@@ -4,7 +4,7 @@ models:
   - name: stg_ceva__inventory_snapshot
     description: A dataset of CEVA's inventory snapshots sent to our S3 bucket.
     config:
-      tags: ['daily']
+      tags: ['daily9am']
     columns:
       - name: surrogate_key
         description: The surrogate key is a concatenation of `SNAPSHOT_DATE` and `SKU_ID`.

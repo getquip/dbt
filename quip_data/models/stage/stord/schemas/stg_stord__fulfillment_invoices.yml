@@ -4,7 +4,7 @@ models:
   - name: stg_stord__fulfillment_invoices
     description: ''
     config:
-      tags: ['daily']
+      tags: ['daily9am']
     columns:
       - name: fulfillment_invoice_id
         data_type: string

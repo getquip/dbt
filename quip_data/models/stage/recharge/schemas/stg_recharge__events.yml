@@ -4,7 +4,7 @@ models:
   - name: stg_recharge__events
     description: ""
     config:
-      tags: ['daily']
+      tags: ['daily9am']
     columns:
       - name: event_id
         data_type: int64
