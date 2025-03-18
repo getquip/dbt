@@ -1,0 +1,74 @@
+version: 2
+models:
+  - name: int_fct_logistics__house_bill_sku_fees
+    description: |
+      Fact table detailing SKU-level freight and custom fee allocations for shipments at the house_bill_number (HBL) level.
+    columns:
+      - name: allocated_invoice_amount
+        data_type: float64
+        description: "The portion of the total invoice amount allocated to the SKU based on the allocation methodology (quantity or weight)."
+      - name: allocation_percentage_by_quantity
+        data_type: float64
+        description: "The percentage of the invoice allocated based on SKU quantity relative to the total quantity in the shipment."
+      - name: allocation_percentage_by_weight
+        data_type: float64
+        description: "The percentage of the invoice allocated based on SKU weight relative to the total shipment weight."
+      - name: allocation_percentage_for_china_tariffs
+        data_type: float64
+        description: |
+          The percentage of tariff costs allocated specifically for imports subject to China-specific duties. This is based 
+          on the SKU's share of total quantity applicable to the tariff.
+      - name: allocation_percentage_for_tariffs
+        data_type: float64
+        description: "The percentage of tariff costs allocated to the SKU based on its share of the total shipment."
+      - name: charge_category
+        data_type: string
+        description: "The broader classification of the charge, such as 'Freight', 'Customs', or 'Duties'."
+      - name: charge_code
+        description: "Code representing the type of charge applied."
+        data_type: string
+      - name: charge_name
+        description: "Descriptive name of the charge applied."
+        data_type: string
+      - name: house_bill_number
+        description: |-
+          The unique identifier assigned to a House Bill of Lading (HBL).  
+          The HBL is a transport document issued by a freight forwarder or logistics provider that details the shipment of goods.  
+          It includes information such as the shipper, consignee, origin, destination, and cargo details.  
+          This field is used to track and manage shipments at the HBL level.  
+
+          It can sometimes be referred to as the **House Air Waybill (HAWB)** in air freight shipments.
+        data_type: string
+      - name: invoice_number
+        description: "Unique identifier for the invoice."
+        data_type: string
+      - name: po_number
+        description: '{{ doc("po_number") }}'
+        data_type: string
+      - name: sku
+        description: "The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory."
+        data_type: string
+      - name: sku_presentment
+        description: >-
+          The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
+          This differs from sku in that this represents sku as it is presented in the item master.
+      - name: total_hbl_item_quantity
+        data_type: int64
+        description: "The total number of items in the shipment associated with a specific House Bill of Lading."
+      - name: total_hbl_weight_lb
+        data_type: float64
+        description: "The total weight (in pounds) of all items in the shipment at the HBL level."
+      - name: total_invoice_amount
+        data_type: float64
+        description: "The total monetary amount charged on the invoice for the entire shipment."
+      - name: total_sku_quantity
+        data_type: int64
+        description: "The total quantity of a specific SKU included in the shipment."
+      - name: total_sku_weight_lb
+        data_type: float64
+        description: "The total weight (in pounds) of a specific SKU within the shipment."
+      - name: unit_cost
+        description: |-
+          The cost per unit of the product, representing the amount paid by the company to acquire or produce the item.  
+          This value does not reflect the retail price or selling price but rather the internal cost to the company.
+        data_type: string
