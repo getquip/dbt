@@ -4,6 +4,8 @@ models:
     description: |
       This model contains details about various logistics fees associated with shipments and their skus.
       It tracks fees at the sku and house_bill_number (HBL) level, capturing detailed information such as fee categories and associated amounts.  
+    config:
+      tags: ['daily7am']
     columns:
       - name: fee_detail_1
         description: charge_code or tariff_type (hts or hts_china)
