@@ -15,6 +15,7 @@ fees AS (
 
 SELECT
 	house_bill_number
+	, sku
 	, sku_presentment
 	, 'tariff' AS fee_type
 	, tariff_type AS fee_detail_1
@@ -27,6 +28,7 @@ UNION ALL
 
 SELECT
 	house_bill_number
+	, sku
 	, sku_presentment
 	, 'tariff' AS fee_type
 	, tariff_type AS fee_detail_1
@@ -39,6 +41,7 @@ UNION ALL
 
 SELECT
 	house_bill_number
+	, sku
 	, sku_presentment
 	, charge_category AS fee_type
 	, charge_code AS fee_detail_1
