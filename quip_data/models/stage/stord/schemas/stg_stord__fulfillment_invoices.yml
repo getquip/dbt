@@ -2,164 +2,164 @@ version: 2
 
 models:
   - name: stg_stord__fulfillment_invoices
-    description: ''
+    description: "Staging table for fulfillment invoices received from Stord, capturing details about shipments, fees, and related transactions."
     config:
       tags: ['daily7am']
     columns:
       - name: fulfillment_invoice_id
         data_type: string
-        description: ""
+        description: "Unique identifier for the fulfillment invoice."
         tests:
           - unique
 
       - name: merchant_number
         data_type: string
-        description: ""
+        description: "Identifier for the merchant associated with the invoice."
 
       - name: invoice_number
         data_type: string
-        description: ""
+        description: "Invoice number assigned by Stord."
 
       - name: po_number
         data_type: string
-        description: ""
+        description: "Purchase order number associated with the fulfillment transaction."
 
       - name: manifest_id
         data_type: string
-        description: ""
+        description: "Unique identifier for the shipment manifest."
 
       - name: warehouse_name
         data_type: string
-        description: ""
+        description: "Name of the warehouse processing the fulfillment."
 
       - name: order_number
         data_type: string
-        description: ""
+        description: "Order number linked to the fulfillment invoice."
 
       - name: drop_ship_name
         data_type: string
-        description: ""
+        description: "Name of the drop-ship provider handling the order."
 
       - name: transaction_num
         data_type: string
-        description: ""
+        description: "Transaction number related to the fulfillment process."
 
       - name: source_synced_at
         data_type: timestamp
-        description: ""
+        description: "Timestamp indicating when the data was last synced from the source."
 
       - name: source_file_name
         data_type: string
-        description: ""
+        description: "Name of the file from which the invoice data was extracted."
 
       - name: package_count
         data_type: int64
-        description: ""
+        description: "Total number of packages in the fulfillment invoice."
 
       - name: fulfillment_mode
         data_type: string
-        description: ""
+        description: "Indicates the fulfillment method used (e.g., standard, expedited)."
 
       - name: shipment_id
         data_type: int64
-        description: ""
+        description: "Unique identifier for the shipment associated with the invoice."
 
       - name: merchant_name
         data_type: string
-        description: ""
+        description: "Name of the merchant responsible for the fulfillment."
 
       - name: invoice_date
         data_type: date
-        description: ""
+        description: "Date when the invoice was issued."
 
       - name: received_manifest_date
         data_type: date
-        description: ""
+        description: "Date when the shipment manifest was received."
 
       - name: shipment_received_date
         data_type: date
-        description: ""
+        description: "Date when the shipment was received at the fulfillment center."
 
       - name: closed_manifest_date
         data_type: date
-        description: ""
+        description: "Date when the shipment manifest was closed."
 
       - name: transaction_date
         data_type: date
-        description: ""
+        description: "Date when the transaction was recorded."
 
       - name: ship_on_date
         data_type: date
-        description: ""
+        description: "Date when the shipment was dispatched."
 
       - name: fee_surcharge_category
         data_type: string
-        description: ""
+        description: "Category under which the fulfillment fee is classified."
 
       - name: total_amount
         data_type: numeric
-        description: ""
+        description: "Total amount charged on the fulfillment invoice."
 
       - name: fee_surcharge_type_1
         data_type: string
-        description: ""
+        description: "First type of surcharge applied to the invoice."
 
       - name: fee_type_charges_1
         data_type: numeric
-        description: ""
+        description: "Charge amount for the first surcharge type."
 
       - name: fee_surcharge_type_2
         data_type: string
-        description: ""
+        description: "Second type of surcharge applied to the invoice."
 
       - name: fee_type_charges_2
         data_type: numeric
-        description: ""
+        description: "Charge amount for the second surcharge type."
 
       - name: fee_surcharge_type_3
         data_type: string
-        description: ""
+        description: "Third type of surcharge applied to the invoice."
 
       - name: fee_type_charges_3
         data_type: numeric
-        description: ""
+        description: "Charge amount for the third surcharge type."
 
       - name: fee_surcharge_type_4
         data_type: string
-        description: ""
+        description: "Fourth type of surcharge applied to the invoice."
 
       - name: fee_type_charges_4
         data_type: numeric
-        description: ""
+        description: "Charge amount for the fourth surcharge type."
 
       - name: fee_surcharge_type_5
         data_type: string
-        description: ""
+        description: "Fifth type of surcharge applied to the invoice."
 
       - name: fee_type_charges_5
         data_type: numeric
-        description: ""
+        description: "Charge amount for the fifth surcharge type."
 
       - name: fee_surcharge_type_6
         data_type: string
-        description: ""
+        description: "Sixth type of surcharge applied to the invoice."
 
       - name: fee_type_charges_6
         data_type: numeric
-        description: ""
+        description: "Charge amount for the sixth surcharge type."
 
       - name: fee_surcharge_type_7
         data_type: string
-        description: ""
+        description: "Seventh type of surcharge applied to the invoice."
 
       - name: fee_type_charges_7
         data_type: numeric
-        description: ""
+        description: "Charge amount for the seventh surcharge type."
 
       - name: fee_surcharge_type_8
         data_type: string
-        description: ""
+        description: "Eighth type of surcharge applied to the invoice."
 
       - name: fee_type_charges_8
         data_type: numeric
-        description: ""
+        description: "Charge amount for the eighth surcharge type."

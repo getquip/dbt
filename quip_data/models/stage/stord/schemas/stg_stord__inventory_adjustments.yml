@@ -1,0 +1,102 @@
+version: 2
+models:
+  - name: stg_stord__inventory_adjustments
+    description: |
+      Staging model for inventory adjustments from Stord, capturing changes in inventory levels due to various reasons
+      such as restocking, returns, or losses.
+
+      API Documentation: https://developers.stord.com/reference/getinventoryadjustments
+    columns:
+      - name: adjusted_at
+        data_type: timestamp
+        description: "Timestamp indicating when the inventory adjustment occurred."
+
+      - name: adjusted_to_quantity
+        data_type: string
+        description: "The final quantity of the item after the adjustment."
+
+      - name: adjustment_category
+        data_type: string
+        description: "Broad categorization of the inventory adjustment."
+
+      - name: adjustment_id
+        data_type: string
+        description: "Unique identifier for the inventory adjustment event."
+
+      - name: adjustment_name
+        data_type: string
+        description: "Descriptive name for the type of inventory adjustment."
+
+      - name: adjustment_quantity
+        data_type: string
+        description: "The quantity of items affected by the adjustment."
+
+      - name: adjustment_reason
+        data_type: string
+        description: "Detailed reason for the inventory adjustment."
+
+      - name: adjustment_reason_categorization
+        data_type: string
+        description: "Standardized classification of the adjustment reason for reporting purposes."
+
+      - name: adjustment_reason_code
+        data_type: int64
+        description: "Numerical code representing the reason for the inventory adjustment."
+
+      - name: adjustment_reason_code_text
+        data_type: string
+        description: "Human-readable text corresponding to the adjustment reason code."
+
+      - name: adjustment_reason_code_type
+        data_type: string
+        description: "Type of the adjustment reason code, providing additional classification."
+
+      - name: adjustment_reason_type
+        data_type: string
+        description: "Higher-level classification of the adjustment reason, grouping similar reasons together."
+
+      - name: adjustment_sequence
+        data_type: int64
+        description: "Sequence number indicating the order of the adjustment in relation to other inventory movements."
+
+      - name: expires_at
+        data_type: date
+        description: "Expiration date of the inventory item if applicable (e.g., perishable goods)."
+
+      - name: facility_alias
+        data_type: string
+        description: "Alternate or human-friendly name for the facility where the inventory adjustment took place."
+
+      - name: facility_id
+        data_type: string
+        description: "Unique identifier of the facility or warehouse where the adjustment was recorded."
+
+      - name: item_id
+        data_type: string
+        description: "Unique identifier for the item being adjusted."
+
+      - name: ledger_sequence
+        data_type: int64
+        description: "Sequence number tracking the adjustment in the inventory ledger."
+
+      - name: lot_number
+        data_type: string
+        description: "Lot or batch number associated with the inventory item, used for tracking and traceability."
+
+      - name: order_number
+        data_type: string
+        description: "Order number associated with the inventory adjustment."
+
+      - name: previous_quantity
+        data_type: string
+        description: "The quantity of the item before the adjustment was made."
+
+      - name: sku
+        data_type: string
+
+      - name: source_synced_at
+        data_type: timestamp
+
+      - name: unit
+        data_type: string
+        description: "Unit of measurement for the inventory item, such as 'each', 'case', or 'pallet'."
