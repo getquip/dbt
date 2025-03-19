@@ -99,6 +99,7 @@ SELECT
             "invoice_number",
             "order_number",
             "transaction_date",
+            "fee_surcharge_category"
         ])
     }} AS fulfillment_invoice_id
     , *
