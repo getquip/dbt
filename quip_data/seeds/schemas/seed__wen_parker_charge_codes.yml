@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: seed__wen_parker_charge_codes
+    description: |
+      A table containing predefined charge codes used by Wen Parker for categorizing and tracking various charges.  
+      These codes are used to define the type of fees associated with logistics, customs, and freight activities.  
+    columns:
+      - name: charge_code
+        data_type: string
+        description: "Code representing the type of charge applied."
+      - name: charge_name
+        data_type: string
+        description: "Descriptive name of the charge applied."
+      - name: charge_category
+        data_type: string
+        description: "The broader classification of the charge, such as 'Freight', 'Customs', or 'Duties'."

@@ -1,0 +1,88 @@
+version: 2
+
+models:
+  - name: stg_alloy__daily_sell_through_report
+    description: ""
+    config:
+      tags: ['hourly']
+    columns:
+      - name: partner
+        data_type: string
+        description: ""
+
+      - name: location_number
+        data_type: string
+        description: ""
+
+      - name: product_category
+        data_type: string
+        description: ""
+
+      - name: product_family
+        data_type: string
+        description: ""
+
+      - name: product_color
+        data_type: string
+        description: ""
+
+      - name: packaging_generation
+        data_type: string
+        description: ""
+
+      - name: part_number
+        data_type: string
+        description: ""
+
+      - name: date
+        data_type: date
+        description: ""
+
+      - name: unit_sales
+        data_type: numeric
+        description: ""
+
+      - name: sales_in_dollars
+        data_type: numeric
+        description: ""
+
+      - name: units_on_hand
+        data_type: int64
+        description: ""
+
+      - name: unit_sales_circular
+        data_type: numeric
+        description: "Unit sales for stores within a certain radius of where circular is distributed."
+
+      - name: sales_circular
+        data_type: numeric
+        description: "Sales $ for stores within a certain radius of where circular is distributed."
+
+      - name: unit_sales_promo
+        data_type: numeric
+        description: ""
+
+      - name: sales_promo
+        data_type: numeric
+        description: ""
+
+      - name: unit_sales_clearance
+        data_type: numeric
+        description: ""
+
+      - name: sales_clearance
+        data_type: numeric
+        description: ""
+
+      - name: average_retail_price
+        data_type: numeric
+        description: ""
+
+      - name: source_synced_at
+        data_type: timestamp
+        description: ""
+
+      - name: daily_sell_through_report_id
+        data_type: string
+        description: ""
+

@@ -8,17 +8,13 @@ models:
       This table is loaded daily with new shipment data from the source system and is deduplicated
       because Wen Parker sends multiple records for the same shipment.
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
-      - name: shipment_id
-        data_type: string
-        description: "Unique identifier for each shipment."
-        tests:
-          - unique
-
       - name: house_bill_number
         data_type: string
-        description: "House Bill of Lading (HBL) number, used for tracking shipments at a more granular level."
+        description: '{{ doc("house_bill_number") }}'
+        tests:
+          - unique
 
       - name: master_bill_number
         data_type: string
@@ -26,7 +22,7 @@ models:
 
       - name: created_on
         data_type: date
-        description: "Date the shipment record was created in the source system."
+        description: '{{ doc("created_on") }}'
 
       - name: transportation_method
         data_type: string

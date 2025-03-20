@@ -39,7 +39,7 @@ WITH source AS (
     }} AS shipment_item_id
         , house_bill_number
         , po_number
-        , sku_number AS sku
+        , REGEXP_REPLACE(sku_number, r'\D', '') AS sku -- remove non-numeric characters
         , CAST(REPLACE(cartons , ',' , '') AS INTEGER) AS cartons
         , CAST(REPLACE(quantity , ',' , '') AS INTEGER) AS quantity
         , source_synced_at
@@ -79,6 +79,8 @@ SELECT
     , cartons
     , quantity
 FROM dedupe_by_file
+WHERE sku IS NOT NULL
+    AND sku != ''
 QUALIFY
     ROW_NUMBER() OVER (
         PARTITION BY shipment_item_id
