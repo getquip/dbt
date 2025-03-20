@@ -1,5 +1,20 @@
+{{ config(
+    materialized='incremental',
+    unique_key='event_attribute_id',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "event_at",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['current_value', 'field_name', 'subscription_id', 'event_id']
+) }}
+
 WITH source AS (
     SELECT * FROM {{ ref('stg_recharge__events') }}
+	{% if is_incremental() %}
+	WHERE event_at >= "{{ get_max_partition('event_at') }}"
+	{% endif %}
 )
 
 SELECT

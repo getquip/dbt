@@ -1,5 +1,20 @@
+{{ config(
+    materialized='incremental',
+    unique_key='event_id',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "event_at",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['object_type', 'object_id', 'recharge_customer_id', 'event_id']
+) }}
+
 WITH source_table AS (
     SELECT * FROM {{ source('recharge', 'events') }}
+	{% if is_incremental() %}
+	WHERE created_at >= "{{ get_max_partition('event_at') }}"
+	{% endif %}
 )
 
 , renamed AS (
