@@ -1,4 +1,7 @@
 {{ config(
+    materialized='incremental',
+	unique_key='daily_sell_through_report_id',
+	incremental_strategy='insert_overwrite', 
     partition_by={
       "field": "date",
       "data_type": "date",
@@ -16,6 +19,9 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source("alloy", "daily_sell_through_report") }}
+	{% if is_incremental() %}
+	WHERE day >= "{{ get_max_partition('date', lookback_window=2) }}"
+	{% endif %}
 )
 
 , cleaned AS (

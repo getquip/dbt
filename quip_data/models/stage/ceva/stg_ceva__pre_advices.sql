@@ -1,5 +1,20 @@
+{{ config(
+    materialized='incremental',
+    unique_key='pre_advice_uuid',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "actual_timestamp",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['sku', 'tracking_number', 'po_number', 'pre_advice_id']
+) }}
+
 WITH source AS (
     SELECT * FROM {{ source('ceva', 'pre_advices') }}
+	{% if is_incremental() %}
+	WHERE actual_dstamp >= "{{ get_max_partition('actual_timestamp', lookback_window=7) }}"
+	{% endif %}
 )
 
 , cleaned AS (

@@ -1,5 +1,19 @@
+{{ config(
+    materialized='incremental',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "snapshot_timestamp",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['sku', 'snapshot_date']
+) }}
+
 WITH source AS (
 	SELECT * FROM {{ source('ceva', 'inventory_snapshot') }}
+	{% if is_incremental() %}
+	WHERE snapshot_date_time >= "{{ get_max_partition('snapshot_timestamp') }}"
+	{% endif %}
 )
 
 , renamed AS (

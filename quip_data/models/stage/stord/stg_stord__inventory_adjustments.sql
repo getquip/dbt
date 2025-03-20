@@ -1,7 +1,22 @@
+{{ config(
+    materialized='incremental',
+    unique_key='adjustment_id',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "adjusted_at",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['adjustment_reason', 'sku', 'adjustment_sequence', 'adjustment_id']
+) }}
+
 WITH
 
 source AS (
 	SELECT * FROM {{ source("stord", "inventory_adjustments")}}
+	{% if is_incremental() %}
+	WHERE adjusted_at >= "{{ get_max_partition('adjusted_at') }}"
+	{% endif %}
 )
 
 , reason_codes AS (
@@ -74,6 +89,8 @@ FROM cleaned
 LEFT JOIN reason_codes
 	ON cleaned.adjustment_reason_code = reason_codes.code
 
+{% if not is_incremental() %}
+
 UNION ALL
 
 SELECT
@@ -82,3 +99,5 @@ SELECT
 	, NULL AS adjustment_reason_code_text
 	, NULL AS adjustment_reason_code_type
 FROM newgistics_cleaned
+
+{% endif %}

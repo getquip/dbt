@@ -10,3 +10,23 @@ macros:
   - name: generate_hashed_pii_fields
     description: >
       The purpose of this macro is to hash PII fields in a dataset. This is useful for GDPR compliance. 
+
+  - name: get_max_partition
+    description: |
+      This macro retrieves the maximum value of a specified partition field from the current model table.
+      It can also accept an optional `where_clause` to filter the rows before retrieving the maximum value.
+    arguments:
+      - name: partition_field
+        description: |
+          The field/column on which the `MAX()` function is applied.
+          Typically, this is a timestamp or a partition key.
+        type: string
+      - name: where_clause
+        description: |
+          An optional SQL WHERE clause to filter the rows for the `MAX()` calculation.
+          If not provided, the entire table is considered.
+        type: string
+      - name: lookback_window
+        description: |
+          An optional lookback window to consider when calculating the maximum value.
+        type: string

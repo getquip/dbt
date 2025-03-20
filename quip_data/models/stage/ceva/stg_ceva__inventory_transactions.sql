@@ -1,5 +1,20 @@
+{{ config(
+    materialized='incremental',
+    unique_key='insert_id',
+	incremental_strategy='insert_overwrite', 
+    partition_by={
+        "field": "completed_timestamp",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=['code', 'warehouse_id', 'shipment_id', 'insert_id']
+) }}
+
 WITH source AS (
     SELECT * FROM {{ source('ceva', 'inventory_transactions') }}
+	{% if is_incremental() %}
+	WHERE complete_dstamp >= "{{ get_max_partition('completed_timestamp') }}"
+	{% endif %}
 )
 
 , cleaned AS (

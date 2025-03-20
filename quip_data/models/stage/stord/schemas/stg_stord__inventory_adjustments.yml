@@ -6,6 +6,8 @@ models:
       such as restocking, returns, or losses.
 
       API Documentation: https://developers.stord.com/reference/getinventoryadjustments
+    config:
+      tags: ['daily7am', 'incremental-testing']
     columns:
       - name: adjusted_at
         data_type: timestamp
