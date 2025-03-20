@@ -26,3 +26,7 @@ macros:
           An optional SQL WHERE clause to filter the rows for the `MAX()` calculation.
           If not provided, the entire table is considered.
         type: string
+      - name: lookback_window
+        description: |
+          An optional lookback window to consider when calculating the maximum value.
+        type: string
