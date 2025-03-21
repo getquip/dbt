@@ -21,4 +21,4 @@ SELECT
     , SAFE_CAST(skus.unit_cost AS NUMERIC) AS unit_cost
 FROM skus
 LEFT JOIN hts 
-    ON hts.sku = skus.sku
+    ON hts.sku = REGEXP_REPLACE(skus.sku, r'\D', '')
