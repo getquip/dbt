@@ -1,7 +1,7 @@
 version: 2
 
-models:
-  - name: seed__wen_parker_charge_codes
+seeds:
+  - name: seed__shopify_product_categorization
     description: |
       A table containing the categorization of our products and their components. This table maps products to specific categories,
       enabling more efficient product management, search, and reporting.
