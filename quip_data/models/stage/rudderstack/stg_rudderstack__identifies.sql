@@ -38,7 +38,7 @@ source AS (
 		"rudderstack" AS source_name
 		, address_address1 AS address1
 		, address_address2 AS address2
-		, address_city AS city
+		, LOWER(address_city) AS city
 		, address_company AS company
 		, address_country AS country
 		, address_country_code AS country_code
@@ -93,7 +93,7 @@ source AS (
 		, CAST(context_session_id AS STRING) AS context_session_id
 		, context_session_start
 		, context_source_id
-		, context_source_type
+		, LOWER(context_source_type) AS context_source_type
 		, context_timezone
 		, context_topic
 		, context_user_agent
@@ -131,10 +131,10 @@ source AS (
 			"littledata" AS source_name
 			, context_traits_default_address_street AS address1
 			,  NULL AS address2
-			, context_traits_default_address_city AS city
+			, LOWER(context_traits_default_address_city) AS city
 			,  `name` AS company
 			, context_traits_default_address_country AS country
-			,  NULL AS country_code
+			,  IF(LOWER(context_traits_default_address_country) = 'united states', 'US', NULL) AS country_code
 			,  NULL AS country_name
 			,  JSON_EXTRACT_SCALAR(PARSE_JSON(context_external_ids), '$[0].id') AS customer_id
 			, context_traits_default_address_street = default_address_street AS address_default
