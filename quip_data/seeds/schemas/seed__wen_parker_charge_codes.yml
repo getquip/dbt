@@ -1,6 +1,6 @@
 version: 2
 
-models:
+seeds:
   - name: seed__wen_parker_charge_codes
     description: |
       A table containing predefined charge codes used by Wen Parker for categorizing and tracking various charges.  
