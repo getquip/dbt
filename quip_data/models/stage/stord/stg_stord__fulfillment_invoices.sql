@@ -99,7 +99,15 @@ SELECT
             "invoice_number",
             "order_number",
             "transaction_date",
-            "fee_surcharge_category"
+            "fee_surcharge_category",
+            "fee_surcharge_type_1",
+            "fee_surcharge_type_2",
+            "fee_surcharge_type_3",
+            "fee_surcharge_type_4",
+            "fee_surcharge_type_5",
+            "fee_surcharge_type_6",
+            "fee_surcharge_type_7",
+            "fee_surcharge_type_8",
         ])
     }} AS fulfillment_invoice_id
     , *
