@@ -1,8 +1,8 @@
 {{ config(
     partition_by={
       "field": "created_at",
-      "data_type": "timestamp",
-      "granularity": "day"
+      "data_type": "TIMESTAMP",
+      "granularity": "DAY"
     },
 	cluster_by=["is_suspected_reseller", "email_marketing_consent_opt_in_level", "legacy_customer_id", "shopify_customer_id"]
 ) }}

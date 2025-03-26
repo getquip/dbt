@@ -1,8 +1,8 @@
 {{ config(
     partition_by={
       "field": "updated_at",
-      "data_type": "timestamp",
-      "granularity": "day"
+      "data_type": "TIMESTAMP",
+      "granularity": "DAY"
     },
 	cluster_by=[
 		"resource_table_name", 

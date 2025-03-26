@@ -1,8 +1,8 @@
 {{ config(
     partition_by={
       "field": "created_at",
-      "data_type": "timestamp",
-      "granularity": "day"
+      "data_type": "TIMESTAMP",
+      "granularity": "DAY"
     },
 	cluster_by=[
 		"sku", 

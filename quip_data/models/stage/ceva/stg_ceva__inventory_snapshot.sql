@@ -1,12 +1,14 @@
 WITH source AS (
 	SELECT * FROM {{ source('ceva', 'inventory_snapshot') }}
 )
-
+-------------------------------------------------------
+----------------- FINISH REFERENCES -------------------
+-------------------------------------------------------
 , renamed AS (
 	SELECT 
 		SAFE_CAST(snapshot_date_time AS TIMESTAMP) AS snapshot_timestamp
 		, snapshot_date
-		, sku_id AS sku
+		, REGEXP_REPLACE(sku_id, r'\D', '') AS sku -- remove non-numeric characters
 		, description AS sku_description
 		, COALESCE(SAFE_CAST(putaway_qty AS INTEGER), 0) AS putaway_quantity
 		, COALESCE(SAFE_CAST(quarantine AS INTEGER), 0) AS quarantine_quantity
