@@ -36,21 +36,3 @@ sources:
     database: quip-dw-raw
     loader: rudderstack
     description: https://app.rudderstack.com/destinations/2srOhlb9dFhhSPo6xW4RbsMaXPL
-
-  - name: segment
-    database: quip-dw-raw
-    config:
-      tags: ['stale_source']
-    description: |
-      This source contains Shopify events data that was previously loaded into the warehouse using the Littledata loader via Segment (littledata__)
-      OR directly (legacy__). 
-      It is no longer in use and is kept for historical reference only. It is unioned with the Shopify events loaded via Rudderstack.
-    tables:
-      - name: littledata__identifies
-      - name: littledata__tracks
-      - name: littledata__pages
-      - name: littledata__order_completed
-      - name: legacy__identifies
-      - name: legacy__tracks
-      - name: legacy__pages
-      - name: legacy__order_completed
