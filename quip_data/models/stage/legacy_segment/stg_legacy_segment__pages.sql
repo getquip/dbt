@@ -3,7 +3,7 @@
 {{ config(
     materialized='table',
     partition_by={
-        "field": "timestamp",
+        "field": "event_at",
         "data_type": "timestamp",
         "granularity": "day"
     },
@@ -31,7 +31,8 @@ quip_production AS (
 		, id AS page_event_id
    		, user_id
 		, anonymous_id
-		, `timestamp`
+		, `timestamp` AS event_at
+		, received_at
 		, context_campaign_content
 		, context_campaign_medium
 		, context_campaign_name
