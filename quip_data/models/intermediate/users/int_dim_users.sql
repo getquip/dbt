@@ -17,6 +17,10 @@ shopify_customers AS (
     SELECT * FROM {{ ref('stg_shopify__customer_tags') }}
 )
 
+, recharge_customers AS (
+    SELECT * FROM {{ ref('stg_recharge__customers') }}
+)
+
 , legacy_users AS (
     SELECT * FROM {{ ref('stg_quip_public__users') }}
 )
@@ -25,38 +29,42 @@ shopify_customers AS (
 -------------------------------------------------------
 
 SELECT -- shopify
-    customers.shopify_customer_id
-    , customers.legacy_customer_id
+    shopify_customer_id
+    , recharge_customers.id AS recharge_customer_id
+    , legacy_customer_id
 
     -- for users pre-shopify, `created_at` represents the migration to shopify
-    , IF(customers.legacy_customer_id IS NULL , customers.created_at , legacy_users.created_at) AS created_at
-    , IF(customers.legacy_customer_id IS NULL , NULL , customers.created_at) AS migrated_to_shopify_at
-    , customers.updated_at
+    , IF(legacy_customer_id IS NULL , created_at , legacy_users.created_at) AS created_at
+    , IF(legacy_customer_id IS NULL , NULL , created_at) AS migrated_to_shopify_at
+    , updated_at
 
-    , customers.email
-    , customers.email_hashed
-    , customers.phone
-    , customers.phone_hashed
+    , email
+    , email_hashed
+    , phone
+    , phone_hashed
 
-    , customers.email_marketing_consent_opt_in_level
-    , customers.email_marketing_consent_state
+    , email_marketing_consent_opt_in_level
+    , email_marketing_consent_state
 
     -- bools
     , tags.shopify_customer_id IS NOT NULL AS is_suspected_reseller
-    , customers.is_tax_exempt
-    , customers.is_verified_email
-FROM shopify_customers AS customers
+    , is_tax_exempt
+    , is_verified_email
+FROM shopify_customers
 LEFT JOIN shopify_customer_tag AS tags
-    ON customers.shopify_customer_id = tags.shopify_customer_id
+    ON shopify_customer_id = tags.shopify_customer_id
         AND tags.tag = 'suspected_reseller'
+LEFT JOIN recharge_customers
+    ON recharge_customers.external_customer_id_ecommerce = shopify_customers.shopify_customer_id
 LEFT JOIN legacy_users
-    ON customers.legacy_customer_id = legacy_users.legacy_customer_id
+    ON legacy_customer_id = legacy_users.legacy_customer_id
 
 
 UNION ALL
 
 SELECT -- legacy quip *should only union on full refresh
     NULL AS shopify_customer_id
+    , NULL AS recharge_customer_id
     , legacy_users.legacy_customer_id
 
     , legacy_users.created_at
