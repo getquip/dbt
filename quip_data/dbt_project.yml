@@ -14,6 +14,7 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
+
 clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
@@ -70,6 +71,8 @@ models:
       +database: quip-dw-intermediate
       +docs:
         node_color: "#1577ef"
+      customer_data_platform:
+        +schema: customer_data_platform
       logistics:
         +schema: logistics
       order_items:
