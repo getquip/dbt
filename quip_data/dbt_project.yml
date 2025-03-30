@@ -46,6 +46,10 @@ models:
         +schema: alloy
       ceva:
         +schema: ceva
+      legacy_segment:
+        +schema: legacy_segment
+      littledata:
+        +schema: littledata
       quip_public:
         +schema: quip_public
       recharge:
