@@ -1,8 +1,8 @@
 {{ config(
-    materialized='incremental',
+    materialized='table',
     incremental_strategy='merge',
     partition_by={
-        "field": "timestamp",
+        "field": "event_at",
         "data_type": "timestamp",
         "granularity": "day"
     },
@@ -10,7 +10,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "identifies_id"
+        "identifies_event_id"
     ]
 ) }}
 
@@ -48,7 +48,6 @@ source AS (
 		, address_zip AS postal_code
 		, admin_graphql_api_id
 		, anonymous_id
-		, channel
 		, context_app_name
 		, context_app_namespace
 		, context_app_version
@@ -76,17 +75,18 @@ source AS (
 		, context_request_ip
 		, context_screen_height
 		, context_screen_width
-		, CAST(context_session_id AS STRING) AS context_session_id
+		, CAST(context_session_id AS STRING) AS session_id
 		, context_session_start
 		, context_source_id
 		, LOWER(context_source_type) AS context_source_type
 		, context_timezone
 		, context_topic
 		, context_user_agent
+		, LOWER(context_user_agent) AS device_info
 		, currency
 		, email
 		, first_name
-		, id AS identifies_id
+		, id AS identifies_event_id
 		, last_name
 		, loaded_at
 		, note
@@ -102,7 +102,7 @@ source AS (
 		, `state` AS identifies_state
 		, tags
 		, tax_exempt
-		, `timestamp`
+		, `timestamp` AS event_at
 		, total_spent
 		, user_id
 		, uuid_ts
@@ -113,7 +113,8 @@ source AS (
 
 SELECT
 	*
-	, {{ scrub_context_page_path('context_page_path') }} 
-	, {{ create_touchpoint('context_page_path') }}
+	, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
+	, {{ scrub_context_page_path('context_page_path') }}
+	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
-QUALIFY ROW_NUMBER() OVER (PARTITION BY identifies_id ORDER BY received_at DESC ) = 1
+QUALIFY ROW_NUMBER() OVER (PARTITION BY identifies_event_id ORDER BY received_at DESC ) = 1

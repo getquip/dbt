@@ -22,6 +22,7 @@ source AS (
 		, client_details_accept_language
 		, client_details_browser_ip
 		, client_details_user_agent
+		, LOWER(client_details_user_agent) AS device_info
 		, closed_at
 		, confirmation_number
 		, confirmed AS is_confirmed
@@ -31,7 +32,7 @@ source AS (
 		, context_library_name
 		, context_library_version
 		, context_request_ip
-		, context_session_id
+		, CAST(context_session_id AS STRING) AS session_id
 		, context_source_id
 		, LOWER(context_source_type) AS context_source_type
 		, context_topic
@@ -81,7 +82,7 @@ source AS (
 		, tax_exempt
 		, tax_lines
 		, taxes_included
-		, `timestamp`
+		, `timestamp` AS event_at
 		, token
 		, COALESCE(SAFE_CAST(total_discounts AS NUMERIC), 0) AS total_discounts
 		, COALESCE(SAFE_CAST(total_line_items_price AS NUMERIC), 0) AS total_line_items_price
@@ -102,8 +103,8 @@ source AS (
 
 SELECT 
 	* 
-	, {{ scrub_context_page_path('context_page_path') }} 
-	, {{ create_touchpoint('context_page_path') }}
+	, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
+	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
 QUALIFY ROW_NUMBER() OVER (PARTITION BY order_created_id ORDER BY loaded_at DESC) = 1
 
