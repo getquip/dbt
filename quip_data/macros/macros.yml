@@ -2,8 +2,21 @@ version: 2
 
 macros:
   - name: generate_schema_name
-    description: >
-      The purpose of this macro is to dynamically generate dataset names in Bigquery for developers. For example, model stage/shopify/stg_shopify__model will appear in BQ in the following path: quip-dw-stage.developername_shopify.stg_shopify__model
+    description: |
+      Generates a custom schema name based on the execution environment.
+      - In development (`dev`), the schema name is prefixed with the `profiles.yml` dataset name.
+      - In production (`prod`), the schema name remains as defined in `dbt_project.yml`.
+
+      This macro is inherently called whenever running `dbt run`, `dbt build`, or `dbt seed`, 
+      ensuring models materialize in the correct schema.
+    arguments:
+      - name: custom_schema_name
+        type: string
+        description: "The base schema name as defined in dbt_project.yml."
+      - name: node
+        type: dictionary
+        description: "The dbt node object, used for accessing runtime context."
+
   - name: generate_database_name
     description: >
       The purpose of this macro is to dynamically generate database names based on the dbt target. If the target is prod, the database name will be quip-dw-stage. If the target is dev, the database name will be quip-dw-stage-dev.
@@ -30,3 +43,37 @@ macros:
         description: |
           An optional lookback window to consider when calculating the maximum value.
         type: string
+    description: |
+      Determines the appropriate BigQuery project based on the environment.
+      - In production (`prod`), the project name remains unchanged.
+      - In development (`dev`), the project name is appended with `_DEV` to ensure models are written to the dev environment.
+
+      This macro is inherently called whenever running `dbt run`, `dbt build`, or `dbt seed`, 
+      ensuring models materialize in the correct database.
+    arguments:
+      - name: custom_database_name
+        type: string
+        description: "The base project name as defined in dbt_project.yml."
+      - name: node
+        type: dictionary
+        description: "The dbt node object, used for accessing runtime context."
+
+  - name: drop_untracked_tables
+    description: |
+      This macro identifies and drops tables that are not tracked by dbt in the target project.
+      It first checks for untracked schemas and drops them entirely if they are not found in the dbt project.
+      If a schema is tracked, it then checks for untracked tables within that schema and drops them individually.
+      
+      **Important:**
+      - This macro should **only be used in production**. It is **not set up for custom dev schemas**.
+      - Use the `dry_run` argument (`dry_run=True`) to preview which schemas and tables would be dropped before executing actual deletions.
+    arguments:
+      - name: dry_run
+        type: boolean
+        description: |
+          If `True`, the macro will log the schemas and tables that **would** be dropped instead of actually executing the deletions.
+          If `False`, the macro will drop untracked schemas and tables from the database.
+      
+          Example: dbt run-operation drop_untracked_tables --args '{dry_run: true}'
+
+   

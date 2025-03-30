@@ -25,7 +25,17 @@ SELECT
             "invoice_number",
             "shipment_id",
             "invoice_date",
-            "fee_category"
+            "fee_category",
+            "fee_surcharge_type_1",
+            "fee_surcharge_type_2",
+            "fee_surcharge_type_3",
+            "fee_surcharge_type_4",
+            "fee_surcharge_type_5",
+            "fee_surcharge_type_6",
+            "fee_surcharge_type_7",
+            "fee_surcharge_type_8",
+            "fee_surcharge_type_9",
+            "fee_surcharge_type_10",
         ])
     }} AS postage_invoice_id
     , merchant_name
