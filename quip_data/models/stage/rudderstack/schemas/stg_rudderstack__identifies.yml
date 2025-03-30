@@ -3,7 +3,7 @@ models:
   - name: stg_rudderstack__identifies
     config:
       tags: ['daily7am']
-      
+
     columns:
       - name: address1
         data_type: string
@@ -339,4 +339,4 @@ models:
         
       - name: user_id
         data_type: string
-        description: "Unique identifier for the user associated with
+        description: "Unique identifier for the user associated with"
