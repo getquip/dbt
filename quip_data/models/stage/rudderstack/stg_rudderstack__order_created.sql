@@ -19,6 +19,9 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'order_created') }}
+	{% if is_incremental() %}
+		WHERE received_at >= 	WHERE snapshot_date_time >= "{{ get_max_partition('received_at') }}"
+	{% endif %}
 )
 
 -------------------------------------------------------

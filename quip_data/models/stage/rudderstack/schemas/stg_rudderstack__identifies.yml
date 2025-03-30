@@ -1,176 +1,342 @@
 version: 2
 models:
   - name: stg_rudderstack__identifies
+    config:
+      tags: ['daily7am']
+      
     columns:
       - name: address1
         data_type: string
+        description: "The first line of the user's address."
+        
       - name: address2
         data_type: string
+        description: "The second line of the user's address (if applicable)."
+        
       - name: address_default
         data_type: boolean
+        description: "Indicates if this is the user's default address."
+        
       - name: address_first_name
         data_type: string
+        description: "The first name associated with the address."
+        
       - name: address_id
         data_type: int64
+        description: "Unique identifier for the address."
+        
       - name: address_last_name
         data_type: string
+        description: "The last name associated with the address."
+        
       - name: address_list
         data_type: string
+        description: "List of addresses associated with the user."
+        
       - name: address_name
         data_type: string
+        description: "Name associated with the address (e.g., recipient name)."
+        
       - name: address_phone
         data_type: string
+        description: "Phone number associated with the address."
+        
       - name: admin_graphql_api_id
         data_type: string
+        description: "Admin GraphQL API identifier for the address record."
+        
       - name: anonymous_id
         data_type: string
+        description: "An anonymous identifier for a user that has not logged in."
+        
       - name: city
         data_type: string
+        description: "City associated with the user's address."
+        
       - name: company
         data_type: string
+        description: "The company associated with the user (if applicable)."
+        
       - name: context_app_name
         data_type: string
+        description: "The name of the application triggering the event."
+        
       - name: context_app_namespace
         data_type: string
+        description: "The namespace of the application triggering the event."
+        
       - name: context_app_version
         data_type: string
+        description: "Version of the application triggering the event."
+        
       - name: context_campaign_content
         data_type: string
+        description: "Content associated with the campaign (e.g., ad text, image)."
+        
       - name: context_campaign_creative
         data_type: string
+        description: "The creative asset used in the campaign (e.g., banner, video)."
+        
       - name: context_campaign_device
         data_type: string
+        description: "The type of device used during the campaign (e.g., mobile, desktop)."
+        
       - name: context_campaign_id
         data_type: string
+        description: "The unique identifier for the campaign."
+        
       - name: context_campaign_medium
         data_type: string
+        description: "The medium used for the campaign (e.g., email, social media)."
+        
       - name: context_campaign_name
         data_type: string
+        description: "The name of the campaign."
+        
       - name: context_campaign_source
         data_type: string
+        description: "The source through which the campaign is running (e.g., Google, Facebook)."
+        
       - name: context_campaign_term
         data_type: string
+        description: "Search term associated with the campaign (if applicable)."
+        
       - name: context_destination_id
         data_type: string
+        description: "ID of the destination associated with the event."
+        
       - name: context_destination_type
         data_type: string
+        description: "The type of destination for the event (e.g., landing page, product)."
+        
       - name: context_device_manufacturer
         data_type: string
+        description: "Manufacturer of the device used for the event."
+        
       - name: context_device_type
         data_type: string
+        description: "The type of device (e.g., smartphone, tablet, desktop)."
+        
       - name: context_integration_name
         data_type: string
+        description: "The name of the integration triggering the event."
+        
       - name: context_ip
         data_type: string
+        description: "The IP address of the user during the event."
+        
       - name: context_library_name
         data_type: string
+        description: "The name of the library used during the event (e.g., analytics SDK)."
+        
       - name: context_library_version
         data_type: string
+        description: "Version of the library used during the event."
+        
       - name: context_locale
         data_type: string
+        description: "Locale associated with the event (e.g., en_US)."
+        
       - name: context_os_name
         data_type: string
+        description: "The operating system of the device (e.g., iOS, Android, Windows)."
+        
       - name: context_os_version
         data_type: string
+        description: "The version of the operating system on the device."
+        
       - name: context_page_path
         data_type: string
+        description: "Path of the page visited during the event."
+        
       - name: context_page_path_scrubbed
         data_type: string
+        description: "Scrubbed path of the page visited (privacy-sensitive information removed)."
+        
       - name: context_page_referrer
         data_type: string
+        description: "Referrer URL for the page where the event occurred."
+        
       - name: context_page_referring_domain
         data_type: string
+        description: "Referring domain for the page where the event occurred."
+        
       - name: context_page_search
         data_type: string
+        description: "Search term associated with the page where the event occurred."
+        
       - name: context_page_title
         data_type: string
+        description: "The title of the page where the event occurred."
+        
       - name: context_page_url
         data_type: string
+        description: "URL of the page where the event occurred."
+        
       - name: context_request_ip
         data_type: string
+        description: "IP address associated with the request during the event."
+        
       - name: context_screen_height
         data_type: int64
+        description: "Screen height of the device at the time of the event."
+        
       - name: context_screen_width
         data_type: int64
+        description: "Screen width of the device at the time of the event."
+        
       - name: context_session_start
         data_type: boolean
+        description: "Indicates if the event marks the start of a session."
+        
       - name: context_source_id
         data_type: string
+        description: "ID of the source triggering the event."
+        
       - name: context_source_type
         data_type: string
+        description: "Type of source triggering the event (e.g., website, mobile app)."
+        
       - name: context_timezone
         data_type: string
+        description: "Timezone of the user when the event occurred."
+        
       - name: context_topic
         data_type: string
+        description: "Topic associated with the event (e.g., newsletter, promotion)."
+        
       - name: context_user_agent
         data_type: string
+        description: "The user agent string of the device's browser during the event."
+        
       - name: country
         data_type: string
+        description: "Country where the event originated."
+        
       - name: country_code
         data_type: string
+        description: "Country code where the event originated."
+        
       - name: country_name
         data_type: string
+        description: "Full country name where the event originated."
+        
       - name: currency
         data_type: string
+        description: "Currency used during the event (e.g., USD, EUR)."
+        
       - name: customer_id
         data_type: string
+        description: "Unique identifier for the customer associated with the event."
+        
       - name: device_info
         data_type: string
+        description: "Details of the device used for the event (e.g., model, OS version)."
+        
       - name: email
         data_type: string
+        description: "Email address of the customer associated with the event."
+        
       - name: event_at
         data_type: timestamp
+        description: "Timestamp of the event occurrence."
+        
       - name: first_name
         data_type: string
+        description: "First name of the customer associated with the event."
+        
       - name: identifies_event_id
         data_type: string
+        description: "Unique event ID for the identify event."
+        
       - name: identifies_state
         data_type: string
+        description: "State of the customer or session at the time of the event."
+        
       - name: is_server_side
         data_type: boolean
+        description: "Indicates if the event was generated from the server side."
+        
       - name: last_name
         data_type: string
+        description: "Last name of the customer associated with the event."
+        
       - name: loaded_at
         data_type: timestamp
+        description: "Timestamp when the record was loaded."
+        
       - name: note
         data_type: string
+        description: "Any additional notes related to the event."
+        
       - name: order_count
         data_type: int64
+        description: "Total number of orders associated with the customer."
+        
       - name: original_timestamp
         data_type: timestamp
+        description: "Original timestamp when the event occurred (before any processing)."
+        
       - name: phone
         data_type: string
+        description: "Phone number associated with the customer or event."
+        
       - name: postal_code
         data_type: string
+        description: "Postal code associated with the customer or event."
+        
       - name: province
         data_type: string
+        description: "Province or state associated with the customer or event."
+        
       - name: province_code
         data_type: string
+        description: "Province or state code associated with the customer or event."
+        
       - name: received_at
         data_type: timestamp
+        description: "Timestamp when the event was received by the system."
+        
       - name: sent_at
         data_type: timestamp
+        description: "Timestamp when the event was sent out from the system."
+        
       - name: session_id
         data_type: string
+        description: "Unique session identifier for the user during the event."
+        
       - name: sms_marketing_consent_consent_collected_from
         data_type: string
+        description: "Source from which SMS marketing consent was collected."
+        
       - name: sms_marketing_consent_consent_updated_at
         data_type: timestamp
+        description: "Timestamp when SMS marketing consent was last updated."
+        
       - name: sms_marketing_consent_opt_in_level
         data_type: string
+        description: "Level of opt-in for SMS marketing consent."
+        
       - name: sms_marketing_consent_state
         data_type: string
+        description: "Current state of SMS marketing consent (e.g., opted in, opted out)."
+        
       - name: source_name
         data_type: string
+        description: "Name of the source of the event (e.g., website, app)."
+        
       - name: tags
         data_type: string
+        description: "Tags associated with the event or user for categorization."
+        
       - name: tax_exempt
         data_type: boolean
+        description: "Indicates if the user is tax-exempt."
+        
       - name: total_spent
         data_type: string
+        description: "Total amount spent by the user in the associated session or event."
+        
       - name: user_id
         data_type: string
-      - name: uuid_ts
-        data_type: timestamp
-      - name: verified_email
-        data_type: boolean
+        description: "Unique identifier for the user associated with
