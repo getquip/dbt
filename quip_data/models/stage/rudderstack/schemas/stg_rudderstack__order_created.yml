@@ -1,188 +1,319 @@
 version: 2
 models:
   - name: stg_rudderstack__order_created
+    description: "This model stores order creation data from RudderStack, including order details, customer information, and payment status."
+    config:
+      tags: ['daily7am']
+      
     columns:
       - name: admin_graphql_api_id
+        description: "The GraphQL API ID associated with the order."
         data_type: string
+
       - name: anonymous_id
+        description: "The anonymous identifier for the user making the order."
         data_type: string
+
       - name: app_id
+        description: "The ID of the application where the order was placed."
         data_type: int64
+
       - name: browser_ip
+        description: "The IP address of the browser where the order was made."
         data_type: string
+
       - name: buyer_accepts_marketing
+        description: "Indicates whether the buyer accepts marketing communications."
         data_type: boolean
+
       - name: cart_token
+        description: "A unique identifier for the cart at the time of order."
         data_type: string
+
       - name: channel
+        description: "The marketing channel through which the order was placed."
         data_type: string
+
       - name: checkout_id
+        description: "The unique identifier for the checkout session."
         data_type: int64
+
       - name: checkout_token
+        description: "The token representing the checkout session."
         data_type: string
+
       - name: client_details_accept_language
+        description: "The accepted languages in the client's browser."
         data_type: string
+
       - name: client_details_browser_ip
+        description: "The IP address from which the client made the request."
         data_type: string
+
       - name: client_details_user_agent
+        description: "The user agent string from the client's browser."
         data_type: string
+
       - name: closed_at
+        description: "The timestamp when the order was closed."
         data_type: timestamp
+
       - name: confirmation_number
+        description: "The unique confirmation number for the order."
         data_type: string
+
       - name: contact_email
+        description: "The contact email associated with the order."
         data_type: string
+
       - name: context_device_manufacturer
+        description: "The manufacturer of the device used to place the order."
         data_type: string
+
       - name: context_device_type
+        description: "The type of device used to place the order."
         data_type: string
+
       - name: context_integration_name
+        description: "The name of the integration used for the order."
         data_type: string
+
       - name: context_ip
+        description: "The IP address from which the order was placed."
         data_type: string
+
       - name: context_library_name
+        description: "The name of the tracking library used for the order."
         data_type: string
+
       - name: context_library_version
+        description: "The version of the tracking library used for the order."
         data_type: string
+
       - name: context_os_name
+        description: "The name of the operating system of the device used to place the order."
         data_type: string
+
       - name: context_os_version
+        description: "The version of the operating system of the device used to place the order."
         data_type: string
+
       - name: context_request_ip
+        description: "The IP address from which the request to place the order was made."
         data_type: string
+
       - name: context_source_id
+        description: "The unique identifier for the source of the order."
         data_type: string
+
       - name: context_source_type
+        description: "The type of source where the order was made."
         data_type: string
+
       - name: context_topic
+        description: "The topic or subject of the order event."
         data_type: string
+
       - name: created_at
+        description: "The timestamp when the order was created."
         data_type: timestamp
+
       - name: currency
+        description: "The currency used for the order."
         data_type: string
+
       - name: customer_locale
+        description: "The locale of the customer placing the order."
         data_type: string
+
       - name: device_info
+        description: "Additional information about the device used to place the order."
         data_type: string
+
       - name: discount_applications
+        description: "The discount applications associated with the order."
         data_type: string
+
       - name: discount_codes
+        description: "The discount codes used in the order."
         data_type: string
+
       - name: email
+        description: "The email associated with the order."
         data_type: string
+
       - name: event_at
+        description: "The timestamp when the event related to the order occurred."
         data_type: timestamp
+
       - name: event_name
+        description: "The name of the event related to the order."
         data_type: string
+
       - name: event_text
+        description: "Textual description of the event related to the order."
         data_type: string
+
       - name: financial_status
+        description: "The financial status of the order (e.g., paid, pending)."
         data_type: string
+
       - name: fulfillment_status
+        description: "The fulfillment status of the order."
         data_type: string
+
       - name: fulfillments
+        description: "Details about the fulfillment of the order."
         data_type: string
+
       - name: has_estimated_taxes
+        description: "Indicates whether taxes are estimated for the order."
         data_type: boolean
+
       - name: is_confirmed
+        description: "Indicates whether the order is confirmed."
         data_type: boolean
+
       - name: is_server_side
+        description: "Indicates whether the order event was triggered server-side."
         data_type: boolean
+
       - name: landing_site
+        description: "The landing site where the customer came from before placing the order."
         data_type: string
+
       - name: landing_site_ref
+        description: "The referrer URL from the landing site."
         data_type: string
+
       - name: loaded_at
+        description: "The timestamp when the order data was loaded."
         data_type: timestamp
+
       - name: location_id
+        description: "The unique identifier for the location associated with the order."
         data_type: int64
+
       - name: name
+        description: "The name of the order."
         data_type: string
+
       - name: note
+        description: "Any notes associated with the order."
         data_type: string
+
       - name: note_attributes
+        description: "Additional attributes associated with the order notes."
         data_type: string
+
       - name: number
+        description: "The number assigned to the order."
         data_type: int64
+
       - name: order_created_id
+        description: "The unique identifier for the order creation event."
         data_type: string
+
       - name: order_id
+        description: "The unique identifier for the order."
         data_type: int64
+
       - name: order_number
+        description: "The order number for the created order."
         data_type: int64
+
       - name: order_status_url
+        description: "The URL to view the status of the order."
         data_type: string
+
       - name: original_timestamp
+        description: "The original timestamp when the order creation event was triggered."
         data_type: timestamp
+
       - name: payment_gateway_names
+        description: "The names of the payment gateways used for the order."
         data_type: string
+
       - name: payment_terms_created_at
+        description: "The timestamp when the payment terms were created."
         data_type: timestamp
+
       - name: payment_terms_id
+        description: "The unique identifier for the payment terms."
         data_type: int64
+
       - name: payment_terms_payment_terms_name
+        description: "The name of the payment terms."
         data_type: string
+
       - name: payment_terms_payment_terms_type
+        description: "The type of payment terms."
         data_type: string
+
       - name: payment_terms_updated_at
+        description: "The timestamp when the payment terms were last updated."
         data_type: timestamp
+
       - name: phone
+        description: "The phone number associated with the order."
         data_type: string
+
       - name: presentment_currency
+        description: "The currency used for the presentment of the order."
         data_type: string
+
       - name: processed_at
+        description: "The timestamp when the order was processed."
         data_type: timestamp
+
       - name: products
+        description: "The products included in the order."
         data_type: string
+
       - name: received_at
+        description: "The timestamp when the order data was received."
         data_type: timestamp
+
       - name: referring_site
+        description: "The referring site from which the customer arrived."
         data_type: string
+
       - name: sent_at
+        description: "The timestamp when the order event was sent."
         data_type: timestamp
+
       - name: session_id
+        description: "The unique identifier for the session during which the order was created."
         data_type: string
+
       - name: shipping_lines
+        description: "The shipping lines associated with the order."
         data_type: string
+
       - name: source_name
+        description: "The source of the order."
         data_type: string
+
       - name: subtotal_price
+        description: "The subtotal price of the order."
         data_type: numeric
+
       - name: tags
+        description: "The tags associated with the order."
         data_type: string
+
       - name: tax
+        description: "The tax applied to the order."
         data_type: numeric
+
       - name: tax_exempt
+        description: "Indicates whether the order is tax-exempt."
         data_type: boolean
+
       - name: tax_lines
+        description: "The tax lines associated with the order."
         data_type: string
+
       - name: taxes_included
+        description: "Indicates whether taxes are included in the order."
         data_type: boolean
-      - name: token
-        data_type: string
-      - name: total_discounts
-        data_type: numeric
-      - name: total_line_items_price
-        data_type: numeric
-      - name: total_outstanding
-        data_type: string
-      - name: total_price_set_shop_money_amount
-        data_type: string
-      - name: total_shipping_price_set_presentment_money_amount
-        data_type: numeric
-      - name: total_tax_set_presentment_money_amount
-        data_type: string
-      - name: total_tax_set_shop_money_amount
-        data_type: string
-      - name: total_tip_received
-        data_type: string
-      - name: total_weight
-        data_type: int64
-      - name: updated_at
-        data_type: timestamp
-      - name: user_id
-        data_type: string
-      - name: uuid_ts
-        data_type: timestamp
-      - name: value
-        data_type: string

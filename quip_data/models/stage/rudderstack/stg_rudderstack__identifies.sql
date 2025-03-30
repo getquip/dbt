@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='incremental',
     incremental_strategy='merge',
     partition_by={
         "field": "event_at",

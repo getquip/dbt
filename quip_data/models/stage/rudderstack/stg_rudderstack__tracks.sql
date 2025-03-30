@@ -1,5 +1,7 @@
 {{ config(
-    materialized='table',
+    materialized='incremental',
+	incremental_strategy='merge',
+	unique_key='track_event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
@@ -17,6 +19,9 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'tracks') }}
+	{% if is_incremental() %}
+		WHERE received_at >= (SELECT MAX(received_at) FROM {{ this }})
+	{% endif %}
 )
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------

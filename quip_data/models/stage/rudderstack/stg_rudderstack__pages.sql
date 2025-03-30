@@ -1,3 +1,20 @@
+{{ config(
+    materialized='incremental',
+	incremental_strategy='merge',
+	unique_key='page_event_id',
+    partition_by={
+        "field": "event_at",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=[
+        "source_name",
+        "user_id", 
+        "anonymous_id",
+        "page_event_id"
+    ]
+) }}
+
 WITH
 
 source AS (
