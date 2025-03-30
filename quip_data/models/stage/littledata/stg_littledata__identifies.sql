@@ -3,7 +3,7 @@
 {{ config(
     materialized='table',
     partition_by={
-        "field": "timestamp",
+        "field": "event_at",
         "data_type": "timestamp",
         "granularity": "day"
     },
@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "identifies_id"
+        "event_id"
     ]
 ) }}
 
@@ -29,8 +29,7 @@ source AS (
 
 , cleaned AS (
 	SELECT
-		"littledata" AS source_name
-		, LOWER(context_traits_default_address_city) AS city
+		LOWER(context_traits_default_address_city) AS city
 		,  `name` AS company
 		, context_traits_default_address_country AS country
 		,  IF(LOWER(context_traits_default_address_country) = 'united states', 'US', NULL) AS country_code
@@ -77,10 +76,11 @@ source AS (
 		, context_timezone
 		, NULL AS context_topic
 		, context_user_agent
+		, LOWER(context_user_agent) AS device_info
 		, presentment_currency AS currency
 		, email
 		, first_name
-		, COALESCE(id, CAST(_id AS STRING)) AS identifies_id
+		, COALESCE(id, CAST(_id AS STRING)) AS event_id
 		, last_name
 		, loaded_at
 		, `description` AS note
@@ -95,7 +95,7 @@ source AS (
 		, sms_consent_state AS sms_marketing_consent_state
 		, `state` AS identifies_state
 		, tags
-		, `timestamp`
+		, `timestamp` AS event_at
 		, user_id
 		, uuid_ts
 		, verified_email
@@ -104,10 +104,11 @@ source AS (
 
 SELECT 
 	* 
+	, "littledata" AS source_name
 	, 'track' as event_type
-	, IF(context_library_name = '@segment/analytics-node', 'backend', 'web') AS platform
-	, {{ scrub_context_page_path(context_page_path) }}
-	, {{ create_touchpoint('context_page_path') }}
+	, context_library_name = '@segment/analytics-node' AS is_server_side
+	, {{ scrub_context_page_path('context_page_path') }}
+	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
-WHERE `timestamp` >= '2024-06-25' -- filtering for events only after migration date to remove test noise
-QUALIFY ROW_NUMBER() OVER (PARTITION BY identifies_id ORDER BY received_at DESC ) = 1
+WHERE event_at >= '2024-06-25' -- filtering for events only after migration date to remove test noise
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC ) = 1

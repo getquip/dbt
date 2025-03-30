@@ -18,44 +18,39 @@
 
 WITH
 
-quip_production AS (
-	SELECT * FROM {{ source("legacy_segment", "quip_production__identifies") }}
-)
-
-, ios AS (
-	SELECT * FROM {{ source('legacy_segment', 'ios__identifies') }} t
+ios AS (
+	SELECT * FROM {{ source('legacy_segment', 'ios__screens') }} t
 )
 
 , android_production AS (
-	SELECT * FROM {{ source('legacy_segment', 'android_production__identifies') }} t
+	SELECT * FROM {{ source('legacy_segment', 'android_production__screens') }} t
 )
 
 , toothpic_prod_segment_mobile_quip_ios_prod AS (
-	SELECT * FROM {{ source('legacy_segment', 'toothpic_prod_segment_mobile_quip_ios_prod__identifies') }}
+	SELECT * FROM {{ source('legacy_segment', 'toothpic_prod_segment_mobile_quip_ios_prod__screens') }}
 )
 
 , toothpic_prod_segment_mobile_quip_android_prod AS (
-	SELECT * FROM {{ source('legacy_segment', 'toothpic_prod_segment_mobile_quip_android_prod__identifies') }}
+	SELECT * FROM {{ source('legacy_segment', 'toothpic_prod_segment_mobile_quip_android_prod__screens') }}
 )
-
 
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------
 
 -- get relations
-{%- set tracks_sources = dbt_utils.get_relations_by_pattern(
+{%- set screens_sources = dbt_utils.get_relations_by_pattern(
 	schema_pattern='legacy_segment'
-	, table_pattern='%__identifies'
+	, table_pattern='%__screens'
 	, database='quip-dw-raw'
 ) -%}
 
 -- get columns from each relation
-{%- set tracks_columns = {} -%}
-{% for relation in tracks_sources %}
+{%- set screens_columns = {} -%}
+{% for relation in screens_sources %}
 	{%- set columns = adapter.get_columns_in_relation(relation) | map(attribute='name') | list | sort -%}
-	{% set relation_name = relation.name | replace("__identifies", '') %}
-	{%- do tracks_columns.update({relation_name: columns}) -%}
+	{% set relation_name = relation.name | replace("__screens", '') %}
+	{%- do screens_columns.update({relation_name: columns}) -%}
 {% endfor %}
 
 -- set columns to extract from sources
@@ -85,8 +80,6 @@ quip_production AS (
 	, 'context_library_version'
 	, 'context_app_version'
 	, 'context_device_manufacturer'
-	, 'context_device_model'
-	, 'context_device_name'
 	, 'context_device_type'
 	, 'context_os_name'
 	, 'context_os_version'
@@ -98,7 +91,7 @@ quip_production AS (
 
 -- get columns to select from sources
 {%- set select_columns = {} -%}
-{% for relation, source_columns in tracks_columns.items() %}
+{% for relation, source_columns in screens_columns.items() %}
 	{% set select_relation_columns = [] %}
 	{%- do select_relation_columns.append("'" ~ relation ~ "' AS source_name") -%}
 	
@@ -122,8 +115,6 @@ quip_production AS (
 			{% else %}
 				{% if column == 'context_user_agent' %}
 					{% do select_relation_columns.append("CAST(NULL AS STRING) AS device_info") %}
-				{% elif column == 'event' %}
-					{% do select_relation_columns.append("CAST(NULL AS STRING) AS event_name") %}
 				{% endif %}
 				{% do select_relation_columns.append("CAST(NULL AS STRING) AS " ~ column) %}
 			{% endif %}
@@ -134,7 +125,7 @@ quip_production AS (
 {% endfor %}
 
 
-, ios_tracks AS (
+, ios_screens AS (
 	SELECT
 		{{ select_columns['ios'] | join('\n		, ') }}
     FROM ios
@@ -147,13 +138,7 @@ quip_production AS (
 	WHERE received_at >= '2023-10-01'
 )
 , joined AS (
-	SELECT * FROM ios_tracks
-
-	UNION ALL
-
-	SELECT
-		{{ select_columns['quip_production'] | join('\n 		, ') }}
-	FROM quip_production
+	SELECT * FROM ios_screens
 
 	UNION ALL
 
@@ -183,7 +168,7 @@ quip_production AS (
 SELECT
 	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
 		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
-	, 'identifies' AS event_type
+	, 'screens' AS event_type
 	, context_library_name != 'analytics.js' AS is_server_side
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
 	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version

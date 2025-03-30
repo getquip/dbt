@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "page_event_id"
+        "event_id"
     ]
 ) }}
 
@@ -27,8 +27,7 @@ quip_production AS (
 -------------------------------------------------------
 , cleaned AS (
    SELECT
-		'quip_production' AS source_name
-		, id AS page_event_id
+		id AS event_id
    		, user_id
 		, anonymous_id
 		, `timestamp` AS event_at
@@ -46,6 +45,7 @@ quip_production AS (
 		, context_page_title
 		, context_page_url
 		, context_user_agent
+		, LOWER(context_user_agent) AS device_info
 		, context_campaign_type
 		, context_campaign_expid
 		, context_campaign_referrer
@@ -53,12 +53,6 @@ quip_production AS (
 		, context_library_name
 		, context_library_version
 		, CAST(NULL AS STRING) AS context_app_version
-		, CAST(NULL AS STRING) AS context_device_manufacturer
-		, CAST(NULL AS STRING) AS context_device_model
-		, CAST(NULL AS STRING) AS context_device_name
-		, CAST(NULL AS STRING) AS context_device_type
-		, CAST(NULL AS STRING) AS context_os_name
-		, CAST(NULL AS STRING) AS context_os_version
 		, CAST(NULL AS INTEGER) AS context_screen_height
 		, CAST(NULL AS INTEGER) AS context_screen_width
     FROM quip_production
@@ -66,9 +60,10 @@ quip_production AS (
 
 SELECT
 	*
+	, 'quip_production' AS source_name
     , 'page' AS event_type
-    , 'web' AS platform
+	, FALSE AS is_server_side
 	, {{ scrub_context_page_path('context_page_path') }} 
-	, {{ create_touchpoint('context_page_path') }}
+	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
-QUALIFY ROW_NUMBER() OVER (PARTITION BY page_event_id ORDER BY received_at DESC) = 1
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

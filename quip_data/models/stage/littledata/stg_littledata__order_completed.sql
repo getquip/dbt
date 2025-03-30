@@ -3,7 +3,7 @@
 {{ config(
     materialized='table',
     partition_by={
-        "field": "timestamp",
+        "field": "event_at",
         "data_type": "timestamp",
         "granularity": "day"
     },
@@ -58,11 +58,11 @@ source AS (
 		, presentment_currency
 		, products
 		, received_at
-		, context_page_referrer AS referring_site
+		, context_page_referrer AS context_page_referrer
 		, sent_at
 		, subtotal AS subtotal_price
 		, COALESCE(CAST(tax AS NUMERIC), 0) AS tax
-		, `timestamp`
+		, `timestamp` AS event_at
 		, COALESCE(CAST(discount AS NUMERIC), 0) AS total_discounts
 		, COALESCE(CAST(total AS NUMERIC), 0) AS total_line_items_price
 		, NULL AS total_outstanding
@@ -82,9 +82,7 @@ source AS (
 
 SELECT 
 	* 
-	, IF(context_library_name = '@segment/analytics-node', 'backend', 'web') AS platform
-	, {{ scrub_context_page_path(context_page_path) }}
-	, {{ create_touchpoint('context_page_path') }}
+	, context_library_name = '@segment/analytics-node' AS is_server_side
 FROM cleaned
-WHERE `timestamp` >= '2024-06-25' -- filtering for events only after migration date to remove test noise
+WHERE event_at >= '2024-06-25' -- filtering for events only after migration date to remove test noise
 QUALIFY ROW_NUMBER() OVER (PARTITION BY checkout_id ORDER BY received_at DESC ) = 1

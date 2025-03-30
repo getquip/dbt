@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "track_event_id"
+        "event_id"
     ]
 ) }}
 
@@ -86,8 +86,6 @@ quip_production AS (
 	, 'context_library_version'
 	, 'context_app_version'
 	, 'context_device_manufacturer'
-	, 'context_device_model'
-	, 'context_device_name'
 	, 'context_device_type'
 	, 'context_os_name'
 	, 'context_os_version'
@@ -105,9 +103,12 @@ quip_production AS (
 	
 	{% for column in model_columns %}
 		{% if column == 'id' %}
-			{% do select_relation_columns.append(column ~ " AS track_event_id") %}
+			{% do select_relation_columns.append(column ~ " AS event_id") %}
 		{% elif column == 'context_page_path' and column in source_columns %}
 			{% do select_relation_columns.append("CONCAT('/', TRIM(" ~ column ~ " , '/')) AS context_page_path") %}
+		{% elif column == 'context_user_agent' and column in source_columns %}
+			{% do select_relation_columns.append(column) %}
+			{% do select_relation_columns.append("LOWER(" ~ column ~ ") AS device_info") %}
 		{% elif column == 'event' and column in source_columns %}
 			{% do select_relation_columns.append(column ~ " AS event_name") %}
 		{% elif column == 'timestamp' and column in source_columns %}
@@ -118,6 +119,11 @@ quip_production AS (
 			{% if column == 'context_screen_width' or column == 'context_screen_height' %}
 				{% do select_relation_columns.append("CAST(NULL AS INT64) AS " ~ column) %}
 			{% else %}
+				{% if column == 'context_user_agent' %}
+					{% do select_relation_columns.append("CAST(NULL AS STRING) AS device_info") %}
+				{% elif column == 'event' %}
+					{% do select_relation_columns.append("CAST(NULL AS STRING) AS event_name") %}
+				{% endif %}
 				{% do select_relation_columns.append("CAST(NULL AS STRING) AS " ~ column) %}
 			{% endif %}
 		{% endif %}
@@ -139,7 +145,7 @@ quip_production AS (
 	FROM toothpic_prod_segment_mobile_quip_ios_prod
 	WHERE received_at >= '2023-10-01'
 )
-, cleaned AS (
+, joined AS (
 	SELECT * FROM ios_tracks
 
 	UNION ALL
@@ -162,11 +168,26 @@ quip_production AS (
     FROM toothpic_prod_segment_mobile_quip_android_prod
 )
 
+, parsed AS (
+	SELECT
+		* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer)
+		, context_os_name AS context_os_name_v1
+		, context_os_version AS context_os_version_v1
+		, context_device_type AS context_device_type_v1
+		, context_device_manufacturer AS context_device_manufacturer_v1
+		, {{ scrub_context_page_path('context_page_path') }}
+		, {{ parse_device_info_from_user_agent('device_info') }}
+	FROM joined
+)
+
 SELECT
-	*
-    , 'track' AS event_type
-	, 'app' AS platform
-	, {{ scrub_context_page_path('context_page_path') }} 
-	, {{ create_touchpoint('context_page_path') }}
-FROM cleaned
-QUALIFY ROW_NUMBER() OVER (PARTITION BY track_event_id ORDER BY received_at DESC) = 1
+	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
+		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
+	, 'track' AS event_type
+	, context_library_name != 'analytics.js' AS is_server_side
+	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
+	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
+	, COALESCE(context_device_type, context_device_type_v1) AS context_device_type
+	, COALESCE(context_device_manufacturer, context_device_manufacturer_v1) AS context_device_manufacturer
+FROM parsed
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1
