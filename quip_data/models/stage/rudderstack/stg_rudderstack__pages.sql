@@ -20,7 +20,7 @@ WITH
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'pages') }}
 	{% if is_incremental() %}
-		WHERE received_at >= 	WHERE snapshot_date_time >= "{{ get_max_partition('received_at') }}"
+		WHERE received_at >= "{{ get_max_partition('received_at') }}"
 	{% endif %}
 )
 -------------------------------------------------------
