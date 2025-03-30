@@ -50,6 +50,8 @@ models:
         +schema: quip_public
       recharge:
         +schema: recharge
+      rudderstack:
+        +schema: rudderstack
       shopify:
         +schema: shopify
       stord:
@@ -91,6 +93,8 @@ models:
         +schema: finance
       marketing:
         +schema: marketing
+      operations:
+        +schema: operations
       quip:
         +schema: quip
 

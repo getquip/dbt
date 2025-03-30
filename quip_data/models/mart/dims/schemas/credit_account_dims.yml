@@ -3,7 +3,7 @@ models:
   - name: credit_account_dims
     description: ""
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
       - name: credit_account_id
         data_type: int64

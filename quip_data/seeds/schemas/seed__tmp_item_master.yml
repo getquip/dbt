@@ -1,0 +1,48 @@
+version: 2
+
+seeds:
+  - name: seed__tmp_item_master
+    description: "Item Master. This is a temporary seed while we await for an official source of truth for item master data."
+    config:
+      column_types:
+        sku: string
+        name: string
+        upc: string
+        barcode: string
+        brand: string
+        description: string
+        primary_unit: string
+        dimension_unit: string
+        width: numeric
+        length: numeric
+        height: numeric
+        weight_unit: string
+        weight: numeric
+        inventory_method: string
+        unit_cost: numeric
+        retail_price: numeric
+        reorder_quantity: float64
+        is_haz_mat: string
+        track_by_lot: string
+        track_by_exp_date: string
+        track_by_handling_unit: string
+        is_digital: string
+        substitutable: string
+        tariff_code: string
+        country_code: string
+        customs_value: string
+        customs_description: string
+        proper_shipping_name: string
+        hazard_class: string
+        un_id: string
+        packing_group: string
+        limited_quantity: string
+        contains_lithium: string
+        lithium_ion_content: string
+        battery_installation: string
+        battery_count: string
+        transport_mode: string
+        shipment_type: string
+        inventory_planning: string
+        minimum_stock_level: integer
+        minimum_stock_level_unit: string

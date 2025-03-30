@@ -4,241 +4,243 @@ models:
   - name: stg_stord__postage_invoices
     description: |
       The master table of domestic postage invoice files received from Newgistics and Stord.
+      This table contains details of shipments, associated fees, and metadata for tracking 
+      and reconciliation purposes.
     config:
-      tags: ['daily']
+      tags: ['daily7am']
     columns:
       - name: postage_invoice_id
         data_type: string
-        description: ""
+        description: "Unique identifier for the postage invoice."
 
       - name: merchant_name
         data_type: string
-        description: ""
+        description: "Name of the merchant associated with the invoice."
 
       - name: merchant_number
         data_type: string
-        description: ""
+        description: "Unique identifier assigned to the merchant."
 
       - name: invoice_number
         data_type: string
-        description: ""
+        description: "Invoice number as provided by the carrier or billing system."
 
       - name: warehouse_name
         data_type: string
-        description: ""
+        description: "Name of the warehouse from which the order was shipped."
 
       - name: order_number
         data_type: string
-        description: ""
+        description: "Unique order number related to the invoice."
 
       - name: drop_ship_name
         data_type: string
-        description: ""
+        description: "Name of the drop shipping partner if applicable."
 
       - name: received_date
         data_type: date
-        description: ""
+        description: "Date when the invoice was received by the system."
 
       - name: tracking_number
         data_type: string
-        description: ""
+        description: "Tracking number assigned to the shipment for delivery tracking."
 
       - name: pkg_reference
         data_type: string
-        description: ""
+        description: "Reference identifier for the package associated with the shipment."
 
       - name: dim_weight
         data_type: numeric
-        description: ""
+        description: "Dimensional weight of the package, calculated using the carrier’s formula."
 
       - name: company
         data_type: string
-        description: ""
+        description: "Company associated with the shipment, typically the sender."
 
       - name: address_1
         data_type: string
-        description: ""
+        description: "Primary address line for the shipping destination."
 
       - name: address_2
         data_type: string
-        description: ""
+        description: "Secondary address line for additional location details."
 
       - name: city
         data_type: string
-        description: ""
+        description: "City where the package is being delivered."
 
       - name: state
         data_type: string
-        description: ""
+        description: "State or region of the shipping destination."
 
       - name: postal_code
         data_type: string
-        description: ""
+        description: "Postal or ZIP code of the delivery address."
 
       - name: country
         data_type: string
-        description: ""
+        description: "Country of the shipment's destination."
 
       - name: ship_from_zip
         data_type: string
-        description: ""
+        description: "ZIP code of the warehouse or shipping origin."
 
       - name: zone
         data_type: string
-        description: ""
+        description: "Shipping zone assigned based on the destination and origin."
 
       - name: class_of_service
         data_type: string
-        description: ""
+        description: "Shipping service level, such as 'Ground' or 'Overnight'."
 
       - name: source_synced_at
         data_type: timestamp
-        description: ""
+        description: "Timestamp indicating when the data was last synchronized from the source."
 
       - name: source_file_name
         data_type: string
-        description: ""
+        description: "Name of the source file from which the invoice data was extracted."
 
       - name: num_packages
         data_type: int64
-        description: ""
+        description: "Number of packages included in the shipment."
 
       - name: shipment_id
         data_type: int64
-        description: ""
+        description: "Unique identifier for the shipment."
 
       - name: total_amount
         data_type: float64
-        description: ""
+        description: "Total cost of the shipment as per the invoice."
 
       - name: invoice_date
         data_type: date
-        description: ""
+        description: "Date when the invoice was generated."
 
       - name: order_date
         data_type: date
-        description: ""
+        description: "Date when the order was placed."
 
       - name: weight
         data_type: numeric
-        description: ""
+        description: "Actual weight of the package in the unit used by the carrier."
 
       - name: height
         data_type: numeric
-        description: ""
+        description: "Height of the package in the unit used by the carrier."
 
       - name: width
         data_type: numeric
-        description: ""
+        description: "Width of the package in the unit used by the carrier."
 
       - name: length
         data_type: numeric
-        description: ""
+        description: "Length of the package in the unit used by the carrier."
 
       - name: no_of_pieces
         data_type: string
-        description: ""
+        description: "Number of individual pieces within the package."
 
       - name: contents_sku_quantity
         data_type: string
-        description: ""
+        description: "Details of SKU quantities included in the package."
 
       - name: carrier
         data_type: string
-        description: ""
+        description: "Name of the shipping carrier handling the package."
 
       - name: transmitted_shipping_method
         data_type: string
-        description: ""
+        description: "Shipping method originally requested or transmitted."
 
       - name: actual_shipping_method
         data_type: string
-        description: ""
+        description: "Final shipping method used by the carrier."
 
       - name: shipped_date
         data_type: date
-        description: ""
+        description: "Date when the package was shipped."
 
       - name: fee_category
         data_type: string
-        description: ""
+        description: "Category of fees associated with the shipment, such as 'Fuel Surcharge'."
 
       - name: fee_surcharge_type_1
         data_type: string
-        description: ""
+        description: "Type of the first surcharge applied to the shipment."
 
       - name: fee_type_charges_1
         data_type: float64
-        description: ""
+        description: "Cost associated with the first surcharge type."
 
       - name: fee_surcharge_type_2
         data_type: string
-        description: ""
+        description: "Type of the second surcharge applied to the shipment."
 
       - name: fee_type_charges_2
         data_type: float64
-        description: ""
+        description: "Cost associated with the second surcharge type."
 
       - name: fee_surcharge_type_3
         data_type: string
-        description: ""
+        description: "Type of the third surcharge applied to the shipment."
 
       - name: fee_type_charges_3
         data_type: float64
-        description: ""
+        description: "Cost associated with the third surcharge type."
 
       - name: fee_surcharge_type_4
         data_type: string
-        description: ""
+        description: "Type of the fourth surcharge applied to the shipment."
 
       - name: fee_type_charges_4
         data_type: float64
-        description: ""
+        description: "Cost associated with the fourth surcharge type."
 
       - name: fee_surcharge_type_5
         data_type: string
-        description: ""
+        description: "Type of the fifth surcharge applied to the shipment."
 
       - name: fee_type_charges_5
         data_type: float64
-        description: ""
+        description: "Cost associated with the fifth surcharge type."
 
       - name: fee_surcharge_type_6
         data_type: string
-        description: ""
+        description: "Type of the sixth surcharge applied to the shipment."
 
       - name: fee_type_charges_6
         data_type: float64
-        description: ""
+        description: "Cost associated with the sixth surcharge type."
 
       - name: fee_surcharge_type_7
         data_type: string
-        description: ""
+        description: "Type of the seventh surcharge applied to the shipment."
 
       - name: fee_type_charges_7
         data_type: float64
-        description: ""
+        description: "Cost associated with the seventh surcharge type."
 
       - name: fee_surcharge_type_8
         data_type: string
-        description: ""
+        description: "Type of the eighth surcharge applied to the shipment."
 
       - name: fee_type_charges_8
         data_type: float64
-        description: ""
+        description: "Cost associated with the eighth surcharge type."
 
       - name: fee_surcharge_type_9
         data_type: string
-        description: ""
+        description: "Type of the ninth surcharge applied to the shipment."
 
       - name: fee_type_charges_9
         data_type: float64
-        description: ""
+        description: "Cost associated with the ninth surcharge type."
 
       - name: fee_surcharge_type_10
         data_type: string
-        description: ""
+        description: "Type of the tenth surcharge applied to the shipment."
 
       - name: fee_type_charges_10
         data_type: float64
-        description: ""
+        description: "Cost associated with the tenth surcharge type."
