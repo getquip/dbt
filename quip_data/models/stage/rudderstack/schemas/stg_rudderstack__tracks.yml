@@ -1,0 +1,242 @@
+version: 2
+models:
+  - name: stg_rudderstack__tracks
+    description: "This model stores tracking data from RudderStack, including event details and user context information."
+    config:
+      tags: ['daily7am']
+    columns:
+      - name: anonymous_id
+        description: "The anonymous identifier for the user."
+        data_type: string
+
+      - name: channel
+        description: ""
+        data_type: string
+
+      - name: context_app_name
+        description: "The name of the app where the event occurred."
+        data_type: string
+
+      - name: context_app_namespace
+        description: "The namespace for the app context."
+        data_type: string
+
+      - name: context_app_version
+        description: "The version of the app where the event occurred."
+        data_type: string
+
+      - name: context_campaign_campaign
+        description: "The campaign name for the event."
+        data_type: string
+
+      - name: context_campaign_content
+        description: "The content associated with the campaign."
+        data_type: string
+
+      - name: context_campaign_creative
+        description: "The creative element of the campaign."
+        data_type: string
+
+      - name: context_campaign_id
+        description: "The unique identifier of the campaign."
+        data_type: string
+
+      - name: context_campaign_medium
+        description: "The medium through which the campaign was delivered."
+        data_type: string
+
+      - name: context_campaign_name
+        description: "The name of the campaign."
+        data_type: string
+
+      - name: context_campaign_source
+        description: "The source of the campaign."
+        data_type: string
+
+      - name: context_campaign_term
+        description: "The search term related to the campaign."
+        data_type: string
+
+      - name: context_cart_token
+        description: "The unique token for the user's shopping cart."
+        data_type: string
+
+      - name: context_checkout_token
+        description: "The unique token for the user's checkout process."
+        data_type: string
+
+      - name: context_device_manufacturer
+        description: "The manufacturer of the user's device."
+        data_type: string
+
+      - name: context_device_type
+        description: "The type of device used by the user."
+        data_type: string
+
+      - name: context_integration_name
+        description: "The name of the integration being used."
+        data_type: string
+
+      - name: context_ip
+        description: "The IP address from which the event originated."
+        data_type: string
+
+      - name: context_library_name
+        description: "The name of the library used for event tracking."
+        data_type: string
+
+      - name: context_library_version
+        description: "The version of the library used for event tracking."
+        data_type: string
+
+      - name: context_locale
+        description: "The locale of the user when the event occurred."
+        data_type: string
+
+      - name: context_order_token
+        description: "The token for the user's order."
+        data_type: string
+
+      - name: context_os_name
+        description: "The name of the operating system on the user's device."
+        data_type: string
+
+      - name: context_os_version
+        description: "The version of the operating system on the user's device."
+        data_type: string
+
+      - name: context_page_initial_referrer
+        description: "The initial referrer URL for the page where the event occurred."
+        data_type: string
+
+      - name: context_page_initial_referring_domain
+        description: "The initial referring domain for the page where the event occurred."
+        data_type: string
+
+      - name: context_page_path
+        description: "The path of the page where the event occurred."
+        data_type: string
+
+      - name: context_page_path_scrubbed
+        description: "The scrubbed version of the page path to remove sensitive information."
+        data_type: string
+
+      - name: context_page_referrer
+        description: "The referrer URL for the page where the event occurred."
+        data_type: string
+
+      - name: context_page_referring_domain
+        description: "The referring domain for the page where the event occurred."
+        data_type: string
+
+      - name: context_page_search
+        description: "The search query, if any, on the page where the event occurred."
+        data_type: string
+
+      - name: context_page_tab_url
+        description: "The URL of the tab where the event occurred."
+        data_type: string
+
+      - name: context_page_title
+        description: "The title of the page where the event occurred."
+        data_type: string
+
+      - name: context_page_url
+        description: "The full URL of the page where the event occurred."
+        data_type: string
+
+      - name: context_request_ip
+        description: "The IP address from which the request for the event was made."
+        data_type: string
+
+      - name: context_screen_height
+        description: "The height of the screen where the event occurred."
+        data_type: int64
+
+      - name: context_screen_width
+        description: "The width of the screen where the event occurred."
+        data_type: int64
+
+      - name: context_session_start
+        description: "Indicates whether this is the start of a new session."
+        data_type: boolean
+
+      - name: context_source_id
+        description: "The unique identifier for the source of the event."
+        data_type: string
+
+      - name: context_source_type
+        description: "The type of source for the event."
+        data_type: string
+
+      - name: context_timezone
+        description: "The timezone of the user when the event occurred."
+        data_type: string
+
+      - name: context_topic
+        description: "The topic associated with the event."
+        data_type: string
+
+      - name: context_user_agent
+        description: "The user agent string for the device from which the event originated."
+        data_type: string
+
+      - name: device_info
+        description: "Additional information about the user's device."
+        data_type: string
+
+      - name: event_at
+        description: "The timestamp when the event occurred."
+        data_type: timestamp
+
+      - name: event_name
+        description: "The name of the event."
+        data_type: string
+
+      - name: event_text
+        description: "A textual description of the event."
+        data_type: string
+
+      - name: event_type
+        description: "The type of event being tracked."
+        data_type: string
+
+      - name: is_server_side
+        description: "Indicates whether the event is server-side."
+        data_type: boolean
+
+      - name: loaded_at
+        description: "The timestamp when the event data was loaded."
+        data_type: timestamp
+
+      - name: original_timestamp
+        description: "The original timestamp for when the event was created."
+        data_type: timestamp
+
+      - name: received_at
+        description: "The timestamp when the event was received."
+        data_type: timestamp
+
+      - name: sent_at
+        description: "The timestamp when the event was sent."
+        data_type: timestamp
+
+      - name: session_id
+        description: "The unique identifier for the session."
+        data_type: string
+
+      - name: source_name
+        description: "The name of the source from which the event originated."
+        data_type: string
+
+      - name: track_event_id
+        description: "The unique identifier for the tracked event."
+        data_type: string
+
+      - name: user_id
+        description: "The unique identifier for the user."
+        data_type: string
+
+      - name: uuid_ts
+        description: "A timestamp associated with the event, in UUID format."
+        data_type: timestamp
