@@ -1,0 +1,122 @@
+version: 2
+models:
+  - name: stg_rudderstack__tracks
+    columns:
+      - name: anonymous_id
+        data_type: string
+      - name: channel
+        data_type: string
+      - name: context_app_name
+        data_type: string
+      - name: context_app_namespace
+        data_type: string
+      - name: context_app_version
+        data_type: string
+      - name: context_campaign_campaign
+        data_type: string
+      - name: context_campaign_content
+        data_type: string
+      - name: context_campaign_creative
+        data_type: string
+      - name: context_campaign_id
+        data_type: string
+      - name: context_campaign_medium
+        data_type: string
+      - name: context_campaign_name
+        data_type: string
+      - name: context_campaign_source
+        data_type: string
+      - name: context_campaign_term
+        data_type: string
+      - name: context_cart_token
+        data_type: string
+      - name: context_checkout_token
+        data_type: string
+      - name: context_device_manufacturer
+        data_type: string
+      - name: context_device_type
+        data_type: string
+      - name: context_integration_name
+        data_type: string
+      - name: context_ip
+        data_type: string
+      - name: context_library_name
+        data_type: string
+      - name: context_library_version
+        data_type: string
+      - name: context_locale
+        data_type: string
+      - name: context_order_token
+        data_type: string
+      - name: context_os_name
+        data_type: string
+      - name: context_os_version
+        data_type: string
+      - name: context_page_initial_referrer
+        data_type: string
+      - name: context_page_initial_referring_domain
+        data_type: string
+      - name: context_page_path
+        data_type: string
+      - name: context_page_path_scrubbed
+        data_type: string
+      - name: context_page_referrer
+        data_type: string
+      - name: context_page_referring_domain
+        data_type: string
+      - name: context_page_search
+        data_type: string
+      - name: context_page_tab_url
+        data_type: string
+      - name: context_page_title
+        data_type: string
+      - name: context_page_url
+        data_type: string
+      - name: context_request_ip
+        data_type: string
+      - name: context_screen_height
+        data_type: int64
+      - name: context_screen_width
+        data_type: int64
+      - name: context_session_start
+        data_type: boolean
+      - name: context_source_id
+        data_type: string
+      - name: context_source_type
+        data_type: string
+      - name: context_timezone
+        data_type: string
+      - name: context_topic
+        data_type: string
+      - name: context_user_agent
+        data_type: string
+      - name: device_info
+        data_type: string
+      - name: event_at
+        data_type: timestamp
+      - name: event_name
+        data_type: string
+      - name: event_text
+        data_type: string
+      - name: event_type
+        data_type: string
+      - name: is_server_side
+        data_type: boolean
+      - name: loaded_at
+        data_type: timestamp
+      - name: original_timestamp
+        data_type: timestamp
+      - name: received_at
+        data_type: timestamp
+      - name: sent_at
+        data_type: timestamp
+      - name: session_id
+        data_type: string
+      - name: source_name
+        data_type: string
+      - name: track_event_id
+        data_type: string
+      - name: user_id
+        data_type: string
+      - name: uuid_ts
+        data_type: timestamp

@@ -1,0 +1,176 @@
+version: 2
+models:
+  - name: stg_rudderstack__identifies
+    columns:
+      - name: address1
+        data_type: string
+      - name: address2
+        data_type: string
+      - name: address_default
+        data_type: boolean
+      - name: address_first_name
+        data_type: string
+      - name: address_id
+        data_type: int64
+      - name: address_last_name
+        data_type: string
+      - name: address_list
+        data_type: string
+      - name: address_name
+        data_type: string
+      - name: address_phone
+        data_type: string
+      - name: admin_graphql_api_id
+        data_type: string
+      - name: anonymous_id
+        data_type: string
+      - name: city
+        data_type: string
+      - name: company
+        data_type: string
+      - name: context_app_name
+        data_type: string
+      - name: context_app_namespace
+        data_type: string
+      - name: context_app_version
+        data_type: string
+      - name: context_campaign_content
+        data_type: string
+      - name: context_campaign_creative
+        data_type: string
+      - name: context_campaign_device
+        data_type: string
+      - name: context_campaign_id
+        data_type: string
+      - name: context_campaign_medium
+        data_type: string
+      - name: context_campaign_name
+        data_type: string
+      - name: context_campaign_source
+        data_type: string
+      - name: context_campaign_term
+        data_type: string
+      - name: context_destination_id
+        data_type: string
+      - name: context_destination_type
+        data_type: string
+      - name: context_device_manufacturer
+        data_type: string
+      - name: context_device_type
+        data_type: string
+      - name: context_integration_name
+        data_type: string
+      - name: context_ip
+        data_type: string
+      - name: context_library_name
+        data_type: string
+      - name: context_library_version
+        data_type: string
+      - name: context_locale
+        data_type: string
+      - name: context_os_name
+        data_type: string
+      - name: context_os_version
+        data_type: string
+      - name: context_page_path
+        data_type: string
+      - name: context_page_path_scrubbed
+        data_type: string
+      - name: context_page_referrer
+        data_type: string
+      - name: context_page_referring_domain
+        data_type: string
+      - name: context_page_search
+        data_type: string
+      - name: context_page_title
+        data_type: string
+      - name: context_page_url
+        data_type: string
+      - name: context_request_ip
+        data_type: string
+      - name: context_screen_height
+        data_type: int64
+      - name: context_screen_width
+        data_type: int64
+      - name: context_session_start
+        data_type: boolean
+      - name: context_source_id
+        data_type: string
+      - name: context_source_type
+        data_type: string
+      - name: context_timezone
+        data_type: string
+      - name: context_topic
+        data_type: string
+      - name: context_user_agent
+        data_type: string
+      - name: country
+        data_type: string
+      - name: country_code
+        data_type: string
+      - name: country_name
+        data_type: string
+      - name: currency
+        data_type: string
+      - name: customer_id
+        data_type: string
+      - name: device_info
+        data_type: string
+      - name: email
+        data_type: string
+      - name: event_at
+        data_type: timestamp
+      - name: first_name
+        data_type: string
+      - name: identifies_event_id
+        data_type: string
+      - name: identifies_state
+        data_type: string
+      - name: is_server_side
+        data_type: boolean
+      - name: last_name
+        data_type: string
+      - name: loaded_at
+        data_type: timestamp
+      - name: note
+        data_type: string
+      - name: order_count
+        data_type: int64
+      - name: original_timestamp
+        data_type: timestamp
+      - name: phone
+        data_type: string
+      - name: postal_code
+        data_type: string
+      - name: province
+        data_type: string
+      - name: province_code
+        data_type: string
+      - name: received_at
+        data_type: timestamp
+      - name: sent_at
+        data_type: timestamp
+      - name: session_id
+        data_type: string
+      - name: sms_marketing_consent_consent_collected_from
+        data_type: string
+      - name: sms_marketing_consent_consent_updated_at
+        data_type: timestamp
+      - name: sms_marketing_consent_opt_in_level
+        data_type: string
+      - name: sms_marketing_consent_state
+        data_type: string
+      - name: source_name
+        data_type: string
+      - name: tags
+        data_type: string
+      - name: tax_exempt
+        data_type: boolean
+      - name: total_spent
+        data_type: string
+      - name: user_id
+        data_type: string
+      - name: uuid_ts
+        data_type: timestamp
+      - name: verified_email
+        data_type: boolean
