@@ -60,7 +60,7 @@
                             {{ log("Dry Run - Would drop table: " ~ schema ~ "." ~ table_name, info=True) }}
                         {% else %}
                             {% set drop_table_query %}
-                                DROP TABLE IF EXISTS {{ database }}.{{ schema }}.{{ table_name }}
+                                DROP TABLE IF EXISTS `{{ database }}.{{ schema }}.{{ table_name }}`
                             {% endset %}
                             {% do run_query(drop_table_query) %}
                             {{ log("Dropped table: " ~ schema ~ "." ~ table_name, info=True) }}
