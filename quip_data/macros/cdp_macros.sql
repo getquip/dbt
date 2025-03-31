@@ -114,6 +114,107 @@
     , {{ device_type }} AS context_device_type
 {% endmacro %}
 ----------------------------------------------------------------------------------------------------
-{% macro union_legacy_segment_sources() %}
-  {% set test = 1 %}
+{% macro create_legacy_sessions() %}
+  -- get time frames
+  {% set time_query %}
+    SELECT
+      CONCAT("BETWEEN '", date, "' AND '", DATE_ADD(date, INTERVAL 20 DAY), "'") AS frames
+    FROM UNNEST(GENERATE_DATE_ARRAY('2020-01-01', '2025-03-01', INTERVAL 3 WEEK)) AS date
+    ORDER BY 1
+  {% endset %}
+
+  {% set time_result = dbt_utils.get_query_results_as_dict(time_query) %}
+  
+  {% set time_frames = ["< '2020-01-01'"] %}
+  {% for row in time_result['frames'] %}
+    {% do time_frames.append(row) %}
+  {% endfor %}
+
+  -- create session relations
+  {% for frame in time_frames %}
+    {% set relation_name = this.database ~ '.' ~ this.schema ~ '.base_customer_data_platform__legacy_sessions_' ~ loop.index %}
+    {% do log("Creating session relation: " ~ relation_name, info=True) %}
+    {% set query %}
+      CREATE OR REPLACE TABLE {{ relation_name }} AS
+
+      WITH RECURSIVE legacy_events AS (
+          SELECT *
+          FROM {{ ref("base_customer_data_platform__legacy_events") }}
+          WHERE event_at {{ frame }}
+      )
+      
+      , session_flags AS (
+          SELECT
+              *,
+              /*
+                  Flag time-boxed sessions:
+                  - When the prior event_at is >= 30 minutes ago
+                  - When there's no prior events
+                  - When it's a new day
+              */
+              CASE 
+                  WHEN TIMESTAMP_DIFF(event_at, last_event_at, MINUTE) >= 30
+                      OR last_event_at IS NULL
+                      OR DATE(event_at) > DATE(last_event_at)
+                  THEN 1 
+                  ELSE 0 
+              END AS new_time_based_session,
+              
+              /*
+                  Flag campaign-based sessions:
+                  - When the prior campaign is different from the current one (not considering NULLs)
+                  - When the prior campaign is NULL
+              */
+              CASE 
+                  WHEN campaign != last_campaign
+                      AND campaign IS NOT NULL
+                      AND last_campaign IS NOT NULL
+                      AND campaign NOT LIKE '%password_reset%'
+                      AND last_campaign NOT LIKE '%password_reset%'
+                  THEN 1 
+                  ELSE 0 
+              END AS new_campaign_based_session,
+              
+              /*
+                  Flag operating system-based sessions:
+                  - When the prior operating system is different from the current one (not considering NULLs)
+                  - When the prior operating system is NULL
+              */
+              CASE 
+                  WHEN context_os_name != last_os_name
+                      AND context_os_name IS NOT NULL
+                      AND last_os_name IS NOT NULL
+                  THEN 1 
+                  ELSE 0 
+              END AS new_platform_based_session
+          FROM legacy_events
+      )
+      
+      , create_sessions AS (
+          SELECT
+              event_id,
+              event_sequence,
+              anonymous_id,
+              source_name,
+              event_at,
+              CONCAT(
+                  anonymous_id,
+                  '_',
+                  CAST(
+                      SUM(GREATEST(new_time_based_session, new_campaign_based_session, new_platform_based_session)) 
+                        OVER (PARTITION BY anonymous_id, source_name ORDER BY event_at, event_id) 
+                      AS STRING
+                  )
+              ) AS session_id
+          FROM session_flags
+      )
+
+      SELECT * FROM create_sessions
+    {% endset %}
+
+    {% do run_query(query) %}
+    {% set relation_name = this.database ~ '.' ~ this.schema ~ '.base_customer_data_platform__legacy_sessions_' ~ loop.index %}
+  {% endfor %}
+  
+  {% do log("Finished creating session relations", info=True) %}
 {% endmacro %}

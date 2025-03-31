@@ -38,6 +38,13 @@ models:
         output-to-lower: true
         force-inherit-descriptions: true
         sort-by: "alphabetical"
+    # set dev tables to expire in 36 hours
+    +hours_to_expiration: >-
+      {% if target.name == prod %}
+        24 * 365 * 100
+      {% else %}
+        36
+      {% endif %}
 
     stage:
       +database: quip-dw-stage

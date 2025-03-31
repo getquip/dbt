@@ -32,7 +32,7 @@ source AS (
     	id AS event_id
 		, user_id
     	, anonymous_id
-    	, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, received_at
     	, context_campaign_content
     	, context_campaign_medium

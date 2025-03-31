@@ -71,7 +71,7 @@ source AS (
 		, search
 		, sent_at
 		, NULL AS tab_url
-		, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, title
 		, `url` AS page_url
 		, user_id
