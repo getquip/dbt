@@ -19,7 +19,7 @@
 WITH
 
 quip_production AS (
-	SELECT * FROM {{ source("legacy_segment", "quip_production__pages") }}
+	SELECT * FROM {{ source("legacy_segment", "quip_production__experiment_viewed") }}
 )
 
 -------------------------------------------------------
@@ -30,8 +30,7 @@ quip_production AS (
 		id AS event_id
    		, user_id
 		, anonymous_id
-		, `timestamp`
-		, original_timestamp
+		, `timestamp` AS event_at
 		, received_at
 		, context_campaign_content
 		, context_campaign_medium
@@ -53,19 +52,16 @@ quip_production AS (
 		, context_campaign_id
 		, context_library_name
 		, context_library_version
-		, CAST(NULL AS STRING) AS context_app_version
-		, CAST(NULL AS INTEGER) AS context_screen_height
-		, CAST(NULL AS INTEGER) AS context_screen_width
+		, experiment_id
+		, variant_id AS experiment_variant_id
     FROM quip_production
 )
 
 SELECT
 	*
 	, 'quip_production' AS source_name
-    , 'page' AS event_type
 	, FALSE AS is_server_side
 	, {{ scrub_context_page_path('context_page_path') }} 
 	, {{ parse_device_info_from_user_agent('device_info') }}
-		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 FROM cleaned
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

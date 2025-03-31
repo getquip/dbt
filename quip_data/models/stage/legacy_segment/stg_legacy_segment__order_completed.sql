@@ -36,7 +36,7 @@ source AS (
 		, context_ip
 		, context_library_name
 		, context_library_version
-		, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, loaded_at AS updated_at
 		, user_id
 		, uuid_ts

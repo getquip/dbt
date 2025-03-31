@@ -65,6 +65,7 @@ quip_production AS (
 	, 'user_id'
 	, 'anonymous_id'
 	, 'timestamp'
+	, 'original_timestamp'
 	, 'context_campaign_content'
 	, 'context_campaign_medium'
 	, 'context_campaign_name'
@@ -111,8 +112,6 @@ quip_production AS (
 			{% do select_relation_columns.append("LOWER(" ~ column ~ ") AS device_info") %}
 		{% elif column == 'event' and column in source_columns %}
 			{% do select_relation_columns.append(column ~ " AS event_name") %}
-		{% elif column == 'timestamp' and column in source_columns %}
-			{% do select_relation_columns.append(column ~ " AS event_at") %}
 		{% elif column in source_columns %}
 			{% do select_relation_columns.append(column) %}
 		{% else %}
@@ -177,6 +176,7 @@ quip_production AS (
 		, context_device_manufacturer AS context_device_manufacturer_v1
 		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 	FROM joined
 )
 

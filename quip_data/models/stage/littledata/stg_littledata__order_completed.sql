@@ -62,7 +62,7 @@ source AS (
 		, sent_at
 		, subtotal AS subtotal_price
 		, COALESCE(CAST(tax AS NUMERIC), 0) AS tax
-		, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, COALESCE(CAST(discount AS NUMERIC), 0) AS total_discounts
 		, COALESCE(CAST(total AS NUMERIC), 0) AS total_line_items_price
 		, NULL AS total_outstanding
