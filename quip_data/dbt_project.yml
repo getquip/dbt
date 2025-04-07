@@ -31,13 +31,6 @@ models:
       relation: true
       columns: true
     +materialized: table
-    # dbt-osmosis configurations
-    +dbt-osmosis: "schemas/{model}.yml" # all files will be created in the schemas directory
-    +dbt-osmosis-options:
-        skip-add-tags: true
-        output-to-lower: true
-        force-inherit-descriptions: true
-        sort-by: "alphabetical"
     # set dev tables to expire in 36 hours
     +hours_to_expiration: >-
       {% if target.name == prod %}
@@ -45,6 +38,14 @@ models:
       {% else %}
         36
       {% endif %}
+
+    # dbt-osmosis configurations
+    +dbt-osmosis: "schemas/{model}.yml" # all files will be created in the schemas directory
+    +dbt-osmosis-options:
+        skip-add-tags: true
+        output-to-lower: true
+        force-inherit-descriptions: true
+        sort-by: "alphabetical"
 
     stage:
       +database: quip-dw-stage
@@ -72,7 +73,6 @@ models:
         +schema: tiktok_ads
       wen_parker:
         +schema: wen_parker
-        +materialized: view # temp materialization as legacy dbt models are dependent on these models
 
     intermediate:
       +database: quip-dw-intermediate

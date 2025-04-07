@@ -31,7 +31,7 @@ WITH
 
 legacy_events AS (
     SELECT * 
-    FROM {{ ref('base_customer_data_platform__legacy_events') }}
+    FROM {{ ref('base_customer_data_platform__legacy_event_context') }}
 )
 
 -------------------------------------------------------
@@ -39,29 +39,17 @@ legacy_events AS (
 -------------------------------------------------------
 
 
-
 , created_sessions AS (
-    -- get relations
-    {%- set session_events = dbt_utils.get_relations_by_pattern(
-        schema_pattern = this.schema,
-        table_pattern = 'base_customer_data_platform__legacy_sessions_%',
-        database = this.database
-    ) -%}
-
-    {% do log(session_events, info=True) %}
-
-    {% for events in session_events %}
-        
-        SELECT * FROM {{ events }}
-        {% if not loop.last %}
-            UNION ALL
-        {% endif %}
-    {% endfor %}
+    {{ union_legacy_sessions() }}
 )
 
 SELECT
     legacy_events.*
     , created_sessions.session_id
+	, {{ scrub_context_page_path('context_page_path') }}
+    , COALESCE(context_page_referrer, context_campaign_referrer) AS context_page_referrer
+    -- NET.REG_DOMAIN is a built-in BigQuery function to extract the domain from a URL
+    , NET.REG_DOMAIN(legacy_events.context_page_path) AS context_page_referring_domain
 FROM legacy_events
 LEFT JOIN created_sessions
     ON legacy_events.event_id = created_sessions.event_id

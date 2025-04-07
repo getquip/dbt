@@ -1,124 +1,208 @@
 {% macro scrub_context_page_path(context_page_path) %}
 	--this removes any unique identifiers from the page path
-	{% set query %}
 		REGEXP_REPLACE(
 			{{ context_page_path}}
 			, r'([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(sub_[a-z0-9]+)|([0-9]{6,})'
 				, "<< removed >>"
 		) AS context_page_path_scrubbed
-	{% endset %}
+{% endmacro %}
+----------------------------------------------------------------------------------------------------
+{% macro parse_server_side_event(context_library_name) %}
 
-	{% do return(query) %}
+  CASE
+    WHEN {{ context_library_name }} IN ('analytics-ruby', '@segment/analytics-node', 'RudderStack Shopify Cloud')
+      THEN 'server-side'
+    WHEN {{ context_library_name }} IN ('analytics-ios', 'analytics.js', 'analytics-android', 'analytics-kotlin', 'RudderLabs JavaScript SDK')
+      THEN 'client-side'
+    ELSE 'unknown'
+  END AS call_type
+	
 {% endmacro %}
 ----------------------------------------------------------------------------------------------------
 {% macro parse_device_info_from_user_agent(user_agent) %}
+/*
+  Sanitization explained:
+    Remove common browser identifiers to avoid false positives in parsing.
 
-  -- Parse Device Manufacturer (in lowercase)
-  {% set device_manufacturer %}
+    - mozilla/5.0 : is a legacy identifier included in modern user-agent strings in order to maintain backwards compatability.
+    - khtml, like gecko: Modern browsers use this retain this for backward compatibility
+    - version/xx.xx : refers to the WebView version or rendering engine rather than the browser itself
+    - wv: WebView events often mimic browser behaviors but do not represent standalone browsers
+    - applewebkit/xx.xx : many modern browsers are built on WebKit or Blink, this information does not distinguish different browser types.
+    - safari/xx.xx : Many non-Safari browsers (e.g., Chrome on iOS) include this string to maintain compatibility.
+*/
+  {% set sanitized_user_agent = "REGEXP_REPLACE(" ~ user_agent ~ ", 
+        r'(mozilla/5\.0|khtml, like gecko|version/\d+\.\d+|wv|applewebkit/\d+\.\d+|safari/\d+\.\d+|like mac os x)', 
+        ''
+    )" %}
+  -- Parse Device Manufacturer
     CASE
-      WHEN {{ user_agent }} LIKE '%sm-%' 
-        OR {{ user_agent }} LIKE '%samsung%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%sm-%' 
+        OR {{ sanitized_user_agent }} LIKE '%samsung%' 
         THEN 'samsung'
-      WHEN {{ user_agent }} LIKE '%iphone%' 
-        OR {{ user_agent }} LIKE '%ipad%' 
-        OR {{ user_agent }} LIKE '%ipod%' 
-        OR {{ user_agent }} LIKE '%mac%'
+      WHEN {{ sanitized_user_agent }} LIKE '%iphone%' 
+        OR {{ sanitized_user_agent }} LIKE '%ipad%' 
+        OR {{ sanitized_user_agent }} LIKE '%ipod%' 
+        OR {{ sanitized_user_agent }} LIKE '%mac%'
         THEN 'apple'
-      WHEN {{ user_agent }} LIKE '%pixel%' 
-        OR {{ user_agent }} LIKE '%nexus%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%pixel%' 
+        OR {{ sanitized_user_agent }} LIKE '%nexus%' 
         THEN 'google'
-      WHEN {{ user_agent }} LIKE '%huawei%' 
-        OR {{ user_agent }} LIKE '%honor%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%huawei%' 
+        OR {{ sanitized_user_agent }} LIKE '%honor%' 
         THEN 'huawei'
-      WHEN {{ user_agent }} LIKE '%lg-%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%lg-%' 
         THEN 'lg'
-      WHEN {{ user_agent }} LIKE '%xiaomi%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%xiaomi%' 
         THEN 'xiaomi'
-    END
-  {% endset %}
+      WHEN {{ sanitized_user_agent }} LIKE '%bingsapphire%' 
+        THEN 'microsoft'
+    END AS context_device_manufacturer
   
-  -- Parse Operating System (in lowercase)
-  {% set operating_system %}
-    CASE
-      WHEN {{ user_agent }} LIKE '%android%' 
+  -- Parse Operating System
+    , CASE
+      WHEN {{ sanitized_user_agent }} LIKE '%android%' 
         THEN 'android'
-      WHEN {{ user_agent }} LIKE '%ios%' 
-        OR {{ user_agent }} LIKE '%iphone%' 
-        OR {{ user_agent }} LIKE '%ipad%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%ios%' 
+        OR {{ sanitized_user_agent }} LIKE '%iphone%' 
+        OR {{ sanitized_user_agent }} LIKE '%ipad%' 
         THEN 'ios'
-      WHEN {{ user_agent }} LIKE '%windows%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%windows%' 
         THEN 'windows'
-      WHEN {{ user_agent }} LIKE '%mac%' 
-        OR {{ user_agent }} LIKE '%macintosh%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%mac%' 
+        OR {{ sanitized_user_agent }} LIKE '%macintosh%' 
         THEN 'macos'
-      WHEN {{ user_agent }} LIKE '%linux%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%linux%' 
         THEN 'linux'
-      WHEN {{ user_agent }} LIKE '%chrome%' 
-        AND {{ user_agent }} LIKE '%mobile%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%chrome%' 
+        AND {{ sanitized_user_agent }} LIKE '%mobile%' 
         THEN 'chrome os (mobile)'
-      WHEN {{ user_agent }} LIKE '%chrome%' 
+      WHEN {{ sanitized_user_agent }} LIKE '%chrome%' 
         THEN 'chrome os (desktop)'
-    END
-  {% endset %}
+    END AS context_os_name
 
-  {% set operating_system_version %}
-    CASE
-      WHEN {{ user_agent }} LIKE '%android%' 
-        THEN 'android ' || REGEXP_EXTRACT({{ user_agent }}, 'android ([^; ]+)')
-      WHEN {{ user_agent }} LIKE '%ios%' 
-        OR {{ user_agent }} LIKE '%iphone%' 
-        OR {{ user_agent }} LIKE '%ipad%' 
-        THEN 'ios ' || REGEXP_EXTRACT({{ user_agent }}, 'os ([^ ]+)')
-      WHEN {{ user_agent }} LIKE '%windows%' 
-        THEN 'windows ' || REGEXP_EXTRACT({{ user_agent }}, 'windows nt ([^; ]+)')
-      WHEN {{ user_agent }} LIKE '%mac%' 
-        OR {{ user_agent }} LIKE '%macintosh%' 
-        THEN 'macos ' || REGEXP_EXTRACT({{ user_agent }}, 'mac os x ([^ ;]+)')
-      WHEN {{ user_agent }} LIKE '%linux%' 
-        THEN 'linux ' || REGEXP_EXTRACT({{ user_agent }}, 'linux ([^; ]+)')
-      WHEN {{ user_agent }} LIKE '%chrome%' 
-        AND {{ user_agent }} LIKE '%mobile%' 
-        THEN 'chrome os (mobile)' || REGEXP_EXTRACT({{ user_agent }}, 'chrome/([0-9]+)')
-      WHEN {{ user_agent }} LIKE '%chrome%' 
-        THEN 'chrome os (desktop)' || REGEXP_EXTRACT({{ user_agent }}, 'chrome/([0-9]+)')
-    END
-  {% endset %}
-
-  {% set device_type %}
-    CASE
-      WHEN {{ user_agent }} LIKE '%android%'
-		    OR {{ user_agent }} LIKE '%iphone%' 
-		    OR {{ user_agent }} LIKE '%ios%' 
-		    OR {{ user_agent }} LIKE '%mobile%'
-        OR {{ user_agent }} LIKE '%sm-g%' -- samsung galaxy series
+  -- Parse Operating System Version
+    , CASE
+      WHEN {{ sanitized_user_agent }} LIKE '%android%' 
+        THEN 'android ' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'android ([^; ]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%ios%' 
+        OR {{ sanitized_user_agent }} LIKE '%iphone%' 
+        OR {{ sanitized_user_agent }} LIKE '%ipad%' 
+        THEN 'ios ' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'os ([^ ]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%windows%' 
+        THEN 'windows ' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'windows nt ([^; ]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%mac%' 
+        OR {{ sanitized_user_agent }} LIKE '%macintosh%' 
+        THEN 'macos ' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'mac os x ([^ ;]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%linux%' 
+        THEN 'linux ' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'linux ([^; ]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%chrome%' 
+        AND {{ sanitized_user_agent }} LIKE '%mobile%' 
+        THEN 'chrome os' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'chrome/([0-9]+)')
+      WHEN {{ sanitized_user_agent }} LIKE '%chrome%' 
+        THEN 'chrome os' || REGEXP_EXTRACT({{ sanitized_user_agent }}, 'chrome/([0-9]+)')
+    END AS context_os_version
+  
+  -- Parse Device Type
+    , CASE
+      WHEN {{ sanitized_user_agent }} LIKE '%iphone%' 
+		    OR {{ sanitized_user_agent }} LIKE '%ios%' 
+		    OR {{ sanitized_user_agent }} LIKE '%mobile%'
+		    OR {{ sanitized_user_agent }} LIKE '%bingsapphire%'
+        OR {{ sanitized_user_agent }} LIKE '%sm-g%' -- samsung galaxy series
 		    THEN 'mobile'
-      WHEN {{ user_agent }} LIKE '%windows%' 
-	  	  OR {{ user_agent }} LIKE '%macintosh%'
-		    OR {{ user_agent }} LIKE '%mac%'
-		    OR {{ user_agent }} LIKE '%desktop%'
-        OR {{ user_agent }} LIKE '%chrome%'
+      WHEN {{ sanitized_user_agent }} LIKE '%windows%' 
+	  	  OR {{ sanitized_user_agent }} LIKE '%macintosh%'
+		    OR {{ sanitized_user_agent }} LIKE '%mac%'
+		    OR {{ sanitized_user_agent }} LIKE '%desktop%'
+        OR {{ sanitized_user_agent }} LIKE '%chrome%'
 	  	  THEN 'computer/desktop'
-      WHEN {{ user_agent }} LIKE '%sm-t%' -- samsung tab series
-        OR {{ user_agent }} LIKE '%pixel c%'
-        OR {{ user_agent }} LIKE '%nexus 7%'
-        OR {{ user_agent }} LIKE '%tablet%'
-        OR {{ user_agent }} LIKE '%ipad%'
+      WHEN {{ sanitized_user_agent }} LIKE '%sm-t%' -- samsung tab series
+        OR {{ sanitized_user_agent }} LIKE '%pixel c%'
+        OR {{ sanitized_user_agent }} LIKE '%nexus 7%'
+        OR {{ sanitized_user_agent }} LIKE '%tablet%'
+        OR {{ sanitized_user_agent }} LIKE '%ipad%'
         THEN 'tablet'
-    END
-  {% endset %}
+    END AS context_device_type
 
- -- Return the parsed values
-    {{ device_manufacturer }} AS context_device_manufacturer
-    , {{ operating_system }} AS context_os_name
-	  , {{ operating_system_version }} AS context_os_version
-    , {{ device_type }} AS context_device_type
+    -- Browser Category
+    , CASE 
+        WHEN {{ sanitized_user_agent }} LIKE '%iphone%' 
+		      OR {{ sanitized_user_agent }} LIKE '%ios%' 
+		      OR {{ sanitized_user_agent }} LIKE '%mobile%'
+		      OR {{ sanitized_user_agent }} LIKE '%bingsapphire%'
+          OR {{ sanitized_user_agent }} LIKE '%sm-g%' -- samsung galaxy series
+          OR {{ sanitized_user_agent }} LIKE '%sm-t%' -- samsung tab series
+          OR {{ sanitized_user_agent }} LIKE '%pixel c%'
+          OR {{ sanitized_user_agent }} LIKE '%nexus 7%'
+          OR {{ sanitized_user_agent }} LIKE '%tablet%'
+          OR {{ sanitized_user_agent }} LIKE '%ipad%'
+          THEN 'mobile'
+        WHEN {{ sanitized_user_agent }} LIKE '%spider%' 
+          OR {{ sanitized_user_agent }} LIKE '%bot%' 
+          OR {{ sanitized_user_agent }} LIKE '%crawler%' 
+          OR {{ sanitized_user_agent }} LIKE '%google-read-aloud%' 
+          OR {{ sanitized_user_agent }} LIKE '%facebookexternalhit%' 
+          OR {{ sanitized_user_agent }} LIKE '%facebookcatalog%' 
+          THEN 'crawler'
+        WHEN {{ sanitized_user_agent }} LIKE '%tv%' 
+          OR {{ sanitized_user_agent }} LIKE '%appliance%'
+          OR {{ sanitized_user_agent }} LIKE '%playstation%'
+          OR {{ sanitized_user_agent }} LIKE '%xbox%'
+          OR {{ sanitized_user_agent }} LIKE '%nintendo%'
+          THEN 'appliance'
+        WHEN {{ sanitized_user_agent }} LIKE '%windows%' 
+          OR {{ sanitized_user_agent }} LIKE '%macintosh%'
+          OR {{ sanitized_user_agent }} LIKE '%mac%'
+          OR {{ sanitized_user_agent }} LIKE '%desktop%'
+          OR {{ sanitized_user_agent }} LIKE '%chrome%' 
+          THEN 'desktop'
+        ELSE 'unknown'
+    END AS browser_category    
+
+    -- Browser Name
+    , CASE
+        WHEN {{ sanitized_user_agent }} LIKE '%crios%'
+          OR {{ sanitized_user_agent }} LIKE '%chrome%' THEN 'chrome'
+        WHEN {{ sanitized_user_agent }} LIKE '%safari%' AND {{ sanitized_user_agent }} NOT LIKE '%chrome%' 
+          THEN 'safari'
+        WHEN {{ sanitized_user_agent }} LIKE '%firefox%' 
+          THEN 'firefox'
+        WHEN {{ sanitized_user_agent }} LIKE '%edge%' THEN 'edge'
+        WHEN {{ sanitized_user_agent }} LIKE '%msie%' 
+          OR {{ sanitized_user_agent }} LIKE '%trident%' 
+          THEN 'internet explorer'
+        WHEN {{ sanitized_user_agent }} LIKE '%opera%' 
+          OR {{ sanitized_user_agent }} LIKE '%opr%' 
+          THEN 'opera'
+        WHEN {{ sanitized_user_agent }} LIKE '%googlebot%' 
+          THEN 'googlebot'
+        ELSE 'unknown'
+    END AS browser_name
+
+    -- Browser Vendor
+    , CASE
+        WHEN {{ sanitized_user_agent }} LIKE '%applewebkit%' 
+          THEN 'apple'
+        WHEN {{ sanitized_user_agent }} LIKE '%googlebot%' 
+          OR {{ sanitized_user_agent }} LIKE '%chrome%' 
+          THEN 'google'
+        WHEN {{ sanitized_user_agent }} LIKE '%edge%' 
+          OR {{ sanitized_user_agent }} LIKE '%msie%' 
+          OR {{ sanitized_user_agent }} LIKE '%trident%' 
+          THEN 'microsoft'
+        WHEN {{ sanitized_user_agent }} LIKE '%opera%' 
+          OR {{ sanitized_user_agent }} LIKE '%opr%' 
+          THEN 'opera'
+        ELSE 'unknown'
+    END AS browser_vendor
 {% endmacro %}
 ----------------------------------------------------------------------------------------------------
 {% macro create_legacy_sessions() %}
   -- get time frames
   {% set time_query %}
     SELECT
-      CONCAT("BETWEEN '", date, "' AND '", DATE_ADD(date, INTERVAL 20 DAY), "'") AS frames
+      CONCAT('BETWEEN "', date, '" AND "', DATE_ADD(date, INTERVAL 20 DAY), '"') AS frames
     FROM UNNEST(GENERATE_DATE_ARRAY('2020-01-01', '2025-03-01', INTERVAL 3 WEEK)) AS date
     ORDER BY 1
   {% endset %}
@@ -139,7 +223,7 @@
 
       WITH RECURSIVE legacy_events AS (
           SELECT *
-          FROM {{ ref("base_customer_data_platform__legacy_events") }}
+          FROM {{ ref("base_customer_data_platform__legacy_event_context") }}
           WHERE event_at {{ frame }}
       )
       
@@ -213,8 +297,28 @@
     {% endset %}
 
     {% do run_query(query) %}
-    {% set relation_name = this.database ~ '.' ~ this.schema ~ '.base_customer_data_platform__legacy_sessions_' ~ loop.index %}
   {% endfor %}
   
   {% do log("Finished creating session relations", info=True) %}
+
+  {% do return("SELECT 'success'") %}
+{% endmacro %}
+
+
+----------------------------------------------------------------------------------------------------
+{% macro union_legacy_sessions() %}
+  -- get relations
+  {%- set session_events = dbt_utils.get_relations_by_pattern(
+      schema_pattern = this.schema,
+      table_pattern = 'base_customer_data_platform__legacy_sessions_%',
+      database = this.database
+  ) -%}
+
+    {% for events in session_events %}
+        
+        SELECT * FROM {{ events }}
+        {% if not loop.last %}
+            UNION ALL
+        {% endif %}
+    {% endfor %}
 {% endmacro %}

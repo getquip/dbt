@@ -47,6 +47,6 @@ source AS (
 
 SELECT 
 	* 
-	, context_library_name != 'analytics.js' AS is_server_side
+	, {{ parse_server_side_event('context_library_name') }}
 FROM cleaned
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC ) = 1

@@ -8,9 +8,9 @@
         "granularity": "day"
     },
     cluster_by=[
-        "source_name",
         "user_id", 
         "anonymous_id",
+		"event_id",
         "checkout_id"
     ]
 ) }}
@@ -30,7 +30,10 @@ source AS (
 , cleaned AS (
 	SELECT
 		"littledata" AS source_name
+		, id AS event_id
 		, checkout_id
+		, affiliation
+		, shopify_order_id
 		, context_google_analytics_client_id AS admin_graphql_api_id
 		, anonymous_id
 		, app_id
@@ -45,7 +48,7 @@ source AS (
 		, action_source AS context_topic
 		, sent_at AS created_at
 		, currency
-		, coupon AS discount_codes
+		, coupon AS discount_code
 		, email
 		, `event` AS event_name
 		, event_text
@@ -68,10 +71,6 @@ source AS (
 		, NULL AS total_outstanding
 		, NULL AS total_price_set_shop_money_amount
 		, CAST(shipping AS NUMERIC) AS total_shipping_price_set_presentment_money_amount
-		, NULL AS total_tax_set_presentment_money_amount
-		, NULL AS total_tax_set_shop_money_amount
-		, NULL AS total_tip_received
-		, NULL AS total_weight
 		, loaded_at AS updated_at
 		, user_id
 		, uuid_ts
@@ -82,7 +81,7 @@ source AS (
 
 SELECT 
 	* 
-	, context_library_name = '@segment/analytics-node' AS is_server_side
+	, {{ parse_server_side_event('context_library_name') }}
 FROM cleaned
 WHERE event_at >= '2024-06-25' -- filtering for events only after migration date to remove test noise
 QUALIFY ROW_NUMBER() OVER (PARTITION BY checkout_id ORDER BY received_at DESC ) = 1

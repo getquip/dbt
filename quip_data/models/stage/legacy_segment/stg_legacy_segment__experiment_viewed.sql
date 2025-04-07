@@ -60,7 +60,7 @@ quip_production AS (
 SELECT
 	*
 	, 'quip_production' AS source_name
-	, FALSE AS is_server_side
+	, {{ parse_server_side_event('context_library_name') }}
 	, {{ scrub_context_page_path('context_page_path') }} 
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned

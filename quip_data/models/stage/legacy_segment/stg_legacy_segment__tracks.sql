@@ -169,11 +169,12 @@ quip_production AS (
 
 , parsed AS (
 	SELECT
-		* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer)
+		* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer, context_campaign_medium)
 		, context_os_name AS context_os_name_v1
 		, context_os_version AS context_os_version_v1
 		, context_device_type AS context_device_type_v1
 		, context_device_manufacturer AS context_device_manufacturer_v1
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
@@ -184,10 +185,10 @@ SELECT
 	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
 		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
 	, 'track' AS event_type
-	, context_library_name != 'analytics.js' AS is_server_side
+	, {{ parse_server_side_event('context_library_name') }}
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
-	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
-	, COALESCE(context_device_type, context_device_type_v1) AS context_device_type
-	, COALESCE(context_device_manufacturer, context_device_manufacturer_v1) AS context_device_manufacturer
+	, LOWER(COALESCE(context_os_version, context_os_version_v1)) AS context_os_version
+	, LOWER(COALESCE(context_device_type, context_device_type_v1)) AS context_device_type
+	, LOWER(COALESCE(context_device_manufacturer, context_device_manufacturer_v1)) AS context_device_manufacturer
 FROM parsed
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

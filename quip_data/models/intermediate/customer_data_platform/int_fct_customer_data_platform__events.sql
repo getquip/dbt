@@ -7,11 +7,50 @@
     },
     cluster_by=[
         "source_name",
-        "user_id", 
+        "session_id", 
         "anonymous_id",
         "event_id"
     ]
 ) }}
+
+{% set model_columns = [
+		'event_id'
+		, 'user_id'
+		, 'anonymous_id'
+		, 'event_at'
+		, 'event_type'
+		, 'event_name'
+		, 'context_page_path'
+		, 'context_page_path_scrubbed'
+		, 'context_page_search'
+		, 'context_page_title'
+		, 'context_page_url'
+		, 'context_user_agent'
+		, 'context_campaign_content'
+		, 'context_campaign_medium'
+		, 'context_campaign_name'
+		, 'context_campaign_source'
+		, 'context_campaign_term'
+		, 'context_ip'
+		, 'context_locale'
+		, 'context_page_referrer'
+		, 'context_campaign_id'
+		, 'context_library_name'
+		, 'context_library_version'
+		, 'context_app_version'
+		, 'context_device_manufacturer'
+		, 'context_device_type'
+		, 'context_os_name'
+		, 'context_os_version'
+		, 'context_screen_height'
+		, 'context_screen_width'
+		, 'source_name'
+		, 'session_id'
+		, 'context_page_referring_domain'	
+		, 'browser_category'
+		, 'browser_name'
+		, 'browser_vendor'
+] %}
 
 WITH
 
@@ -27,123 +66,32 @@ tracks AS (
 	SELECT * FROM {{ ref('base_customer_data_platform__legacy_sessions') }}
 )
 
+, legacy_events AS (
+	SELECT *  FROM {{ ref('base_customer_data_platform__legacy_events') }}
+)
+
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------
 
 , events AS (
 	SELECT
-		track_event_id AS event_id
-		, user_id
-		, anonymous_id
-		, event_at
-		, is_server_side
-		, event_type
-		, event_name
-		, context_page_path
-		, context_page_search
-		, context_page_title
-		, context_page_url
-		, context_user_agent
-		, context_campaign_content
-		, context_campaign_medium
-		, context_campaign_name
-		, context_campaign_source
-		, context_campaign_term
-		, context_ip
-		, context_locale
-		, NULL AS context_campaign_type
-		, NULL AS context_campaign_expid
-		, context_page_referrer
-		, context_campaign_id
-		, context_library_name
-		, context_library_version
-		, context_app_version
-		, context_device_manufacturer
-		, context_device_type
-		, NULL AS context_os_name
-		, NULL AS context_os_version
-		, context_screen_height
-		, context_screen_width
-		, source_name
+		{{ model_columns | join(',\n\t') }} 
 	FROM tracks
 
 	UNION ALL
 
 	SELECT
-		page_event_id AS event_id
-		, user_id
-		, anonymous_id
-		, event_at
-		, is_server_side
-		, event_type
-		, event_name
-		, context_page_path
-		, context_page_search
-		, context_page_title
-		, context_page_url
-		, context_user_agent
-		, context_campaign_content
-		, context_campaign_medium
-		, context_campaign_name
-		, context_campaign_source
-		, context_campaign_term
-		, context_ip
-		, context_locale
-		, NULL AS context_campaign_type
-		, NULL AS context_campaign_expid
-		, context_page_referrer
-		, context_campaign_id
-		, context_library_name
-		, context_library_version
-		, context_app_version
-		, context_device_manufacturer
-		, context_device_type
-		, NULL AS context_os_name
-		, NULL AS context_os_version
-		, context_screen_height
-		, context_screen_width
-		, source_name
+		{{ model_columns | join(',\n\t') }} 
 	FROM pages
 
-	UNION ALL
+	{% if not is_incremental() %}
+		UNION ALL
 
-	SELECT
-		event_id
-		, user_id
-		, anonymous_id
-		, event_at
-		, is_server_side
-		, event_type
-		, event_name
-		, context_page_path
-		, context_page_search
-		, context_page_title
-		, context_page_url
-		, context_user_agent
-		, context_campaign_content
-		, context_campaign_medium
-		, context_campaign_name
-		, context_campaign_source
-		, context_campaign_term
-		, context_ip
-		, context_locale
-		, context_campaign_type
-		, context_campaign_expid
-		, context_campaign_referrer AS context_page_referrer
-		, context_campaign_id
-		, context_library_name
-		, context_library_version
-		, context_app_version
-		, context_device_manufacturer
-		, context_device_type
-		, context_os_name
-		, context_os_version
-		, context_screen_height
-		, context_screen_width
-		, source_name
-	FROM legacy
-	WHERE event_type IN ('track', 'page', 'screen')
+		SELECT
+			{{ model_columns | join(',\n\t') }} 
+		FROM legacy	
+	{% endif %}
 )
 
 
@@ -178,4 +126,3 @@ LEFT JOIN page_event_sequence AS pages
 	ON events.event_id = pages.event_id
 LEFT JOIN track_event_sequence AS tracks
 	ON events.event_id = tracks.event_id
-WHERE event_type IN ('page', 'screen', 'track')

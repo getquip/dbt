@@ -18,6 +18,7 @@
 	, 'user_id'
 	, 'anonymous_id'
 	, 'event_at'
+	, 'event_name'
 	, 'context_campaign_content'
 	, 'context_campaign_medium'
 	, 'context_campaign_name'
@@ -32,7 +33,6 @@
 	, 'context_page_url'
 	, 'context_user_agent'
 	, 'context_campaign_type'
-	, 'context_campaign_expid'
 	, 'context_campaign_referrer'
 	, 'context_campaign_id'
 	, 'context_library_name'
@@ -44,11 +44,12 @@
 	, 'context_os_version'
 	, 'context_screen_height'
 	, 'context_screen_width'
-	, 'event_name'
 	, 'received_at'
 	, 'source_name'
-	, 'is_server_side'
 	, 'event_type'
+	, 'browser_category'
+	, 'browser_name'
+	, 'browser_vendor'
 ] %}
 
 

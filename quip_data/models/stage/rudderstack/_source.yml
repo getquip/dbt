@@ -31,8 +31,3 @@ sources:
       - name: login_viewed
       - name: product_added
       - name: order_fulfilled
-  
-  - name: rudderstack_staging
-    database: quip-dw-raw
-    loader: rudderstack
-    description: https://app.rudderstack.com/destinations/2srOhlb9dFhhSPo6xW4RbsMaXPL
