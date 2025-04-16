@@ -71,3 +71,12 @@
         {% endfor %}
     {% endfor %}
 {% endmacro %}
+
+----------------------------------------------------------------------------------------------------
+
+{% macro drop_relations(relations) %}
+    {% set drop_statements = [] %}
+    {% for relation in relations %}
+        {% do drop_statements.append("DROP TABLE IF EXISTS `" ~ relation.database ~ "." ~ relation.schema ~ "." ~ relation.identifier ~ "`") %}
+    {% endfor %}
+{% endmacro %}

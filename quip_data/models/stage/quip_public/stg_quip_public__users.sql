@@ -22,7 +22,7 @@ WITH source AS (
         id AS legacy_customer_id
         , cart_id
         , invited_by_id AS invited_by_quip_user_id
-        , external_id
+        , external_id AS legacy_segment_user_id
 
         -- timestamps
         , COALESCE(_fivetran_deleted , FALSE) AS is_source_deleted

@@ -19,8 +19,9 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'tracks') }}
+	WHERE received_at >= '2025-04-01'
 	{% if is_incremental() %}
-		WHERE received_at >= "{{ get_max_partition('received_at') }}"
+		AND received_at >= "{{ get_max_partition('received_at') }}"
 	{% endif %}
 )
 -------------------------------------------------------
@@ -39,7 +40,7 @@ source AS (
 		, context_campaign_creative
 		, context_campaign_device
 		, context_campaign_id
-		, LOWER(context_campaign_medium) AS context_campaign_medium
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, context_campaign_name
 		, LOWER(context_campaign_source) AS context_campaign_source
 		, context_campaign_term
@@ -87,7 +88,7 @@ source AS (
 , parsed AS (
 	SELECT 
 		* 
-		, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
+		, {{ parse_server_side_event('context_library_name') }}
 		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 	FROM cleaned
