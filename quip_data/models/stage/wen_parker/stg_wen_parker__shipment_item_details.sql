@@ -40,6 +40,7 @@ WITH source AS (
         , house_bill_number
         , po_number
         , REGEXP_REPLACE(sku_number, r'\D', '') AS sku -- remove non-numeric characters
+	    , REPLACE(REPLACE(sku_number, '-R', ''), '-Dental', '') AS sku_presentment
         , CAST(REPLACE(cartons , ',' , '') AS INTEGER) AS cartons
         , CAST(REPLACE(quantity , ',' , '') AS INTEGER) AS quantity
         , source_synced_at
@@ -53,12 +54,13 @@ WITH source AS (
         , house_bill_number
         , po_number
         , sku
+        , sku_presentment
         , source_file_name
         , SUM(cartons) AS cartons
         , SUM(quantity) AS quantity
         , MAX(source_synced_at) AS source_synced_at
     FROM renamed
-    GROUP BY 1 , 2 , 3 , 4 , 5
+    GROUP BY 1 , 2 , 3 , 4 , 5, 6
     QUALIFY ROW_NUMBER() OVER (
             PARTITION BY
                 shipment_item_id
@@ -76,6 +78,7 @@ SELECT
     , house_bill_number
     , po_number
     , sku
+    , sku_presentment
     , cartons
     , quantity
 FROM dedupe_by_file
