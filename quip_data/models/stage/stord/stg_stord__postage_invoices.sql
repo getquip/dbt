@@ -60,7 +60,7 @@ SELECT
     , source_synced_at
     , source_file_name
     , SAFE_CAST(COALESCE(no_of_pkgs, no__of_pkgs) AS INTEGER) AS num_packages
-    , SAFE_CAST(shipment_id AS INTEGER) AS shipment_id
+    , shipment_id
     , SAFE_CAST(total_amt AS FLOAT64) AS total_amount
     , SAFE_CAST(weight AS NUMERIC) AS weight
     , SAFE_CAST(height AS NUMERIC) AS height

@@ -32,7 +32,7 @@ source AS (
         , source_file_name
         , SAFE_CAST(package_count AS INTEGER) AS package_count
         , LOWER(fulfillment_mode) AS fulfillment_mode
-        , SAFE_CAST(shipment_id AS INTEGER) AS shipment_id
+        , shipment_id
         , LOWER(COALESCE(merchant_name , client_name , brand_name)) AS merchant_name
         , LOWER(fee_surcharge_category) AS fee_surcharge_category
         , SAFE_CAST(total_amt AS NUMERIC) AS total_amount
