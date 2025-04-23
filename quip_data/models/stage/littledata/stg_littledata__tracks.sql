@@ -56,6 +56,7 @@ source AS (
     	, context_os_version AS context_os_version_v1
     	, SAFE_CAST(context_screen_height AS INTEGER) AS context_screen_height
     	, SAFE_CAST(context_screen_width AS INTEGER) AS context_screen_width
+		, `event` AS event_name
 	FROM source
     
 )

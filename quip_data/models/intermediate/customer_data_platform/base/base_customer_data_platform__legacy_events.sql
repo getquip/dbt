@@ -14,42 +14,42 @@
 ) }}
 
 {% set model_columns = [
-	'event_id'
-	, 'user_id'
-	, 'anonymous_id'
-	, 'event_at'
-	, 'event_name'
-	, 'context_campaign_content'
-	, 'context_campaign_medium'
-	, 'context_campaign_name'
-	, 'context_campaign_source'
-	, 'context_campaign_term'
-	, 'context_ip'
-	, 'context_locale'
-	, 'context_page_path'
-	, 'context_page_referrer'
-	, 'context_page_search'
-	, 'context_page_title'
-	, 'context_page_url'
-	, 'context_user_agent'
-	, 'context_campaign_type'
-	, 'context_campaign_referrer'
-	, 'context_campaign_id'
-	, 'context_library_name'
-	, 'context_library_version'
-	, 'context_app_version'
-	, 'context_device_manufacturer'
-	, 'context_device_type'
-	, 'context_os_name'
-	, 'context_os_version'
-	, 'context_screen_height'
-	, 'context_screen_width'
-	, 'received_at'
-	, 'source_name'
-	, 'event_type'
-	, 'browser_category'
-	, 'browser_name'
-	, 'browser_vendor'
+	('event_id', 'STRING')
+	, ('user_id', 'STRING')
+	, ('anonymous_id', 'STRING')
+	, ('event_at', 'TIMESTAMP')
+	, ('event_name', 'STRING')
+	, ('context_campaign_content', 'STRING')
+	, ('context_campaign_medium', 'STRING')
+	, ('context_campaign_name', 'STRING')
+	, ('context_campaign_source', 'STRING')
+	, ('context_campaign_term', 'STRING')
+	, ('context_ip', 'STRING')
+	, ('context_locale', 'STRING')
+	, ('context_page_path', 'STRING')
+	, ('context_page_referrer', 'STRING')
+	, ('context_page_search', 'STRING')
+	, ('context_page_title', 'STRING')
+	, ('context_page_url', 'STRING')
+	, ('context_user_agent', 'STRING')
+	, ('context_campaign_type', 'STRING')
+	, ('context_campaign_referrer', 'STRING')
+	, ('context_campaign_id', 'STRING')
+	, ('context_library_name', 'STRING')
+	, ('context_library_version', 'STRING')
+	, ('context_app_version', 'STRING')
+	, ('context_device_manufacturer', 'STRING')
+	, ('context_device_type', 'STRING')
+	, ('context_os_name', 'STRING')
+	, ('context_os_version', 'STRING')
+	, ('context_screen_height', 'NUMERIC')
+	, ('context_screen_width', 'NUMERIC')
+	, ('received_at', 'TIMESTAMP')
+	, ('source_name', 'STRING')
+	, ('event_type', 'STRING')
+	, ('browser_category', 'STRING')
+	, ('browser_name', 'STRING')
+	, ('browser_vendor', 'STRING')
 ] %}
 
 
@@ -67,44 +67,19 @@
 WITH 
 
 events AS (
-	{% set queries = [] %}
-	{% for relation in relations %}
-		-- get columns from each relation
-		{%- set relation_columns = adapter.get_columns_in_relation(relation) | map(attribute='name') | list | sort -%}
+	{{ union_different_relations(relations, model_columns) }}
+)
 
-		-- fill in nulls
-		{% set select_columns = [] %}
-		{% for column in model_columns %}
-			{%- if column not in relation_columns -%}
-				{% do select_columns.append("CAST(NULL AS STRING) AS " ~ column) %}
-			{% else %}
-				{% do select_columns.append(column) %}
-			{% endif %}
-		{% endfor %}
-
-		-- create select statement
-		{% set query %}
-		SELECT 
-			{{ select_columns | join(',\n\t') }} 
-			, CONCAT(
+, event_base AS (
+	SELECT
+		*
+		, CONCAT(
 				context_campaign_source
 				, context_campaign_medium
 				, context_campaign_name
 				, context_campaign_content
 				, context_campaign_term
 			) AS campaign
-		FROM {{ relation }}
-		{% endset %}
-
-		{% do queries.append(query) %}
-	{% endfor %}
-
-	{{ queries | join('\nUNION ALL\n') }}
-)
-
-, event_base AS (
-	SELECT
-		*
 		, ROW_NUMBER() OVER (PARTITION BY anonymous_id, source_name ORDER BY event_at, event_id) AS event_sequence
 	FROM events
 )

@@ -55,7 +55,7 @@ source AS (
 		, context_timezone
 		, context_user_agent
 		, LOWER(context_user_agent) AS device_info
-		, `name` AS event_name
+		, `name` AS page_name
 		, original_timestamp
 		, loaded_at
 		, received_at

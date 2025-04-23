@@ -21,7 +21,7 @@ source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'identifies') }}
 	WHERE received_at >= '2025-04-01'
 	{% if is_incremental() %}
-		AND received_at >= "{{ get_max_partition('first_identified_at') }}"
+		AND received_at >= "{{ get_max_partition('first_identified_at', lookback_window = 10) }}"
 	{% endif %}
 )
 
@@ -29,7 +29,7 @@ source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'tracks') }}
 	WHERE received_at >= '2025-04-01'
 	{% if is_incremental() %}
-		AND received_at >= "{{ get_max_partition('first_identified_at') }}"
+		AND received_at >= "{{ get_max_partition('first_identified_at', lookback_window = 10) }}"
 	{% endif %}
 )
 
@@ -37,7 +37,7 @@ source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'pages') }}
 	WHERE received_at >= '2025-04-01'
 	{% if is_incremental() %}
-		AND received_at >= "{{ get_max_partition('first_identified_at') }}"
+		AND received_at >= "{{ get_max_partition('first_identified_at', lookback_window = 10) }}"
 	{% endif %}
 )
 

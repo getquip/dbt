@@ -1,7 +1,7 @@
 {{ config(
     materialized='incremental',
 	incremental_strategy='merge',
-	unique_key='track_event_id',
+	unique_key='event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "track_event_id"
+        "event_id"
     ]
 ) }}
 
@@ -19,10 +19,6 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'tracks') }}
-	WHERE received_at >= '2025-04-01'
-	{% if is_incremental() %}
-		AND received_at >= "{{ get_max_partition('received_at') }}"
-	{% endif %}
 )
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
@@ -74,7 +70,7 @@ source AS (
 		, LOWER(context_user_agent) AS device_info
 		, `event` AS event_name
 		, event_text
-		, id AS track_event_id
+		, id AS event_id
 		, loaded_at
 		, original_timestamp
 		, received_at
@@ -107,4 +103,8 @@ SELECT
 		, context_device_type
 	) AS context_device_type
 FROM parsed
-QUALIFY ROW_NUMBER() OVER (PARTITION BY track_event_id ORDER BY received_at DESC ) = 1
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC ) = 1

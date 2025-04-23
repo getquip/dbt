@@ -37,4 +37,8 @@ source AS (
 )
 
 SELECT * FROM cleaned
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

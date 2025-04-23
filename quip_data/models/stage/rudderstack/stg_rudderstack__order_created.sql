@@ -17,10 +17,6 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'order_created') }}
-	WHERE received_at >= '2025-04-01'
-	{% if is_incremental() %}
-		AND received_at >= "{{ get_max_partition('received_at') }}"
-	{% endif %}
 )
 
 -------------------------------------------------------
@@ -123,5 +119,9 @@ SELECT
 	, {{ parse_server_side_event('context_library_name') }}
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1
 

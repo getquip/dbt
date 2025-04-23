@@ -34,14 +34,14 @@ events AS (
 		, events.event_at
 		, experiments.experiment_id
 		, experiments.experiment_variant_id
-		, COUNT(DISTINCT experiment_variant_id) OVER
+		, COUNT(DISTINCT experiments.experiment_variant_id) OVER
 			(PARTITION BY events.session_id, experiments.experiment_id) AS experiment_variant_count
-		, COUNT(DISTINCT experiment_id) OVER
+		, COUNT(DISTINCT experiments.experiment_id) OVER
 			(PARTITION BY events.session_id)  AS experiment_count
 	FROM events
-	LEFT JOIN experiments
+	INNER JOIN experiments
 		ON events.event_id = experiments.event_id
-	WHERE context_page_scrubbed = 'experiment_viewed'
+		AND events.context_page_scrubbed = 'experiment_viewed'
 		AND experiments.experiment_variant_id IS NOT NULL
 )
 

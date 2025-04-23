@@ -1,5 +1,9 @@
+-- depends_on: {{ ref('base_customer_data_platform__legacy_sessions') }}
+
 {{ config(
-    materialized='table',
+    materialized='incremental',
+	incremental_strategy='merge',
+	unique_key='event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
@@ -14,84 +18,67 @@
 ) }}
 
 {% set model_columns = [
-		'event_id'
-		, 'user_id'
-		, 'anonymous_id'
-		, 'event_at'
-		, 'event_type'
-		, 'event_name'
-		, 'context_page_path'
-		, 'context_page_path_scrubbed'
-		, 'context_page_search'
-		, 'context_page_title'
-		, 'context_page_url'
-		, 'context_user_agent'
-		, 'context_campaign_content'
-		, 'context_campaign_medium'
-		, 'context_campaign_name'
-		, 'context_campaign_source'
-		, 'context_campaign_term'
-		, 'context_ip'
-		, 'context_locale'
-		, 'context_page_referrer'
-		, 'context_campaign_id'
-		, 'context_library_name'
-		, 'context_library_version'
-		, 'context_app_version'
-		, 'context_device_manufacturer'
-		, 'context_device_type'
-		, 'context_os_name'
-		, 'context_os_version'
-		, 'context_screen_height'
-		, 'context_screen_width'
-		, 'source_name'
-		, 'session_id'
-		, 'context_page_referring_domain'	
-		, 'browser_category'
-		, 'browser_name'
-		, 'browser_vendor'
+	('event_id', 'STRING')
+	, ('user_id', 'STRING')
+	, ('session_id', 'STRING')
+	, ('anonymous_id', 'STRING')
+	, ('event_at', 'TIMESTAMP')
+	, ('event_name', 'STRING')
+	, ('context_campaign_content', 'STRING')
+	, ('context_campaign_medium', 'STRING')
+	, ('context_campaign_name', 'STRING')
+	, ('context_campaign_source', 'STRING')
+	, ('context_campaign_term', 'STRING')
+	, ('context_ip', 'STRING')
+	, ('context_locale', 'STRING')
+	, ('context_page_path', 'STRING')
+	, ('context_page_path_scrubbed', 'STRING')
+	, ('context_page_referrer', 'STRING')
+	, ('context_page_referring_domain', 'STRING')
+	, ('context_page_search', 'STRING')
+	, ('context_page_title', 'STRING')
+	, ('context_page_url', 'STRING')
+	, ('context_user_agent', 'STRING')
+	, ('context_campaign_type', 'STRING')
+	, ('context_campaign_referrer', 'STRING')
+	, ('context_campaign_id', 'STRING')
+	, ('context_library_name', 'STRING')
+	, ('context_library_version', 'STRING')
+	, ('context_app_version', 'STRING')
+	, ('context_device_manufacturer', 'STRING')
+	, ('context_device_type', 'STRING')
+	, ('context_os_name', 'STRING')
+	, ('context_os_version', 'STRING')
+	, ('context_screen_height', 'NUMERIC')
+	, ('context_screen_width', 'NUMERIC')
+	, ('received_at', 'TIMESTAMP')
+	, ('source_name', 'STRING')
+	, ('event_type', 'STRING')
+	, ('browser_category', 'STRING')
+	, ('browser_name', 'STRING')
+	, ('browser_vendor', 'STRING')
 ] %}
 
-WITH
+{% set relations = [
+    ref('stg_rudderstack__tracks') 
+    , ref('stg_rudderstack__pages') 
+] %}
 
-tracks AS (
-	SELECT * FROM {{ ref('stg_rudderstack__tracks') }}
-)
+{% if not is_incremental() %}
+    {% do relations.append(ref('base_customer_data_platform__legacy_sessions')) %}
+	{% set incremental_clause = None %}
+{% else %}
+	{% set incremental_clause = "event_at >= '" ~ get_max_partition('event_at', lookback_window=30) ~ "'" %}
+{% endif %}
 
-, pages AS (
-	SELECT * FROM {{ ref('stg_rudderstack__pages') }}
-)
-
-, legacy AS (
-	SELECT * FROM {{ ref('base_customer_data_platform__legacy_sessions') }}
-)
-
-, legacy_events AS (
-	SELECT *  FROM {{ ref('base_customer_data_platform__legacy_events') }}
-)
 
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------
+WITH
 
-, events AS (
-	SELECT
-		{{ model_columns | join(',\n\t') }} 
-	FROM tracks
-
-	UNION ALL
-
-	SELECT
-		{{ model_columns | join(',\n\t') }} 
-	FROM pages
-
-	{% if not is_incremental() %}
-		UNION ALL
-
-		SELECT
-			{{ model_columns | join(',\n\t') }} 
-		FROM legacy	
-	{% endif %}
+events AS (
+	{{ union_different_relations(relations, model_columns, incremental_clause) }}
 )
 
 

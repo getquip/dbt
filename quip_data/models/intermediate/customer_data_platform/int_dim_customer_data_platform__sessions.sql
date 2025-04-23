@@ -1,7 +1,26 @@
+{{ config(
+    materialized='incremental',
+    incremental_strategy='merge',
+    partition_by={
+        "field": "session_start_at",
+        "data_type": "timestamp",
+        "granularity": "day"
+    },
+    cluster_by=[
+        "source_name",
+        "context_device_type", 
+        "anonymous_id",
+        "session_id"
+    ]
+) }}
+
 WITH
 
 events AS (
-	SELECT * FROM {{ ref('int_fct_customer_data_platform__event_context') }}
+	SELECT * FROM {{ ref('int_fct_customer_data_platform__events') }}
+	{% if is_incremental() %}
+		WHERE event_at >= "{{ get_max_partition('session_start_at', lookback_window=30) }}"
+	{% endif %}
 )
 
 -------------------------------------------------------
