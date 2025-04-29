@@ -32,7 +32,7 @@ source AS (
         , source_file_name
         , SAFE_CAST(package_count AS INTEGER) AS package_count
         , LOWER(fulfillment_mode) AS fulfillment_mode
-        , SAFE_CAST(shipment_id AS INTEGER) AS shipment_id
+        , shipment_id
         , LOWER(COALESCE(merchant_name , client_name , brand_name)) AS merchant_name
         , LOWER(fee_surcharge_category) AS fee_surcharge_category
         , SAFE_CAST(total_amt AS NUMERIC) AS total_amount
@@ -92,27 +92,26 @@ source AS (
     FROM source
 )
 
+, latest_file AS (
+    SELECT
+        invoice_number,
+        source_file_name
+    FROM cleaned
+    QUALIFY ROW_NUMBER() OVER (
+        PARTITION BY invoice_number
+        ORDER BY source_synced_at DESC
+    ) = 1
+)
 
 SELECT
-    {{
-        dbt_utils.generate_surrogate_key([
-            "invoice_number",
-            "order_number",
-            "transaction_date",
-            "fee_surcharge_category",
-            "fee_surcharge_type_1",
-            "fee_surcharge_type_2",
-            "fee_surcharge_type_3",
-            "fee_surcharge_type_4",
-            "fee_surcharge_type_5",
-            "fee_surcharge_type_6",
-            "fee_surcharge_type_7",
-            "fee_surcharge_type_8",
-        ])
-    }} AS fulfillment_invoice_id
-    , *
+    GENERATE_UUID() AS fulfillment_invoice_id
+    , cleaned.*
 FROM cleaned
-WHERE invoice_number IS NOT NULL
-     AND transaction_date IS NOT NULL
 -- dedupe
-QUALIFY ROW_NUMBER() OVER (PARTITION BY fulfillment_invoice_id ORDER BY source_file_name DESC) = 1
+INNER JOIN latest_file
+    ON cleaned.invoice_number = latest_file.invoice_number
+    AND cleaned.source_file_name = latest_file.source_file_name
+-- filter out nulls
+WHERE cleaned.invoice_number IS NOT NULL
+     AND cleaned.transaction_date IS NOT NULL
+

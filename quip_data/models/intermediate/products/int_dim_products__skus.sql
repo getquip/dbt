@@ -14,7 +14,7 @@ skus AS (
 
 , cleaned AS(
     SELECT
-        skus.sku AS sku_presentment
+    	REPLACE(REPLACE(skus.sku, '-R', ''), '-Dental', '') AS sku_presentment
         , REGEXP_REPLACE(skus.sku, r'\D', '') AS sku -- remove non-numeric characters
         , COALESCE(SAFE_CAST(skus.weight AS NUMERIC), 0) AS weight_lb
         , hts.tariff_number
