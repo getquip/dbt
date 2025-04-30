@@ -30,14 +30,20 @@ shipment_items AS (
 		-- tariffs
 		, skus.unit_cost -- need to coalesce with cogs with this as secondary
 		, skus.unit_cost * items.quantity AS total_sku_cost
-		, SUM(skus.unit_cost * items.quantity) 
-			OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_cost_basis
-		, SUM(skus.unit_cost * items.quantity) 
-			OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_cost_basis
 	FROM shipment_items AS items
 	-- this join filters out any skus from shipment_items that are not in the skus table
 	INNER JOIN skus
 		ON items.sku = skus.sku
+)
+
+, cost_basis AS (
+	SELECT
+		house_bill_number
+		, SUM(skus.unit_cost * items.quantity) 
+			OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_cost_basis
+		, SUM(skus.unit_cost * items.quantity) 
+			OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_cost_basis
+	FROM house_bill_item_summary
 )
 
 SELECT
