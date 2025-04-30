@@ -78,6 +78,7 @@ SELECT
     , sku
     , cartons
     , quantity
+    , source_synced_at
 FROM dedupe_by_file
 WHERE sku IS NOT NULL
     AND sku != ''

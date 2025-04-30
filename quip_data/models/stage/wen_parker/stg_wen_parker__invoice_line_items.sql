@@ -1,7 +1,7 @@
 {{ config(
     partition_by={
       "field": "invoice_date",
-      "data_type": "timestamp",
+      "data_type": "date",
       "granularity": "day"
     },
 	cluster_by=[

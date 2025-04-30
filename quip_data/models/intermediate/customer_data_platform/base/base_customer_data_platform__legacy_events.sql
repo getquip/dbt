@@ -28,6 +28,7 @@
 	, ('context_locale', 'STRING')
 	, ('context_page_path', 'STRING')
 	, ('context_page_referrer', 'STRING')
+	, ('context_page_scrubbed', 'STRING')
 	, ('context_page_search', 'STRING')
 	, ('context_page_title', 'STRING')
 	, ('context_page_url', 'STRING')

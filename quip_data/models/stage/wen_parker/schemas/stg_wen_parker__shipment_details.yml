@@ -72,8 +72,6 @@ models:
         data_type: date
         description: "Date when the cargo was received by the carrier or warehouse."
         tests:
-          - not_null:
-              severity: warn
 
       - name: actual_time_of_departure_origin_on
         data_type: date

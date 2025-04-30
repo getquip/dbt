@@ -63,6 +63,7 @@ SELECT
     , total_tariff_duty
     , total_tariff_fees
     , total_tariff_cost
+    , source_synced_at
 FROM dedupe_by_file
 QUALIFY
     ROW_NUMBER() OVER (
