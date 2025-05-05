@@ -28,23 +28,29 @@ WITH source AS (
     - sku_number = 900-00110
 */
 
-, renamed AS (
+, cleaned AS (
     SELECT
-    {{
-      dbt_utils.generate_surrogate_key([
-        'house_bill_number'
-        , 'po_number'
-        , 'sku_number'
-      ])
-    }} AS shipment_item_id
-        , house_bill_number
-        , po_number
+        TRIM(house_bill_number) AS house_bill_number
+        , TRIM(po_number) AS po_number
         , REGEXP_REPLACE(sku_number, r'\D', '') AS sku -- remove non-numeric characters
         , CAST(REPLACE(cartons , ',' , '') AS INTEGER) AS cartons
         , CAST(REPLACE(quantity , ',' , '') AS INTEGER) AS quantity
         , source_synced_at
         , source_file_name
     FROM source
+)
+
+, base AS (
+    SELECT
+        {{
+        dbt_utils.generate_surrogate_key([
+            'house_bill_number'
+            , 'po_number'
+            , 'sku'
+        ])
+        }} AS shipment_item_id
+        , *
+    FROM cleaned
 )
 
 , dedupe_by_file AS (
@@ -57,7 +63,7 @@ WITH source AS (
         , SUM(cartons) AS cartons
         , SUM(quantity) AS quantity
         , MAX(source_synced_at) AS source_synced_at
-    FROM renamed
+    FROM base
     GROUP BY 1 , 2 , 3 , 4 , 5
     QUALIFY ROW_NUMBER() OVER (
             PARTITION BY

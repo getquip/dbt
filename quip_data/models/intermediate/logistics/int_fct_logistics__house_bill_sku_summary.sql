@@ -39,17 +39,22 @@ shipment_items AS (
 , cost_basis AS (
 	SELECT
 		house_bill_number
-		, SUM(skus.unit_cost * items.quantity) 
-			OVER (PARTITION BY items.house_bill_number, skus.tariff_number) AS total_tariff_cost_basis
-		, SUM(skus.unit_cost * items.quantity) 
-			OVER (PARTITION BY items.house_bill_number, skus.china_tariff_number) AS total_china_tariff_cost_basis
+		, sku
+		, SUM(unit_cost * total_sku_quantity) 
+			OVER (PARTITION BY house_bill_number, tariff_number) AS total_tariff_cost_basis
+		, SUM(unit_cost * total_sku_quantity) 
+			OVER (PARTITION BY house_bill_number, china_tariff_number) AS total_china_tariff_cost_basis
 	FROM house_bill_item_summary
 )
 
 SELECT
-	*
-	, SAFE_DIVIDE(total_sku_quantity, total_hbl_item_quantity) AS allocation_percentage_by_quantity
-	, SAFE_DIVIDE(total_sku_weight_lb, total_hbl_weight_lb) AS allocation_percentage_by_weight
-	, SAFE_DIVIDE(total_sku_cost, total_tariff_cost_basis) AS allocation_percentage_for_tariffs
-	, SAFE_DIVIDE(total_sku_cost, total_china_tariff_cost_basis) AS allocation_percentage_for_china_tariffs
-FROM house_bill_item_summary
+	summary.*
+	, cost_basis.* EXCEPT (house_bill_number, sku)
+	, SAFE_DIVIDE(summary.total_sku_quantity, summary.total_hbl_item_quantity) AS allocation_percentage_by_quantity
+	, SAFE_DIVIDE(summary.total_sku_weight_lb, summary.total_hbl_weight_lb) AS allocation_percentage_by_weight
+	, SAFE_DIVIDE(summary.total_sku_cost, cost_basis.total_tariff_cost_basis) AS allocation_percentage_for_tariffs
+	, SAFE_DIVIDE(summary.total_sku_cost, cost_basis.total_china_tariff_cost_basis) AS allocation_percentage_for_china_tariffs
+FROM house_bill_item_summary AS summary
+LEFT JOIN cost_basis
+	ON summary.house_bill_number = cost_basis.house_bill_number
+	AND summary.sku = cost_basis.sku

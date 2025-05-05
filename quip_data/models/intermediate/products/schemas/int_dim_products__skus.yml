@@ -9,6 +9,9 @@ models:
         description: >-
           The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
           This differs from sku_presentment in that all non-numeric characters are removed.
+        tests:
+          - not_null
+          - unique
       - name: sku_presentment
         description: >-
           The Stock Keeping Unit (SKU) is a unique identifier for a specific product or item in the inventory.
