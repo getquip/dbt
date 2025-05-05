@@ -23,12 +23,34 @@
 ] %}
 
 {% if not is_incremental() %}
-    {% do relations.append(ref('base_customer_data_platform__legacy_event_context')) %}    
-    {% set incremental_clause = None %}
-{% else %}
-    {% set incremental_clause = "event_at >= '" ~ get_max_partition('event_at', lookback_window=30) ~ "'" %}
-{% endif %}
+    -- append legacy events   
+    {% set legacy_relations = [
+        ref('stg_legacy_segment__click') 
+        , ref('stg_legacy_segment__clicked') 
+        , ref('stg_legacy_segment__clicked_undefined') 
+        , ref('stg_legacy_segment__hover') 
+        , ref('stg_legacy_segment__mouse_over') 
+        , ref('stg_legacy_segment__mixed_cart_modal_removal_accepted') 
+        , ref('stg_legacy_segment__product_added') 
+        , ref('stg_legacy_segment__scrolled') 
+        , ref('stg_legacy_segment__subscription_canceled') 
+        , ref('stg_legacy_segment__subscription_next_refill_date_changed') 
+        , ref('stg_legacy_segment__tapped') 
+        , ref('stg_legacy_segment__order_completed') 
+        , ref('stg_littledata__order_completed')
+    ] %}
 
+    {% for legacy_relation in legacy_relations %}
+        {% do relations.append(legacy_relation) %}
+    {% endfor %}
+
+    {% set incremental_clause = None %}
+    
+{% else %}
+
+    {% set incremental_clause = "event_at >= '" ~ get_max_partition('event_at', lookback_window=30) ~ "'" %}
+
+{% endif %}
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
 -------------------------------------------------------

@@ -84,8 +84,6 @@ source AS (
 , parsed AS (
 	SELECT 
 		* 
-		, {{ parse_server_side_event('context_library_name') }}
-		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 	FROM cleaned
 )

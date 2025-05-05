@@ -63,8 +63,6 @@ SELECT
 	*
 	, 'quip_production' AS source_name
     , 'page' AS event_type
-	, {{ parse_server_side_event('context_library_name') }}
-	, {{ scrub_context_page_path('context_page_path') }} 
 	, {{ parse_device_info_from_user_agent('device_info') }}
 	, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 FROM cleaned

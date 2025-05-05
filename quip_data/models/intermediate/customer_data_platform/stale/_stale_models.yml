@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: customer_data_platform
+    database: quip-dw-intermediate
+    tables:
+      - name: stale_fct_customer_data_platform__event_sessions
+      

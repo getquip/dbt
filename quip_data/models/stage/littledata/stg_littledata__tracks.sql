@@ -64,7 +64,6 @@ source AS (
 , parsed AS (
 	SELECT 
 		* 
-		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 	FROM cleaned
 )
@@ -73,7 +72,6 @@ SELECT
 	* EXCEPT(context_os_name, context_os_name_v1, context_os_version, context_os_version_v1)
 	, 'littledata' AS source_name
 	, 'track' as event_type
-	, {{ parse_server_side_event('context_library_name') }}
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
 	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
 FROM parsed

@@ -175,7 +175,6 @@ quip_production AS (
 		, context_device_type AS context_device_type_v1
 		, context_device_manufacturer AS context_device_manufacturer_v1
 		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
-		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 	FROM joined

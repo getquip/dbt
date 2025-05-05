@@ -8,3 +8,11 @@ bigquery:
         dataset: "{{ env_var('DBT_GCP_BQ_DATASET') }}" # this should be the developer's name
         threads: 4
         timeout_seconds: 2000
+      
+      prod:
+        type: bigquery
+        method: oauth
+        project: quip-dw-mart # The project value determines which project is billed.
+        dataset: "default"
+        threads: 4
+        timeout_seconds: 2000

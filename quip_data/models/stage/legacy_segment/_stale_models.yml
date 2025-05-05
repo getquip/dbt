@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: legacy_segment
+    database: quip-dw-stage
+    tables:
+      - name: stg_legacy_segment__click
+      - name: stg_legacy_segment__clicked_undefined
+      - name: stg_legacy_segment__clicked
+      - name: stg_legacy_segment__experiment_viewed
+      - name: stg_legacy_segment__hover
+      - name: stg_legacy_segment__identifies
+      - name: stg_legacy_segment__mixed_cart_modal_removal_accepted
+      - name: stg_legacy_segment__mouse_over
+      - name: stg_legacy_segment__order_completed
+      - name: stg_legacy_segment__pages
+      - name: stg_legacy_segment__product_added
+      - name: stg_legacy_segment__screens
+      - name: stg_legacy_segment__scrolled
+      - name: stg_legacy_segment__subscription_canceled
+      - name: stg_legacy_segment__subscription_next_refill_date_changed
+      - name: stg_legacy_segment__tapped
+      - name: stg_legacy_segment__tracks
+      
