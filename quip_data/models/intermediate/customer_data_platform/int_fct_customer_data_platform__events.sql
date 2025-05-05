@@ -20,7 +20,9 @@ WITH
 
 events AS (
     SELECT * FROM {{ ref("int_fct_customer_data_platform__event_sessions") }}
-    WHERE event_at >= {{ get_max_partition('event_at', lookback_window=30) }}
+    {% if is_incremental() %}
+        WHERE event_at >= {{ get_max_partition('event_at', lookback_window=30) }}
+    {% endif %}
 )
 
 -------------------------------------------------------
@@ -48,15 +50,13 @@ events AS (
 )
 
 SELECT
-    *
+    events.*
     , pages.page_event_sequence
     , pages.page_time_spent_seconds
     , tracks.track_event_sequence
-    , {{ scrub_context_page_path('context_page_path') }}
 	, {{ parse_server_side_event('context_library_name') }}
-    , ROW_NUMBER() OVER (PARTITION BY session_id ORDER BY event_at, event_id) AS event_sequence
 FROM events
 LEFT JOIN page_event_sequence AS pages
-    ON event_id = pages.event_id
+    ON events.event_id = pages.event_id
 LEFT JOIN track_event_sequence AS tracks
-    ON event_id = tracks.event_id
+    ON events.event_id = tracks.event_id

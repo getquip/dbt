@@ -184,7 +184,6 @@ SELECT
 	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
 		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
 	, 'track' AS event_type
-	, {{ parse_server_side_event('context_library_name') }}
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
 	, LOWER(COALESCE(context_os_version, context_os_version_v1)) AS context_os_version
 	, LOWER(COALESCE(context_device_type, context_device_type_v1)) AS context_device_type

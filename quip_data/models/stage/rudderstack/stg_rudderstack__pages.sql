@@ -27,7 +27,7 @@ source AS (
 
 	SELECT
 		id AS event_id
-		, anonymous_id
+		, COALESCE(anonymous_id, user_id) AS anonymous_id
 		, category AS page_category
 		, context_app_name
 		, context_app_namespace

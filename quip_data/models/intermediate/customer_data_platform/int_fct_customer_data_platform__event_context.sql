@@ -25,19 +25,19 @@
 {% if not is_incremental() %}
     -- append legacy events   
     {% set legacy_relations = [
-        ref('stg_legacy_segment__click') 
-        , ref('stg_legacy_segment__clicked') 
-        , ref('stg_legacy_segment__clicked_undefined') 
-        , ref('stg_legacy_segment__hover') 
-        , ref('stg_legacy_segment__mouse_over') 
-        , ref('stg_legacy_segment__mixed_cart_modal_removal_accepted') 
-        , ref('stg_legacy_segment__product_added') 
-        , ref('stg_legacy_segment__scrolled') 
-        , ref('stg_legacy_segment__subscription_canceled') 
-        , ref('stg_legacy_segment__subscription_next_refill_date_changed') 
-        , ref('stg_legacy_segment__tapped') 
-        , ref('stg_legacy_segment__order_completed') 
-        , ref('stg_littledata__order_completed')
+        source('legacy_segment', 'stg_legacy_segment__click') 
+        , source('legacy_segment', 'stg_legacy_segment__clicked') 
+        , source('legacy_segment', 'stg_legacy_segment__clicked_undefined') 
+        , source('legacy_segment', 'stg_legacy_segment__hover') 
+        , source('legacy_segment', 'stg_legacy_segment__mouse_over') 
+        , source('legacy_segment', 'stg_legacy_segment__mixed_cart_modal_removal_accepted') 
+        , source('legacy_segment', 'stg_legacy_segment__product_added') 
+        , source('legacy_segment', 'stg_legacy_segment__scrolled') 
+        , source('legacy_segment', 'stg_legacy_segment__subscription_canceled') 
+        , source('legacy_segment', 'stg_legacy_segment__subscription_next_refill_date_changed') 
+        , source('legacy_segment', 'stg_legacy_segment__tapped') 
+        , source('legacy_segment', 'stg_legacy_segment__order_completed') 
+        , source('littledata', 'stg_littledata__order_completed')
     ] %}
 
     {% for legacy_relation in legacy_relations %}
@@ -80,6 +80,7 @@
         , ('new_refill_date', 'DATE')
         , ('previous_refill_date', 'DATE')
         , ('scrolled_page_percentage', 'NUMERIC')
+        , ('order_id', 'INTEGER')
     ] %}
 
     {{ union_different_relations(relations, model_columns, incremental_clause) }}

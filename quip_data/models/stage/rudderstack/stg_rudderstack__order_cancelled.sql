@@ -25,7 +25,7 @@ source AS (
 		id AS event_id
 		, `timestamp` AS event_at
 		, user_id
-		, anonymous_id
+		, COALESCE(anonymous_id, user_id) AS anonymous_id
 		, products
 		, cancel_reason
 		, total_tax

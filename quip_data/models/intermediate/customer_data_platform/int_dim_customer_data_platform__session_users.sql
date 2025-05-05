@@ -22,11 +22,11 @@ rudderstack AS (
 
 {% if not is_incremental() %}
     , littledata AS (
-        SELECT * FROM {{ ref('stg_littledata__identifies') }}
+        SELECT * FROM {{ source('littledata', 'stg_littledata__identifies') }}
     )
 
     , legacy AS (
-        SELECT * FROM {{ ref('stg_legacy_segment__identifies') }}
+        SELECT * FROM {{ source('legacy_segment', 'stg_legacy_segment__identifies') }}
     )
 {% endif %}
 

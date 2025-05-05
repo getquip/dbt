@@ -27,7 +27,7 @@ source AS (
 	SELECT
 		"rudderstack" AS source_name
 		, admin_graphql_api_id
-		, anonymous_id
+		, COALESCE(anonymous_id, user_id) AS anonymous_id
 		, app_id
 		, browser_ip
 		, buyer_accepts_marketing
@@ -116,7 +116,6 @@ source AS (
 
 SELECT 
 	* 
-	, {{ parse_server_side_event('context_library_name') }}
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
 WHERE received_at >= '2025-04-01'

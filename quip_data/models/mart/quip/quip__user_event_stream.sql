@@ -39,7 +39,7 @@ events AS (
 
 SELECT
 	events.* EXCEPT(user_id, context_device_type, context_user_agent
-		, context_os_name, context_app_version, browser_category, browser_name, browser_vendor)
+		, context_os_name, context_app_version, browser_category, browser_name, browser_vendor, session_start_at, session_end_at)
 	, users.shopify_customer_id
 	, context.* EXCEPT(event_id, source_name, user_id, anonymous_id, event_at, event_name, event_type)
 	, session_dims.* EXCEPT(source_name, anonymous_id, session_id)

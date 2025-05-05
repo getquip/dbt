@@ -199,6 +199,7 @@ SELECT
     , NET.REG_DOMAIN(events.context_page_path) AS context_page_referring_domain
     -- recreate the event_sequence now that we have the session_id
     , ROW_NUMBER() OVER (PARTITION BY create_sessions.session_id ORDER BY events.event_at) AS event_sequence
+    , {{ scrub_context_page_path('context_page_path') }}
 FROM events
 LEFT JOIN create_sessions
     ON COALESCE(events.anonymous_id, events.user_id, events.context_user_agent) = create_sessions.session_user_id

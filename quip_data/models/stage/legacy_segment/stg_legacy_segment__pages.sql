@@ -63,7 +63,7 @@ SELECT
 	*
 	, 'quip_production' AS source_name
     , 'page' AS event_type
-	, {{ parse_device_info_from_user_agent('device_info') }}
+	, {{ cdp_marcos.parse_device_info_from_user_agent('device_info') }}
 	, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 FROM cleaned
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

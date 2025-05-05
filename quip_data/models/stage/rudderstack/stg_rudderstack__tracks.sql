@@ -26,7 +26,7 @@ source AS (
 
 , cleaned AS (
 	SELECT
-		anonymous_id
+		COALESCE(anonymous_id, user_id) AS anonymous_id
 		, channel
 		, context_app_name
 		, context_app_namespace
