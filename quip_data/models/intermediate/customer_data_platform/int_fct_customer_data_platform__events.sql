@@ -21,7 +21,7 @@ WITH
 events AS (
     SELECT * FROM {{ ref("int_fct_customer_data_platform__event_sessions") }}
     {% if is_incremental() %}
-        WHERE event_at >= {{ get_max_partition('event_at', lookback_window=30) }}
+        WHERE event_at >= "{{ get_max_partition('event_at', lookback_window=30) }}"
     {% endif %}
 )
 
