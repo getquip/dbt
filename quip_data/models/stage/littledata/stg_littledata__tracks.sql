@@ -32,10 +32,10 @@ source AS (
     	id AS event_id
 		, user_id
     	, anonymous_id
-    	, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, received_at
     	, context_campaign_content
-    	, context_campaign_medium
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
     	, context_campaign_name
     	, LOWER(context_campaign_source) AS context_campaign_source
     	, context_campaign_term
@@ -56,6 +56,7 @@ source AS (
     	, context_os_version AS context_os_version_v1
     	, SAFE_CAST(context_screen_height AS INTEGER) AS context_screen_height
     	, SAFE_CAST(context_screen_width AS INTEGER) AS context_screen_width
+		, `event` AS event_name
 	FROM source
     
 )
@@ -63,7 +64,6 @@ source AS (
 , parsed AS (
 	SELECT 
 		* 
-		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 	FROM cleaned
 )
@@ -72,7 +72,6 @@ SELECT
 	* EXCEPT(context_os_name, context_os_name_v1, context_os_version, context_os_version_v1)
 	, 'littledata' AS source_name
 	, 'track' as event_type
-	, context_library_name = '@segment/analytics-node' AS is_server_side
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
 	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
 FROM parsed

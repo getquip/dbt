@@ -65,6 +65,7 @@ quip_production AS (
 	, 'user_id'
 	, 'anonymous_id'
 	, 'timestamp'
+	, 'original_timestamp'
 	, 'context_campaign_content'
 	, 'context_campaign_medium'
 	, 'context_campaign_name'
@@ -111,8 +112,6 @@ quip_production AS (
 			{% do select_relation_columns.append("LOWER(" ~ column ~ ") AS device_info") %}
 		{% elif column == 'event' and column in source_columns %}
 			{% do select_relation_columns.append(column ~ " AS event_name") %}
-		{% elif column == 'timestamp' and column in source_columns %}
-			{% do select_relation_columns.append(column ~ " AS event_at") %}
 		{% elif column in source_columns %}
 			{% do select_relation_columns.append(column) %}
 		{% else %}
@@ -170,13 +169,14 @@ quip_production AS (
 
 , parsed AS (
 	SELECT
-		* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer)
+		* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer, context_campaign_medium)
 		, context_os_name AS context_os_name_v1
 		, context_os_version AS context_os_version_v1
 		, context_device_type AS context_device_type_v1
 		, context_device_manufacturer AS context_device_manufacturer_v1
-		, {{ scrub_context_page_path('context_page_path') }}
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, {{ parse_device_info_from_user_agent('device_info') }}
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 	FROM joined
 )
 
@@ -184,10 +184,9 @@ SELECT
 	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
 		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
 	, 'track' AS event_type
-	, context_library_name != 'analytics.js' AS is_server_side
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
-	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
-	, COALESCE(context_device_type, context_device_type_v1) AS context_device_type
-	, COALESCE(context_device_manufacturer, context_device_manufacturer_v1) AS context_device_manufacturer
+	, LOWER(COALESCE(context_os_version, context_os_version_v1)) AS context_os_version
+	, LOWER(COALESCE(context_device_type, context_device_type_v1)) AS context_device_type
+	, LOWER(COALESCE(context_device_manufacturer, context_device_manufacturer_v1)) AS context_device_manufacturer
 FROM parsed
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

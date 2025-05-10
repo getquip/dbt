@@ -1,7 +1,7 @@
 {{ config(
     materialized='incremental',
 	incremental_strategy='merge',
-	unique_key='page_event_id',
+	unique_key='event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "page_event_id"
+        "event_id"
     ]
 ) }}
 
@@ -19,9 +19,6 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'pages') }}
-	{% if is_incremental() %}
-		WHERE received_at >= "{{ get_max_partition('received_at') }}"
-	{% endif %}
 )
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
@@ -29,8 +26,8 @@ source AS (
 ,cleaned AS (
 
 	SELECT
-		id AS page_event_id
-		, anonymous_id
+		id AS event_id
+		, COALESCE(anonymous_id, user_id) AS anonymous_id
 		, category AS page_category
 		, context_app_name
 		, context_app_namespace
@@ -42,7 +39,7 @@ source AS (
 		, context_campaign_device
 		, context_campaign_expid
 		, context_campaign_id
-		, context_campaign_medium
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, context_campaign_name
 		, context_campaign_referrer
 		, context_campaign_source
@@ -73,7 +70,7 @@ source AS (
 		, initial_referrer
 		, initial_referring_domain
 		, loaded_at
-		, `name` AS event_name
+		, `name` AS page_name
 		, original_timestamp
 		, `path` AS page_path
 		, received_at
@@ -95,8 +92,10 @@ SELECT
 	* 
 	, "rudderstack" AS source_name
 	, 'page' AS event_type
-	, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
-	, {{ scrub_context_page_path('context_page_path') }} 
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
-QUALIFY ROW_NUMBER() OVER (PARTITION BY page_event_id ORDER BY loaded_at DESC) = 1
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY loaded_at DESC) = 1

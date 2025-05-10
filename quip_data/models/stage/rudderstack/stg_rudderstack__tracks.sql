@@ -1,7 +1,7 @@
 {{ config(
     materialized='incremental',
 	incremental_strategy='merge',
-	unique_key='track_event_id',
+	unique_key='event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
@@ -11,7 +11,7 @@
         "source_name",
         "user_id", 
         "anonymous_id",
-        "track_event_id"
+        "event_id"
     ]
 ) }}
 
@@ -19,9 +19,6 @@ WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'tracks') }}
-	{% if is_incremental() %}
-		WHERE received_at >= "{{ get_max_partition('received_at') }}"
-	{% endif %}
 )
 -------------------------------------------------------
 ----------------- FINISH REFERENCES -------------------
@@ -29,7 +26,7 @@ source AS (
 
 , cleaned AS (
 	SELECT
-		anonymous_id
+		COALESCE(anonymous_id, user_id) AS anonymous_id
 		, channel
 		, context_app_name
 		, context_app_namespace
@@ -39,7 +36,7 @@ source AS (
 		, context_campaign_creative
 		, context_campaign_device
 		, context_campaign_id
-		, LOWER(context_campaign_medium) AS context_campaign_medium
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, context_campaign_name
 		, LOWER(context_campaign_source) AS context_campaign_source
 		, context_campaign_term
@@ -73,7 +70,7 @@ source AS (
 		, LOWER(context_user_agent) AS device_info
 		, `event` AS event_name
 		, event_text
-		, id AS track_event_id
+		, id AS event_id
 		, loaded_at
 		, original_timestamp
 		, received_at
@@ -87,8 +84,6 @@ source AS (
 , parsed AS (
 	SELECT 
 		* 
-		, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
-		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
 	FROM cleaned
 )
@@ -106,4 +101,8 @@ SELECT
 		, context_device_type
 	) AS context_device_type
 FROM parsed
-QUALIFY ROW_NUMBER() OVER (PARTITION BY track_event_id ORDER BY received_at DESC ) = 1
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC ) = 1

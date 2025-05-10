@@ -59,6 +59,7 @@ ios AS (
 	, 'user_id'
 	, 'anonymous_id'
 	, 'timestamp'
+	, 'original_timestamp'
 	, 'context_campaign_content'
 	, 'context_campaign_medium'
 	, 'context_campaign_name'
@@ -105,8 +106,6 @@ ios AS (
 			{% do select_relation_columns.append("LOWER(" ~ column ~ ") AS device_info") %}
 		{% elif column == 'event' and column in source_columns %}
 			{% do select_relation_columns.append(column ~ " AS event_name") %}
-		{% elif column == 'timestamp' and column in source_columns %}
-			{% do select_relation_columns.append(column ~ " AS event_at") %}
 		{% elif column in source_columns %}
 			{% do select_relation_columns.append(column) %}
 		{% else %}
@@ -162,15 +161,17 @@ ios AS (
 		, context_device_manufacturer AS context_device_manufacturer_v1
 		, {{ scrub_context_page_path('context_page_path') }}
 		, {{ parse_device_info_from_user_agent('device_info') }}
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 	FROM joined
 )
 
 SELECT
 	* EXCEPT(context_os_name, context_os_version, context_device_type, context_device_manufacturer
-		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1)
+		, context_os_name_v1, context_os_version_v1, context_device_type_v1, context_device_manufacturer_v1, event_at)
 	, 'screens' AS event_type
-	, context_library_name != 'analytics.js' AS is_server_side
+	, {{ parse_server_side_event('context_library_name') }}
 	, COALESCE(context_os_name, context_os_name_v1) AS context_os_name
 	, COALESCE(context_os_version, context_os_version_v1) AS context_os_version
+	, IF(received_at < event_at, received_at, event_at) AS event_at
 FROM parsed
 QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1

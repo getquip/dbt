@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: littledata
+    database: quip-dw-stage
+    tables:
+      - name: stg_littledata__identifies
+      - name: stg_littledata__order_completed
+      - name: stg_littledata__pages
+      - name: stg_littledata__tracks
+      

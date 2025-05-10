@@ -31,6 +31,14 @@ models:
       relation: true
       columns: true
     +materialized: table
+    # set dev tables to expire in 5 days
+    +hours_to_expiration: >-
+      {% if target.name == prod %}
+        24 * 365 * 100
+      {% else %}
+        120
+      {% endif %}
+
     # dbt-osmosis configurations
     +dbt-osmosis: "schemas/{model}.yml" # all files will be created in the schemas directory
     +dbt-osmosis-options:
@@ -65,7 +73,6 @@ models:
         +schema: tiktok_ads
       wen_parker:
         +schema: wen_parker
-        +materialized: view # temp materialization as legacy dbt models are dependent on these models
 
     intermediate:
       +database: quip-dw-intermediate

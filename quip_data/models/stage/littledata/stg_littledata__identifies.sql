@@ -50,7 +50,7 @@ source AS (
 		, context_campaign_creative
 		, context_campaign_device
 		, context_campaign_id
-		, context_campaign_medium
+		, TRIM(LOWER(context_campaign_medium)) AS context_campaign_medium
 		, context_campaign_name
 		, context_campaign_source
 		, context_campaign_term
@@ -89,13 +89,11 @@ source AS (
 		, phone
 		, received_at
 		, sent_at
-		, NULL AS sms_marketing_consent_consent_collected_from
-		, NULL AS sms_marketing_consent_consent_updated_at
 		, sms_opt_in_level AS sms_marketing_consent_opt_in_level
 		, sms_consent_state AS sms_marketing_consent_state
 		, `state` AS identifies_state
 		, tags
-		, `timestamp` AS event_at
+		, IF(TIMESTAMP_DIFF(`timestamp`, original_timestamp, DAY) > 10, original_timestamp, `timestamp`) AS event_at
 		, user_id
 		, uuid_ts
 		, verified_email
@@ -106,8 +104,6 @@ SELECT
 	* 
 	, "littledata" AS source_name
 	, 'track' as event_type
-	, context_library_name = '@segment/analytics-node' AS is_server_side
-	, {{ scrub_context_page_path('context_page_path') }}
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
 WHERE event_at >= '2024-06-25' -- filtering for events only after migration date to remove test noise

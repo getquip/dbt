@@ -11,3 +11,4 @@ Thumbs.db
 
 # Ignore logs
 logs/
+dbt.log

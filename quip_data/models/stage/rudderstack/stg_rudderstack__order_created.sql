@@ -1,27 +1,22 @@
 {{ config(
     materialized='incremental',
 	incremental_strategy='merge',
-	unique_key='order_created_id',
+	unique_key='event_id',
     partition_by={
         "field": "event_at",
         "data_type": "timestamp",
         "granularity": "day"
     },
     cluster_by=[
-        "source_name",
         "user_id", 
         "anonymous_id",
-        "order_created_id"
+        "event_id"
     ]
 ) }}
-
 WITH
 
 source AS (
 	SELECT * FROM {{ source('rudderstack_prod', 'order_created') }}
-	{% if is_incremental() %}
-		WHERE received_at >= "{{ get_max_partition('received_at') }}"
-	{% endif %}
 )
 
 -------------------------------------------------------
@@ -32,7 +27,7 @@ source AS (
 	SELECT
 		"rudderstack" AS source_name
 		, admin_graphql_api_id
-		, anonymous_id
+		, COALESCE(anonymous_id, user_id) AS anonymous_id
 		, app_id
 		, browser_ip
 		, buyer_accepts_marketing
@@ -68,7 +63,7 @@ source AS (
 		, financial_status
 		, fulfillment_status
 		, fulfillments
-		, id AS order_created_id
+		, id AS event_id
 		, landing_site
 		, landing_site_ref
 		, loaded_at
@@ -107,8 +102,6 @@ source AS (
 		, COALESCE(SAFE_CAST(total_discounts AS NUMERIC), 0) AS total_discounts
 		, COALESCE(SAFE_CAST(total_line_items_price AS NUMERIC), 0) AS total_line_items_price
 		, total_outstanding
-		, total_price_set_shop_money_amount
-		, SAFE_CAST(total_shipping_price_set_presentment_money_amount AS NUMERIC) AS total_shipping_price_set_presentment_money_amount
 		, total_tax_set_presentment_money_amount
 		, total_tax_set_shop_money_amount
 		, total_tip_received
@@ -123,8 +116,11 @@ source AS (
 
 SELECT 
 	* 
-	, context_library_name != 'RudderLabs JavaScript SDK' AS is_server_side
 	, {{ parse_device_info_from_user_agent('device_info') }}
 FROM cleaned
-QUALIFY ROW_NUMBER() OVER (PARTITION BY order_created_id ORDER BY loaded_at DESC) = 1
+WHERE received_at >= '2025-04-01'
+{% if is_incremental() %}
+	AND received_at >= "{{ get_max_partition('received_at') }}"
+{% endif %}
+QUALIFY ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_at DESC) = 1
 

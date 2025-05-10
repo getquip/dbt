@@ -1,15 +1,3 @@
-{{ config(
-    partition_by={
-      "field": "updated_at",
-      "data_type": "timestamp",
-      "granularity": "day"
-    },
-	cluster_by=[
-		"resource_table_name", 
-		"type", 
-		"key", 
-		"metafield_id"]
-) }}
 
 WITH source AS (
     SELECT * FROM {{ source('shopify', 'metafield') }}
@@ -18,15 +6,12 @@ WITH source AS (
 SELECT
     id AS metafield_id
     , owner_id AS resource_id
-
-    , _fivetran_synced AS source_synced_at
+    , LOWER(owner_resource) AS resource_table_name
+    , `namespace`
+    , `key`
+    , `value`
+    , `type`
+    , `description`
     , created_at
     , updated_at
-
-    , `description`
-    , `key`
-    , `namespace`
-    , `type`
-    , `value`
-    , LOWER(owner_resource) AS resource_table_name
 FROM source
